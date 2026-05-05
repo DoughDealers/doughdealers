@@ -357,7 +357,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
 
   const videoEl = cookie.video && <VideoPlayer src={cookie.video} />
   const variantVideoEl = cookie.variantVideos?.[variant] && <VideoPlayer key={variant} src={cookie.variantVideos[variant]} />
-  const styleVideoEl = cookie.styleVideos?.[style] && <VideoPlayer src={cookie.styleVideos[style]} />
+  const styleVideoEl = cookie.styleVideos?.[style] && <VideoPlayer key={style} src={cookie.styleVideos[style]} />
 
   return (
     <div className="cookie-card">
