@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1440">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 450.04px;
+        letter-spacing: .1em;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #fff;
+        font-family: DazzleUnicase-Bold, 'Dazzle Unicase';
+        font-weight: 700;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 8px;
+      }
+
+      .cls-2 {
+        font-size: 109px;
+      }
+    </style>
+  </defs>
+  <circle class="cls-3" cx="720" cy="720" r="573.58"/>
+  <path class="cls-3" d="M720,1149.58c-114.74,0-222.62-44.68-303.76-125.82-81.14-81.14-125.82-189.01-125.82-303.76s44.68-222.62,125.82-303.76,189.01-125.82,303.76-125.82,222.62,44.68,303.76,125.82c81.14,81.14,125.82,189.01,125.82,303.76s-44.68,222.62-125.82,303.76c-81.14,81.14-189.01,125.82-303.76,125.82Z"/>
+  <g id="DOUGH_DEALERS" data-name="DOUGH DEALERS">
+    <text class="cls-2" transform="translate(304.26 1076.58) rotate(45.45)"><tspan x="0" y="0">D</tspan></text>
+    <text class="cls-2" transform="translate(423.28 1180.13) rotate(29.61)"><tspan x="0" y="0">E</tspan></text>
+    <text class="cls-2" transform="translate(550.06 1241.35) rotate(13.51)"><tspan x="0" y="0">A</tspan></text>
+    <text class="cls-2" transform="translate(710.17 1267.05) rotate(-1.88)"><tspan x="0" y="0">L</tspan></text>
+    <text class="cls-2" transform="translate(842.28 1253.69) rotate(-16.12)"><tspan x="0" y="0">E</tspan></text>
+    <text class="cls-2" transform="translate(973.92 1205.52) rotate(-31.53)"><tspan x="0" y="0">R</tspan></text>
+    <text class="cls-2" transform="translate(1095.45 1118.47) rotate(-46.85)"><tspan x="0" y="0">S</tspan></text>
+    <text class="cls-2" transform="translate(393.29 398.39) rotate(-40.53)"><tspan x="0" y="0">D</tspan></text>
+    <text class="cls-2" transform="translate(515.29 308.36) rotate(-20.18)"><tspan x="0" y="0">O</tspan></text>
+    <text class="cls-2" transform="translate(680.45 263.58) rotate(-.45)"><tspan x="0" y="0">U</tspan></text>
+    <text class="cls-2" transform="translate(829.51 273.57) rotate(19.97)"><tspan x="0" y="0">G</tspan></text>
+    <text class="cls-2" transform="translate(984.35 345.28) rotate(40.3)"><tspan x="0" y="0">H</tspan></text>
+  </g>
+  <text class="cls-1" transform="translate(366.27 903.16)"><tspan x="0" y="0">DD</tspan></text>
+  <text/>
+</svg>

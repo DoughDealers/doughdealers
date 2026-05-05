@@ -1,0 +1,834 @@
+import { useState, useRef, useEffect } from 'react'
+import './App.css'
+
+import logo from './assets/logo.svg'
+import themeSong from './assets/theme.mp3'
+import danceVideo from './assets/dance.mp4'
+import logoblack from './assets/logoblack.png'
+import mascot from './assets/mascot.png'
+
+import merchAddict from './assets/merch/DoughAddict.png'
+import merchFien from './assets/merch/DoughFien.png'
+import merchBack from './assets/merch/DoughitBack.png'
+import merchUp from './assets/merch/DoughItup!.png'
+import merchGot from './assets/merch/GotDough.png'
+import merchBest from './assets/merch/TheBestDoughFaSho!.png'
+import merchWhere from './assets/merch/WhereTheDoughsAt.png'
+import merchKing from './assets/merch/DoughKing.png'
+import merchQueen from './assets/merch/Doughqueen.png'
+import merchLife from './assets/merch/DoughLife.png'
+import merchMoney from './assets/merch/momoneyDoughProblems.png'
+import merchGang from './assets/merch/DoughGang.png'
+import merchChip from './assets/merch/ChipHappens.png'
+import merchTalkChip from './assets/merch/ILoveItWhenYouTalkChip.png'
+import merchBCE from './assets/merch/BCE.png'
+import merchImTheChip from './assets/merch/ImTheChip.png'
+import merchChippinMe from './assets/merch/YouGotToBeChippinMe.png'
+import merchStraightChipping from './assets/merch/StraightChippin.png'
+import merchShowMeChips from './assets/merch/ShowMeYourChips.png'
+
+const DOUGH_SHIRTS = [
+  { id: 6,  name: 'The Best Dough Fa Sho!',  img: merchBest },
+  { id: 1,  name: 'Dough Addict',             img: merchAddict },
+  { id: 2,  name: 'Dough Fien',               img: merchFien },
+  { id: 3,  name: 'Dough It Back!',           img: merchBack },
+  { id: 4,  name: 'Dough It Up!',             img: merchUp },
+  { id: 5,  name: 'Got Dough?',               img: merchGot },
+  { id: 7,  name: 'Where The Doughs At?!',    img: merchWhere },
+  { id: 8,  name: 'Dough King',               img: merchKing },
+  { id: 9,  name: 'Dough Queen',              img: merchQueen },
+  { id: 10, name: 'Dough Life',               img: merchLife },
+  { id: 13, name: 'Dough Gang',               img: merchGang },
+  { id: 11, name: 'Got Dough?',               img: merchGot },
+  { id: 12, name: 'Mo Money Dough Problems',  img: merchMoney },
+]
+
+const CHIP_SHIRTS = [
+  { id: 14, name: 'Chip Happens',             img: merchChip },
+  { id: 15, name: 'I Love It When You Talk Chip', img: merchTalkChip },
+  { id: 16, name: 'Big Chip Energy',          img: merchBCE },
+  { id: 17, name: "I'm The Chip!",            img: merchImTheChip },
+  { id: 18, name: 'You Got To Be Chippin Me!', img: merchChippinMe },
+  { id: 19, name: 'Straight Chipping',        img: merchStraightChipping },
+  { id: 20, name: 'Show Me Your Chips!',      img: merchShowMeChips },
+]
+
+const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL']
+const SIZE_PRICES = { S: 25, M: 25, L: 25, XL: 25, '2XL': 30, '3XL': 35 }
+import cb1 from './assets/cinnabomb/cb1.1.png'
+import cb2 from './assets/cinnabomb/cb1.2.png'
+import cb3 from './assets/cinnabomb/cb1.3.png'
+import cbnf1 from './assets/cinnabomb/cbnf1.png'
+import cbnf2 from './assets/cinnabomb/cbnf2.png'
+import cbnf3 from './assets/cinnabomb/cbnf3.png'
+import cinnaBombVideo from './assets/cinnabomb/CinnaBombV.mp4'
+import cinnaBombFrostingVideo from './assets/cinnabomb/CinnaBombFV.mp4'
+
+const CINABOMB_FROSTING = [cb1, cb2, cb3]
+const CINABOMB_REGULAR  = [cbnf1, cbnf2, cbnf3]
+
+import cd1 from './assets/chipdip/CD1.1.png'
+import cd2 from './assets/chipdip/CD2.1.png'
+import cd3 from './assets/chipdip/cd3.3.png'
+import cdVideo from './assets/chipdip/CDV1.mp4'
+import meltDownVideo from './assets/meltdown/meltdown.mp4'
+
+const CHIPDIP_IMAGES = [cd1, cd3, cd2]
+
+import fw1 from './assets/fruitywave/FB1.png'
+import fw2 from './assets/fruitywave/FB2.png'
+import fw3 from './assets/fruitywave/FB3.png'
+
+const FRUITYWAVE_IMAGES = [fw1, fw2, fw3]
+
+import oatPecan from './assets/oatsession/pecan.png'
+import oatPecanVideo from './assets/oatsession/oatsessionV.mp4'
+import oatRegularVideo from './assets/oatsession/OatsessionRegular.mp4'
+import oatRaisinVideo from './assets/oatsession/OatsessionRaisin.mp4'
+import mm1 from './assets/mm/RC1.png'
+import mm2 from './assets/mm/m3.1.png'
+import mm3 from './assets/mm/m4.1.png'
+import mmVideo from './assets/mm/fg.mp4'
+import rcNugsVideo from './assets/mm/RainbowCrunchNV.mp4'
+import nc1 from './assets/nutcase/ncf1.1.png'
+import nc2 from './assets/nutcase/NCF2.png'
+import nc3 from './assets/nutcase/NCF3.png'
+import ncVideo from './assets/nutcase/NC_video.mp4'
+
+const MM_IMAGES = [mm1, mm2, mm3]
+const NUTCASE_IMAGES = [nc1, nc2, nc3]
+import oatRegular from './assets/oatsession/or1.png'
+import bd1 from './assets/bluedream/bd1.png'
+import bdd1 from './assets/bluedream/bdd1.png'
+import bdVideo from './assets/bluedream/BDV.mp4'
+import gg1 from './assets/goldengrind/GG1.png'
+import gg2 from './assets/goldengrind/GG2.png'
+import gg3 from './assets/goldengrind/GG3.png'
+
+const BLUEDREAM_IMAGES = [bdd1]
+const GOLDENGRIND_IMAGES = [gg1, gg2, gg3]
+import oatRaisin from './assets/oatsession/raisin1.png'
+
+import bb1 from './assets/blackoutbites/o1.png'
+import bb2 from './assets/blackoutbites/o2.png'
+import bb3 from './assets/blackoutbites/o5.png'
+import bb4 from './assets/blackoutbites/o6.png'
+import bb5 from './assets/blackoutbites/o8.png'
+
+const BLACKOUTBITES_IMAGES = [bb4, bb1, bb5]
+
+import gt1 from './assets/goldentoast/GT1.png'
+import gt2 from './assets/goldentoast/gt4.png'
+import gt3 from './assets/goldentoast/gt7.png'
+import gt4 from './assets/goldentoast/gt8.png'
+
+const GOLDENTOAST_IMAGES = [gt2, gt4]
+
+import bc1 from './assets/berrycrown/CB1.png'
+import bc2 from './assets/berrycrown/CB2.png'
+import bc3 from './assets/berrycrown/CB3.png'
+import bc4 from './assets/berrycrown/CB4.png'
+
+const BERRYCROWN_IMAGES = [bc1, bc4, bc3]
+
+const DOUGH_ITEMS = {
+  Cookies: [
+    { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variants: ['Regular', 'Nutella'], video: cdVideo, videoFirst: true, noNugsVariants: ['Nutella'] },
+    { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo } },
+    { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', images: GOLDENGRIND_IMAGES },
+    { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
+    { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
+    { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Regular', 'Frosting'], variantVideos: { Regular: cinnaBombVideo, Frosting: cinnaBombFrostingVideo }, noNugs: true },
+    { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
+    { id: 22, name: 'Midnight Crunch',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', images: BLACKOUTBITES_IMAGES, noNugs: true },
+    { id: 23, name: 'Berry Bliss',      price: 5.00, emoji: '🍓', description: 'Buttery cookie with raspberries and creamy macadamia nuts.' },
+    { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', noNugs: true },
+    { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
+  ],
+  Muffins: [
+    { id: 7,  name: 'Chocolate',   price: 25, emoji: '🍫', description: 'Rich cocoa muffin loaded with chocolate chips.', variants: ['Double Chocolate', 'Triple Chocolate'] },
+    { id: 8,  name: 'Pumpkin',     price: 25, emoji: '🎃', description: 'Warmly spiced pumpkin muffin with a soft, moist crumb.', variants: ['Original', 'Cream Cheese'] },
+    { id: 9,  name: 'Blueberry',   price: 25, emoji: '🫐', description: 'Fluffy muffin bursting with fresh blueberries.', variants: ['Original', 'Cream Cheese'] },
+    { id: 27, name: 'Strawberry',  price: 25, emoji: '🍓', description: 'Sweet strawberry muffin with a golden sugar top.', variants: ['Original', 'Cream Cheese'] },
+    { id: 28, name: 'Banana',      price: 25, emoji: '🍌', description: 'Moist banana muffin with a tender, buttery finish.', variants: ['Regular', 'Walnuts'] },
+  ],
+  'Pop Tarts': [
+    { id: 10, name: 'Blueberry',    price: 25, emoji: '🫐', description: 'Flaky pastry shell filled with sweet blueberry jam and vanilla icing.' },
+    { id: 11, name: 'Strawberry',   price: 25, emoji: '🍓', description: 'Classic strawberry filling in a buttery, golden crust.' },
+    { id: 12, name: 'Brown Sugar',  price: 25, emoji: '🟤', description: 'Warm cinnamon-sugar filling in a crisp, flaky shell.' },
+    { id: 29, name: 'Mixed Berry',  price: 25, emoji: '🍇', description: 'A blend of blueberry, strawberry, and raspberry in every bite.' },
+  ],
+  Pies: [
+    { id: 13, name: 'Lemon Meringue', price: 25, emoji: '🍋', description: 'Tangy lemon curd topped with a fluffy, toasted meringue.' },
+    { id: 14, name: 'Blueberry',      price: 25, emoji: '🫐', description: 'Plump blueberries baked into a flaky, golden lattice crust.' },
+    { id: 15, name: 'Apple',          price: 25, emoji: '🍎', description: 'Cinnamon-spiced apples in a buttery, golden lattice crust.' },
+    { id: 30, name: 'Pecan',          price: 25, emoji: '🥧', description: 'Rich, buttery pecan filling with a hint of bourbon.' },
+    { id: 31, name: 'Pumpkin',        price: 25, emoji: '🎃', description: 'Warmly spiced pumpkin custard in a flaky pie shell.' },
+    { id: 32, name: 'Key Lime',       price: 25, emoji: '🍋', description: 'Tangy key lime custard in a toasted graham cracker crust.' },
+  ],
+  Rolls: [
+    { id: 33, name: 'Original',    price: 35, emoji: '🌀', description: 'Classic soft dough rolled in warm cinnamon sugar, finished with a silky cream cheese frosting.' },
+    { id: 34, name: 'Banana',      price: 35, emoji: '🍌', description: 'Layers of ripe banana and cinnamon folded into pillowy dough, crowned with banana cream cheese icing.' },
+    { id: 35, name: 'Oreo',        price: 35, emoji: '🖤', description: 'Crushed Oreo pieces folded into every layer, drizzled with a thick cream cheese glaze.' },
+    { id: 36, name: 'Chocolate',   price: 35, emoji: '🍫', description: 'A soft deep chocolate dough with sugar and chocolate layers, with a Nutella topping.' },
+    { id: 37, name: 'Strawberry',  price: 35, emoji: '🍓', description: 'Sweet strawberry jam tucked into every fold, glazed with a light cream cheese icing.' },
+    { id: 38, name: 'Blueberry',   price: 35, emoji: '🫐', description: 'Plump blueberries woven through soft dough, finished with a vanilla cream cheese glaze.' },
+    { id: 39, name: 'Carrot Cake', price: 35, emoji: '🥕', description: 'Spiced carrot cake dough packed with warm cinnamon, finished with a rich cream cheese frosting.' },
+  ],
+  Specials: [],
+}
+
+const BRIKS = [
+  { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚' },
+  { id: 5,  name: 'Berry Crown',  price: 25, images: BERRYCROWN_IMAGES },
+  { id: 6,  name: 'Golden Toast', price: 25, images: GOLDENTOAST_IMAGES },
+  { id: 26, name: 'Fruity Wave',  price: 25, images: FRUITYWAVE_IMAGES },
+]
+
+function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
+  const [deliveryFee, setDeliveryFee] = useState(0)
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+  const TAX_RATE = 0.0825
+  const tax = subtotal * TAX_RATE
+  const total = subtotal + tax + deliveryFee
+
+  return (
+    <div className="cart-overlay" onClick={onClose}>
+      <div className="cart-drawer" onClick={e => e.stopPropagation()}>
+        <div className="cart-header">
+          <h2>Your Cart</h2>
+          <button className="close-btn" onClick={onClose}>✕</button>
+        </div>
+        {cart.length === 0 ? (
+          <p className="cart-empty">Your cart is empty.</p>
+        ) : (
+          <>
+            <ul className="cart-list">
+              {cart.map(item => (
+                <li key={item.id} className="cart-item">
+                  <span className="cart-item-emoji">{item.emoji}</span>
+                  <div className="cart-item-info">
+                    <span className="cart-item-name">{item.name}</span>
+                    <span className="cart-item-qty">x{item.qty} — ${(item.price * item.qty).toFixed(2)}</span>
+                  </div>
+                  <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
+                </li>
+              ))}
+            </ul>
+            <div className="cart-footer">
+              <div className="cart-subtotal">Subtotal: <strong>${subtotal.toFixed(2)}</strong></div>
+              <div className="cart-tax">Tax (8.25%): <strong>${tax.toFixed(2)}</strong></div>
+              {deliveryFee > 0 && (
+                <div className="cart-tax">Delivery Fee: <strong>${deliveryFee.toFixed(2)}</strong></div>
+              )}
+              <div className="cart-total">Total: <strong>${total.toFixed(2)}</strong></div>
+              <button className="clear-btn" onClick={onClear}>Clear Cart</button>
+            </div>
+            <div className="cart-schedule">
+              <h3 className="cart-schedule-title">Schedule Your Order</h3>
+              <p className="cart-schedule-sub">Pick a date and how you want it.</p>
+              <ScheduleForm cart={cart} deliveryFee={deliveryFee} onDeliveryFeeChange={setDeliveryFee} />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const STYLE_PRICES = { Nugs: 24, Chunks: 25 }
+const STYLE_SIZES = { Nugs: 20, Chunks: 6 }
+
+function MerchCard({ item, onAdd }) {
+  const [size, setSize] = useState('S')
+  const price = SIZE_PRICES[size]
+
+  return (
+    <div className="merch-card">
+      <img src={item.img} alt={item.name} className="merch-img" />
+      <div className="merch-info">
+        <h3>{item.name}</h3>
+        <span className="price">${price}.00</span>
+      </div>
+      <div className="size-selector">
+        {SIZES.map(s => (
+          <button
+            key={s}
+            className={`size-btn ${size === s ? 'active' : ''}`}
+            onClick={() => setSize(s)}
+          >{s}</button>
+        ))}
+      </div>
+      <button className="add-btn merch-add" onClick={() => onAdd({ ...item, name: `${item.name} (${size})`, price, emoji: '👕', qty: 1 })}>
+        Add to Cart
+      </button>
+    </div>
+  )
+}
+
+function ImageGallery({ images }) {
+  const [active, setActive] = useState(0)
+  return (
+    <div className="gallery">
+      <img src={images[active]} alt="" className="gallery-main" />
+      <div className="gallery-thumbs">
+        {images.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt=""
+            className={`gallery-thumb ${active === i ? 'active' : ''}`}
+            onClick={() => setActive(i)}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function VideoPlayer({ src }) {
+  const videoRef = useRef(null)
+  const isTouch = window.matchMedia('(hover: none)').matches
+
+  useEffect(() => {
+    if (!isTouch) return
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {})
+        else { video.pause(); video.currentTime = 0 }
+      },
+      { threshold: 0.5 }
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [isTouch])
+
+  return (
+    <video
+      ref={videoRef}
+      className="cookie-video"
+      src={src}
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      onMouseEnter={e => !isTouch && e.target.play()}
+      onMouseLeave={e => { if (!isTouch) { e.target.pause(); e.target.currentTime = 0 } }}
+    />
+  )
+}
+
+function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtyStep = 6 }) {
+  const [variant, setVariant] = useState(cookie.variants?.[0] ?? null)
+  const effectiveNoNugs = noNugs || (cookie.noNugsVariants?.includes(variant) ?? false)
+  const [style, setStyle] = useState('Chunks')
+  const effectiveStep = styleOptions ? STYLE_SIZES[style] : qtyStep
+  const [qty, setQty] = useState(effectiveStep)
+
+  const pricePerUnit = styleOptions ? STYLE_PRICES[style] : cookie.price
+  const unitSize = styleOptions ? STYLE_SIZES[style] : qtyStep
+  const totalPrice = (qty / unitSize) * pricePerUnit
+
+  function selectVariant(v) {
+    setVariant(v)
+    const willHideNugs = noNugs || (cookie.noNugsVariants?.includes(v) ?? false)
+    if (willHideNugs && style === 'Nugs') {
+      setStyle('Chunks')
+      setQty(STYLE_SIZES['Chunks'])
+    }
+  }
+
+  function selectStyle(newStyle) {
+    setStyle(newStyle)
+    setQty(STYLE_SIZES[newStyle])
+  }
+
+  function handleAdd() {
+    const variantLabel = variant ? ` – ${variant}` : ''
+    const name = styleOptions ? `${cookie.name}${variantLabel} (${style})` : `${cookie.name}${variantLabel}`
+    const price = pricePerUnit / unitSize
+    onAdd({ ...cookie, name, price, qty })
+  }
+
+  const videoEl = cookie.video && <VideoPlayer src={cookie.video} />
+  const variantVideoEl = cookie.variantVideos?.[variant] && <VideoPlayer src={cookie.variantVideos[variant]} />
+  const styleVideoEl = cookie.styleVideos?.[style] && <VideoPlayer src={cookie.styleVideos[style]} />
+
+  return (
+    <div className="cookie-card">
+      {cookie.videoFirst && videoEl}
+      {variantVideoEl}
+      {styleVideoEl}
+      {cookie.variantGalleries?.[variant]
+        ? <ImageGallery images={cookie.variantGalleries[variant]} />
+        : cookie.images
+          ? <ImageGallery images={cookie.images} />
+          : cookie.variantImages?.[variant]
+            ? <img src={cookie.variantImages[variant]} alt={variant} className="variant-image" />
+            : null
+      }
+      {!cookie.videoFirst && videoEl}
+      <h3>{cookie.name}</h3>
+      <p>{cookie.description}</p>
+
+      {cookie.variants && (
+        <div className="variant-toggle">
+          {cookie.variants.map(v => (
+            <button
+              key={v}
+              className={`variant-btn ${variant === v ? 'active' : ''}`}
+              onClick={() => selectVariant(v)}
+            >{v}</button>
+          ))}
+        </div>
+      )}
+
+      {styleOptions && (
+        <div className="style-toggle">
+          <button
+            className={`style-btn ${style === 'Chunks' ? 'active' : ''}`}
+            onClick={() => selectStyle('Chunks')}
+          >
+            Chunks <span className="style-price">$25 / 6</span>
+          </button>
+          {!effectiveNoNugs && (
+            <button
+              className={`style-btn ${style === 'Nugs' ? 'active' : ''}`}
+              onClick={() => selectStyle('Nugs')}
+            >
+              Nugs <span className="style-price">$24 / 20</span>
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="qty-row">
+        <button className="qty-btn" onClick={() => setQty(q => Math.max(effectiveStep, q - effectiveStep))}>−</button>
+        <span className="qty-display">{qty}</span>
+        <button className="qty-btn" onClick={() => setQty(q => q + effectiveStep)}>+</button>
+      </div>
+
+      <div className="cookie-footer">
+        <span className="price">${totalPrice.toFixed(2)}</span>
+        <button className="add-btn" onClick={handleAdd}>Add to Cart</button>
+      </div>
+    </div>
+  )
+}
+
+const DOUGH_TABS = ['Cookies', 'Muffins', 'Pop Tarts', 'Rolls', 'Pies', 'Specials']
+
+const SHAPES = [
+  { top: '5%',  left: '5%',  size: 80,  delay: 0,   duration: 12, emoji: '🍪' },
+  { top: '15%', left: '88%', size: 60,  delay: 2,   duration: 10, emoji: '🧁' },
+  { top: '50%', left: '3%',  size: 100, delay: 1,   duration: 15, emoji: '🍪' },
+  { top: '75%', left: '90%', size: 70,  delay: 3,   duration: 11, emoji: '🥧' },
+  { top: '35%', left: '92%', size: 50,  delay: 0.5, duration: 13, emoji: '🧇' },
+  { top: '85%', left: '8%',  size: 90,  delay: 4,   duration: 14, emoji: '🍪' },
+  { top: '60%', left: '85%', size: 65,  delay: 2.5, duration: 9,  emoji: '🎂' },
+  { top: '12%', left: '45%', size: 55,  delay: 1.5, duration: 16, emoji: '🍩' },
+  { top: '90%', left: '50%', size: 75,  delay: 3.5, duration: 12, emoji: '🥐' },
+  { top: '40%', left: '50%', size: 45,  delay: 0.8, duration: 18, emoji: '🍪' },
+  { top: '25%', left: '22%', size: 70,  delay: 1.2, duration: 14, emoji: '🧁' },
+  { top: '68%', left: '35%', size: 55,  delay: 2.8, duration: 11, emoji: '🍩' },
+  { top: '10%', left: '70%', size: 85,  delay: 0.3, duration: 13, emoji: '🥐' },
+  { top: '80%', left: '65%', size: 60,  delay: 4.5, duration: 10, emoji: '🎂' },
+  { top: '45%', left: '75%', size: 50,  delay: 1.8, duration: 17, emoji: '🧇' },
+  { top: '55%', left: '18%', size: 75,  delay: 3.2, duration: 12, emoji: '🥧' },
+  { top: '30%', left: '60%', size: 65,  delay: 0.6, duration: 15, emoji: '🍪' },
+  { top: '95%', left: '25%', size: 80,  delay: 2.2, duration: 9,  emoji: '🧁' },
+  { top: '18%', left: '35%', size: 45,  delay: 3.8, duration: 16, emoji: '🍩' },
+  { top: '72%', left: '55%', size: 90,  delay: 1.0, duration: 13, emoji: '🍪' },
+]
+
+function MenuBackground() {
+  return (
+    <div className="menu-bg">
+      {SHAPES.map((s, i) => (
+        <div
+          key={i}
+          className="menu-bg-shape"
+          style={{
+            top: s.top,
+            left: s.left,
+            width: s.size,
+            height: s.size,
+            fontSize: s.size * 0.55,
+            animationDelay: `${s.delay}s`,
+            animationDuration: `${s.duration}s`,
+          }}
+        >
+          {s.emoji}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const BUSINESS_LAT = 29.5183
+const BUSINESS_LNG = -98.7391
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 3958.8
+  const dLat = (lat2 - lat1) * Math.PI / 180
+  const dLon = (lon2 - lon1) * Math.PI / 180
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+function calcDeliveryFee(miles) {
+  if (miles <= 3)  return 5
+  if (miles <= 6)  return 8
+  if (miles <= 10) return 12
+  if (miles <= 15) return 16
+  if (miles <= 20) return 20
+  if (miles <= 30) return 25
+  return null
+}
+
+function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
+  const [method, setMethod] = useState('pickup')
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [address, setAddress] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [feeLoading, setFeeLoading] = useState(false)
+  const [distanceMiles, setDistanceMiles] = useState(null)
+  const [feeError, setFeeError] = useState('')
+
+  const today = new Date().toISOString().split('T')[0]
+
+  function handleMethodChange(m) {
+    setMethod(m)
+    if (m === 'pickup') {
+      onDeliveryFeeChange?.(0)
+      setDistanceMiles(null)
+      setFeeError('')
+    }
+  }
+
+  async function handleAddressBlur() {
+    if (!address.trim() || method !== 'delivery') return
+    setFeeLoading(true)
+    setFeeError('')
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`, {
+        headers: { 'Accept-Language': 'en' }
+      })
+      const data = await res.json()
+      if (!data.length) { setFeeError('Address not found. Please try again.'); setFeeLoading(false); return }
+      const lat = parseFloat(data[0].lat)
+      const lng = parseFloat(data[0].lon)
+      const miles = haversine(BUSINESS_LAT, BUSINESS_LNG, lat, lng)
+      setDistanceMiles(miles)
+      const fee = calcDeliveryFee(miles)
+      if (fee === null) {
+        setFeeError(`Sorry, we don't deliver to addresses over 30 miles away (${miles.toFixed(1)} mi). Please contact us.`)
+        onDeliveryFeeChange?.(0)
+      } else {
+        onDeliveryFeeChange?.(fee)
+      }
+    } catch {
+      setFeeError('Could not calculate delivery fee. Please try again.')
+    }
+    setFeeLoading(false)
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0)
+    const tax = subtotal * 0.0825
+    const total = subtotal + tax + deliveryFee
+    const orderLines = cart.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`).join('\n')
+    const body = {
+      _subject: `New Dough Dealers Order — ${method === 'pickup' ? 'Pickup' : 'Delivery'}`,
+      Method: method === 'pickup' ? 'Pickup' : 'Delivery',
+      Date: date,
+      Time: time,
+      ...(method === 'delivery' && { Address: address, 'Distance': `${distanceMiles?.toFixed(1)} mi`, 'Delivery Fee': `$${deliveryFee.toFixed(2)}` }),
+      'Order Items': orderLines || '(no items)',
+      Subtotal: `$${subtotal.toFixed(2)}`,
+      'Tax (8.25%)': `$${tax.toFixed(2)}`,
+      Total: `$${total.toFixed(2)}`,
+    }
+    await fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+    }).catch(() => {})
+    setSubmitted(true)
+    setTimeout(() => setSubmitted(false), 4000)
+  }
+
+  return (
+    <form className="schedule-form-inner" onSubmit={handleSubmit}>
+      <div className="method-toggle">
+        <button
+          type="button"
+          className={`method-btn ${method === 'pickup' ? 'active' : ''}`}
+          onClick={() => handleMethodChange('pickup')}
+        >🏪 Pickup</button>
+        <button
+          type="button"
+          className={`method-btn ${method === 'delivery' ? 'active' : ''}`}
+          onClick={() => handleMethodChange('delivery')}
+        >🚗 Delivery</button>
+      </div>
+      <p className="delivery-notice">⚠️ Delivery orders require a minimum purchase of <strong>$50.00</strong> before tax.</p>
+
+      <div className="schedule-fields">
+        <div className="schedule-field">
+          <label>Select Date</label>
+          <input type="date" min={today} value={date} onChange={e => setDate(e.target.value)} required />
+        </div>
+        <div className="schedule-field">
+          <label>Select Time</label>
+          <input type="time" value={time} onChange={e => setTime(e.target.value)} required />
+        </div>
+      </div>
+
+      {method === 'delivery' && (
+        <div className="schedule-field">
+          <label>Delivery Address</label>
+          <input
+            type="text"
+            placeholder="Enter your full address"
+            value={address}
+            onChange={e => { setAddress(e.target.value); setDistanceMiles(null); onDeliveryFeeChange?.(0) }}
+            onBlur={handleAddressBlur}
+            required
+          />
+          {feeLoading && <p className="fee-status">Calculating delivery fee...</p>}
+          {!feeLoading && feeError && <p className="fee-error">{feeError}</p>}
+          {!feeLoading && !feeError && distanceMiles !== null && (
+            <p className="fee-status">
+              📍 {distanceMiles.toFixed(1)} miles away — Delivery fee: <strong>${deliveryFee.toFixed(2)}</strong>
+            </p>
+          )}
+          <p className="fee-tiers">
+            Delivery rates: 0–3 mi $5 · 3–6 mi $8 · 6–10 mi $12 · 10–15 mi $16 · 15–20 mi $20 · 20–30 mi $25
+          </p>
+        </div>
+      )}
+
+      {submitted
+        ? <div className="schedule-confirm">✅ Order scheduled! We'll see you {method === 'delivery' ? 'at your door' : 'at the store'}.</div>
+        : <button type="submit" className="schedule-submit">Confirm {method === 'pickup' ? 'Pickup' : 'Delivery'}</button>
+      }
+    </form>
+  )
+}
+
+export default function App() {
+  const [cart, setCart] = useState([])
+  const [cartOpen, setCartOpen] = useState(false)
+  const [added, setAdded] = useState(null)
+  const [doughTab, setDoughTab] = useState('Cookies')
+  const [merchTab, setMerchTab] = useState('Dough Shirts')
+  const [playing, setPlaying] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const audioRef = useRef(null)
+
+  function togglePlay() {
+    const audio = audioRef.current
+    if (playing) { audio.pause(); setPlaying(false) }
+    else { audio.play(); setPlaying(true) }
+  }
+
+  function toggleMute() {
+    audioRef.current.muted = !muted
+    setMuted(!muted)
+  }
+
+  function addToCart(cookie) {
+    const key = cookie.name // includes style e.g. "Chip Drip (Nugs)"
+    setCart(prev => {
+      const existing = prev.find(i => i.name === key)
+      if (existing) return prev.map(i => i.name === key ? { ...i, qty: i.qty + cookie.qty } : i)
+      return [...prev, { ...cookie }]
+    })
+    setAdded(cookie.id)
+    setTimeout(() => setAdded(null), 1200)
+  }
+
+  function removeFromCart(id) {
+    setCart(prev => prev.filter(i => i.id !== id))
+  }
+
+  const cartCount = cart.reduce((sum, i) => sum + i.qty, 0)
+
+  return (
+    <>
+      <audio ref={audioRef} src={themeSong} loop />
+
+      <nav className="navbar">
+        <div className="nav-brand">🍪 Dough Dealers</div>
+        <ul className="nav-links">
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div className="nav-right">
+          <div className="audio-controls">
+            <button className="audio-btn" onClick={togglePlay} title={playing ? 'Pause' : 'Play'}>
+              {playing ? '⏸' : '▶'}
+            </button>
+            <button className="audio-btn" onClick={toggleMute} title={muted ? 'Unmute' : 'Mute'}>
+              {muted ? '🔇' : '🔊'}
+            </button>
+          </div>
+          <button className="cart-btn" onClick={() => setCartOpen(true)}>
+            🛒 Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          </button>
+        </div>
+      </nav>
+
+      <header className="hero">
+        <video className="hero-dance" src={danceVideo} autoPlay loop muted playsInline />
+      </header>
+
+      <section className="intro-section">
+        <p className="intro-text">
+          Dough Dealers is all about big, bold cookies that look as good as they taste—thick, loaded, and crispy on the edges with a soft, gooey center. Every cookie is crafted with quality ingredients and packed with flavor you can see in every bite. It's <strong>THE BEST DOUGH FA SHO!</strong>
+        </p>
+      </section>
+
+      <section id="menu" className="menu-section">
+        <div className="category">
+          <h3 className="category-title">Dough</h3>
+          <div className="dough-tabs">
+            {DOUGH_TABS.filter(t => t !== 'Specials').map(tab => (
+              <button
+                key={tab}
+                className={`dough-tab ${doughTab === tab ? 'active' : ''}`}
+                onClick={() => setDoughTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="dough-tabs dough-tabs-specials">
+            <button
+              className={`dough-tab ${doughTab === 'Specials' ? 'active' : ''}`}
+              onClick={() => setDoughTab('Specials')}
+            >
+              Specials
+            </button>
+          </div>
+          <div className="cookie-grid">
+            {DOUGH_ITEMS[doughTab].map(item => (
+              <div key={item.id} className={`card-wrap ${added === item.id ? 'added' : ''}`}>
+                <CookieCard cookie={item} onAdd={addToCart} styleOptions={doughTab === 'Cookies'} noNugs={!!item.noNugs} qtyStep={doughTab === 'Pies' ? 1 : doughTab === 'Pop Tarts' ? 5 : 6} />
+                {added === item.id && <div className="added-toast">Added!</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="category">
+          <h3 className="category-title">Briks</h3>
+          <p className="category-desc">Marshmallow-loaded cereal bars with a perfect balance of gooey and crunch.</p>
+          <div className="cookie-grid">
+            {BRIKS.map(cookie => (
+              <div key={cookie.id} className={`card-wrap ${added === cookie.id ? 'added' : ''}`}>
+                <CookieCard cookie={cookie} onAdd={addToCart} styleOptions={false} />
+                {added === cookie.id && <div className="added-toast">Added!</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="merch" className="merch-section">
+        <h2>Shop Merch</h2>
+        <p className="section-sub">Rep the brand. Fresh tees for real ones.</p>
+        <div className="dough-tabs">
+          {['Dough Shirts', 'Chip Shirts'].map(tab => (
+            <button
+              key={tab}
+              className={`dough-tab ${merchTab === tab ? 'active' : ''}`}
+              onClick={() => setMerchTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+        <div className="merch-grid">
+          {(merchTab === 'Dough Shirts' ? DOUGH_SHIRTS : CHIP_SHIRTS).map(item => (
+            <MerchCard key={item.id} item={item} onAdd={addToCart} />
+          ))}
+        </div>
+      </section>
+
+      <section id="addict" className="addict-section">
+        <h2>Become an Addict</h2>
+        <p>Join the Dough Dealers family. Sign up for exclusive drops, early access, and deals you can't resist.</p>
+        <form
+          className="addict-form"
+          action="https://formsubmit.co/Info@thedoughdealers.com"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="New Dough Dealers Addict Sign-Up!" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="false" />
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Email address" required />
+          <input type="tel" name="phone" placeholder="Phone number (optional)" />
+          <button type="submit">Sign Me Up</button>
+        </form>
+      </section>
+
+
+      <section id="contact" className="contact-section">
+        <h2>Get in Touch</h2>
+        <p>Have a custom order or question? We'd love to hear from you.</p>
+        <form
+          className="contact-form"
+          action="https://formsubmit.co/Info@thedoughdealers.com"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="New Dough Dealers Message" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="false" />
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Email address" required />
+          <textarea name="message" placeholder="Your message" rows={4} required />
+          <button type="submit">Send Message</button>
+        </form>
+      </section>
+
+      <div className="float-nav">
+        <a href="#menu" className="float-nav-item">
+          <span className="float-nav-icon">🍪</span>
+          <span className="float-nav-label">Cookies</span>
+        </a>
+        <a href="#merch" className="float-nav-item">
+          <span className="float-nav-icon">👕</span>
+          <span className="float-nav-label">Merch</span>
+        </a>
+        <a href="#addict" className="float-nav-item">
+          <span className="float-nav-icon">🔥</span>
+          <span className="float-nav-label">Join Us</span>
+        </a>
+        <a href="#contact" className="float-nav-item">
+          <span className="float-nav-icon">✉️</span>
+          <span className="float-nav-label">Contact</span>
+        </a>
+      </div>
+
+      <footer className="footer">
+        <span>🍪 Dough Dealers — Baked with love</span>
+      </footer>
+
+      {cartOpen && (
+        <CartDrawer
+          cart={cart}
+          onClose={() => setCartOpen(false)}
+          onRemove={removeFromCart}
+          onClear={() => setCart([])}
+        />
+      )}
+    </>
+  )
+}
