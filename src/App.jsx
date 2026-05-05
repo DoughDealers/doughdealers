@@ -303,6 +303,8 @@ function VideoPlayer({ src }) {
       { threshold: 0.5 }
     )
     observer.observe(video)
+    // auto-play immediately if already in view (e.g. variant switch)
+    video.play().catch(() => {})
     return () => observer.disconnect()
   }, [isTouch])
 
@@ -354,7 +356,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
   }
 
   const videoEl = cookie.video && <VideoPlayer src={cookie.video} />
-  const variantVideoEl = cookie.variantVideos?.[variant] && <VideoPlayer src={cookie.variantVideos[variant]} />
+  const variantVideoEl = cookie.variantVideos?.[variant] && <VideoPlayer key={variant} src={cookie.variantVideos[variant]} />
   const styleVideoEl = cookie.styleVideos?.[style] && <VideoPlayer src={cookie.styleVideos[style]} />
 
   return (
