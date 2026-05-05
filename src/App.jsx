@@ -165,6 +165,7 @@ const DOUGH_ITEMS = {
     { id: 30, name: 'Pecan',          price: 25, emoji: '🥧', description: 'Rich, buttery pecan filling with a hint of bourbon.' },
     { id: 31, name: 'Pumpkin',        price: 25, emoji: '🎃', description: 'Warmly spiced pumpkin custard in a flaky pie shell.' },
     { id: 32, name: 'Key Lime',       price: 25, emoji: '🍋', description: 'Tangy key lime custard in a toasted graham cracker crust.' },
+    { id: 40, name: 'Chocolate',      price: 25, emoji: '🍫', description: 'Dark chocolate Oreo crust with a light and dark chocolate mousse, topped with whipped cream and chocolate shavings.' },
   ],
   Rolls: [
     { id: 33, name: 'Original',    price: 35, emoji: '🌀', description: 'Classic soft dough rolled in warm cinnamon sugar, finished with a silky cream cheese frosting.' },

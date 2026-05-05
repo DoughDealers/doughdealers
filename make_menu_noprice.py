@@ -141,6 +141,7 @@ pies = [
     ('Pecan',          'Rich, buttery pecan filling with a hint of bourbon.'),
     ('Pumpkin',        'Warmly spiced pumpkin custard in a flaky pie shell.'),
     ('Key Lime',       'Tangy key lime custard in a toasted graham cracker crust.'),
+    ('Chocolate',      'Dark chocolate Oreo crust with a light and dark chocolate mousse, topped with whipped cream and chocolate shavings.'),
 ]
 for n, d in pies:
     menu_item(n, d)
