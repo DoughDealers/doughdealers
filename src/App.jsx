@@ -512,6 +512,10 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
   const [feeLoading, setFeeLoading] = useState(false)
   const [distanceMiles, setDistanceMiles] = useState(null)
   const [feeError, setFeeError] = useState('')
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const suggestTimer = useRef(null)
+  const skipBlurGeocode = useRef(false)
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -521,10 +525,60 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
       onDeliveryFeeChange?.(0)
       setDistanceMiles(null)
       setFeeError('')
+      setSuggestions([])
+      setShowSuggestions(false)
     }
   }
 
+  function applyGeoResult(lat, lng) {
+    const miles = haversine(BUSINESS_LAT, BUSINESS_LNG, lat, lng)
+    setDistanceMiles(miles)
+    setFeeError('')
+    const fee = calcDeliveryFee(miles)
+    if (fee === null) {
+      setFeeError(`Sorry, we don't deliver to addresses over 30 miles away (${miles.toFixed(1)} mi). Please contact us.`)
+      onDeliveryFeeChange?.(0)
+    } else {
+      onDeliveryFeeChange?.(fee)
+    }
+  }
+
+  async function fetchSuggestions(val) {
+    if (val.trim().length < 4) { setSuggestions([]); setShowSuggestions(false); return }
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(val)}&format=json&limit=5&countrycodes=us`,
+        { headers: { 'Accept-Language': 'en' } }
+      )
+      const data = await res.json()
+      setSuggestions(data)
+      setShowSuggestions(data.length > 0)
+    } catch {
+      setSuggestions([])
+      setShowSuggestions(false)
+    }
+  }
+
+  function handleAddressChange(val) {
+    setAddress(val)
+    setDistanceMiles(null)
+    onDeliveryFeeChange?.(0)
+    setFeeError('')
+    clearTimeout(suggestTimer.current)
+    suggestTimer.current = setTimeout(() => fetchSuggestions(val), 400)
+  }
+
+  function selectSuggestion(item) {
+    skipBlurGeocode.current = true
+    setAddress(item.display_name)
+    setSuggestions([])
+    setShowSuggestions(false)
+    applyGeoResult(parseFloat(item.lat), parseFloat(item.lon))
+  }
+
   async function handleAddressBlur() {
+    setTimeout(() => setShowSuggestions(false), 150)
+    if (skipBlurGeocode.current) { skipBlurGeocode.current = false; return }
     if (!address.trim() || method !== 'delivery') return
     setFeeLoading(true)
     setFeeError('')
@@ -534,17 +588,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
       })
       const data = await res.json()
       if (!data.length) { setFeeError('Address not found. Please try again.'); setFeeLoading(false); return }
-      const lat = parseFloat(data[0].lat)
-      const lng = parseFloat(data[0].lon)
-      const miles = haversine(BUSINESS_LAT, BUSINESS_LNG, lat, lng)
-      setDistanceMiles(miles)
-      const fee = calcDeliveryFee(miles)
-      if (fee === null) {
-        setFeeError(`Sorry, we don't deliver to addresses over 30 miles away (${miles.toFixed(1)} mi). Please contact us.`)
-        onDeliveryFeeChange?.(0)
-      } else {
-        onDeliveryFeeChange?.(fee)
-      }
+      applyGeoResult(parseFloat(data[0].lat), parseFloat(data[0].lon))
     } catch {
       setFeeError('Could not calculate delivery fee. Please try again.')
     }
@@ -627,14 +671,31 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
       {method === 'delivery' && (
         <div className="schedule-field">
           <label>Delivery Address</label>
-          <input
-            type="text"
-            placeholder="Enter your full address"
-            value={address}
-            onChange={e => { setAddress(e.target.value); setDistanceMiles(null); onDeliveryFeeChange?.(0) }}
-            onBlur={handleAddressBlur}
-            required
-          />
+          <div className="address-autocomplete">
+            <input
+              type="text"
+              placeholder="Start typing your address…"
+              value={address}
+              onChange={e => handleAddressChange(e.target.value)}
+              onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+              onBlur={handleAddressBlur}
+              autoComplete="off"
+              required
+            />
+            {showSuggestions && suggestions.length > 0 && (
+              <ul className="address-suggestions">
+                {suggestions.map((item, i) => (
+                  <li
+                    key={i}
+                    className="address-suggestion-item"
+                    onMouseDown={() => selectSuggestion(item)}
+                  >
+                    {item.display_name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           {feeLoading && <p className="fee-status">Calculating delivery fee...</p>}
           {!feeLoading && feeError && <p className="fee-error">{feeError}</p>}
           {!feeLoading && !feeError && distanceMiles !== null && (
