@@ -502,6 +502,9 @@ function calcDeliveryFee(miles) {
 
 function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
   const [method, setMethod] = useState('pickup')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [address, setAddress] = useState('')
@@ -556,6 +559,9 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
     const orderLines = cart.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`).join('\n')
     const body = {
       _subject: `New Dough Dealers Order — ${method === 'pickup' ? 'Pickup' : 'Delivery'}`,
+      Name: name,
+      Email: email,
+      Phone: phone,
       Method: method === 'pickup' ? 'Pickup' : 'Delivery',
       Date: date,
       Time: time,
@@ -576,6 +582,23 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
 
   return (
     <form className="schedule-form-inner" onSubmit={handleSubmit}>
+      <p className="schedule-section-label">Your Info</p>
+      <div className="schedule-fields">
+        <div className="schedule-field">
+          <label>Full Name</label>
+          <input type="text" placeholder="Jane Smith" value={name} onChange={e => setName(e.target.value)} required />
+        </div>
+        <div className="schedule-field">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="(210) 555-0100" value={phone} onChange={e => setPhone(e.target.value)} required />
+        </div>
+      </div>
+      <div className="schedule-field">
+        <label>Email Address</label>
+        <input type="email" placeholder="jane@example.com" value={email} onChange={e => setEmail(e.target.value)} required />
+      </div>
+
+      <p className="schedule-section-label">Order Details</p>
       <div className="method-toggle">
         <button
           type="button"

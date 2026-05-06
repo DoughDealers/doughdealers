@@ -1134,6 +1134,17 @@
   line-height: 1.4;
 }
 
+.schedule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 1.5px solid var(--sand);
+  padding-bottom: 6px;
+  margin-bottom: -4px;
+}
+
 .schedule-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
