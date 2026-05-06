@@ -543,16 +543,29 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
     }
   }
 
+  function formatSuggestion(f) {
+    const p = f.properties
+    const parts = []
+    if (p.housenumber) parts.push(p.housenumber)
+    if (p.street)      parts.push(p.street)
+    if (p.city)        parts.push(p.city)
+    if (p.state)       parts.push(p.state)
+    if (p.postcode)    parts.push(p.postcode)
+    return parts.length ? parts.join(', ') : (p.name || '')
+  }
+
   async function fetchSuggestions(val) {
     if (val.trim().length < 4) { setSuggestions([]); setShowSuggestions(false); return }
     try {
+      // Photon is built for address autocomplete; bias toward San Antonio
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(val)}&format=json&limit=5&countrycodes=us`,
-        { headers: { 'Accept-Language': 'en' } }
+        `https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=6&lang=en&lat=${BUSINESS_LAT}&lon=${BUSINESS_LNG}`,
       )
       const data = await res.json()
-      setSuggestions(data)
-      setShowSuggestions(data.length > 0)
+      // Keep only results that have at least a street (skip city/county-level hits)
+      const hits = (data.features || []).filter(f => f.properties.street || f.properties.housenumber)
+      setSuggestions(hits)
+      setShowSuggestions(hits.length > 0)
     } catch {
       setSuggestions([])
       setShowSuggestions(false)
@@ -568,12 +581,13 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
     suggestTimer.current = setTimeout(() => fetchSuggestions(val), 400)
   }
 
-  function selectSuggestion(item) {
+  function selectSuggestion(feature) {
     skipBlurGeocode.current = true
-    setAddress(item.display_name)
+    setAddress(formatSuggestion(feature))
     setSuggestions([])
     setShowSuggestions(false)
-    applyGeoResult(parseFloat(item.lat), parseFloat(item.lon))
+    const [lng, lat] = feature.geometry.coordinates
+    applyGeoResult(lat, lng)
   }
 
   async function handleAddressBlur() {
@@ -690,7 +704,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
                     className="address-suggestion-item"
                     onMouseDown={() => selectSuggestion(item)}
                   >
-                    {item.display_name}
+                    {formatSuggestion(item)}
                   </li>
                 ))}
               </ul>
