@@ -698,6 +698,11 @@ export default function App() {
 
       <header className="hero">
         <video className="hero-dance" src={danceVideo} autoPlay loop muted playsInline />
+        <div className="hero-overlay">
+          <p className="hero-sub">San Antonio's Boldest Cookies, Rolls, Muffins &amp; More</p>
+          <h1 className="hero-headline">The Best Dough Fa Sho!</h1>
+          <a href="#menu" className="hero-order-btn">Order Now 🍪</a>
+        </div>
       </header>
 
       <section className="intro-section">
@@ -716,6 +721,7 @@ export default function App() {
                 className={`dough-tab ${doughTab === tab ? 'active' : ''}`}
                 onClick={() => setDoughTab(tab)}
               >
+                <span className="tab-icon">{{ Cookies: '🍪', Muffins: '🧁', 'Pop Tarts': '🥧', Rolls: '🌀', Pies: '🥧' }[tab]}</span>
                 {tab}
               </button>
             ))}
@@ -725,7 +731,7 @@ export default function App() {
               className={`dough-tab ${doughTab === 'Specials' ? 'active' : ''}`}
               onClick={() => setDoughTab('Specials')}
             >
-              Specials
+              <span className="tab-icon">⚡</span> Specials
             </button>
           </div>
           <div className="cookie-grid">

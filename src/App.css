@@ -10,7 +10,7 @@
   --muted:   #666666;
   --white:   #ffffff;
   --radius:  12px;
-  font-family: system-ui, 'Segoe UI', sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   color: var(--text);
   background: var(--cream);
   scroll-behavior: smooth;
@@ -136,6 +136,57 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.72) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px 60px;
+  text-align: center;
+}
+
+.hero-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.hero-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  color: #ffffff;
+  letter-spacing: 3px;
+  line-height: 1;
+  margin-bottom: 28px;
+}
+
+.hero-order-btn {
+  display: inline-block;
+  background: #c8a96e;
+  color: #111111;
+  text-decoration: none;
+  padding: 16px 44px;
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.hero-order-btn:hover {
+  background: #d4ba82;
+  transform: translateY(-2px);
 }
 
 .hero-content { max-width: 540px; }
@@ -285,10 +336,12 @@
 }
 
 .menu-section h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 400;
   color: var(--brown);
   margin-bottom: 8px;
+  letter-spacing: 3px;
 }
 
 .section-sub {
@@ -302,12 +355,13 @@
 }
 
 .category-title {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 400;
   color: #111111;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 4px;
   max-width: 1100px;
   margin: 0 auto 24px;
   padding-bottom: 10px;
@@ -336,26 +390,37 @@
 }
 
 .dough-tab {
-  padding: 8px 22px;
+  padding: 10px 24px;
   border-radius: 999px;
   border: 2px solid var(--sand);
   background: var(--white);
   color: var(--muted);
-  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tab-icon {
+  font-size: 1rem;
 }
 
 .dough-tab:hover {
   border-color: #111111;
   color: #111111;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .dough-tab.active {
   background: var(--brown);
   border-color: var(--brown);
   color: var(--white);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
 }
 
 .cookie-grid {
@@ -650,10 +715,12 @@
 }
 
 .reviews-section h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 400;
   color: #ffffff;
   margin-bottom: 8px;
+  letter-spacing: 3px;
 }
 
 .reviews-section .section-sub {
@@ -714,10 +781,12 @@
 }
 
 .merch-section h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 400;
   color: #111111;
   margin-bottom: 8px;
+  letter-spacing: 3px;
 }
 
 .merch-category-title {
@@ -829,10 +898,12 @@
 }
 
 .addict-section h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 400;
   color: var(--white);
   margin-bottom: 12px;
+  letter-spacing: 3px;
 }
 
 .addict-section > p {
@@ -921,10 +992,12 @@
 }
 
 .contact-section h2 {
-  font-size: 2rem;
-  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 400;
   color: var(--brown);
   margin-bottom: 8px;
+  letter-spacing: 3px;
 }
 
 .contact-section > p {
@@ -1380,5 +1453,9 @@
   .contact-section { padding-bottom: 120px; }
 
   .reviews-section { padding-left: 24px; padding-right: 24px; }
+
+  .hero-overlay { padding-bottom: 80px; }
+  .hero-sub { font-size: 0.78rem; }
+  .hero-order-btn { padding: 14px 36px; font-size: 1rem; }
 
 }
