@@ -543,28 +543,30 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
     }
   }
 
-  function formatSuggestion(f) {
-    const p = f.properties
-    const parts = []
-    if (p.housenumber) parts.push(p.housenumber)
-    if (p.street)      parts.push(p.street)
-    if (p.city)        parts.push(p.city)
-    if (p.state)       parts.push(p.state)
-    if (p.postcode)    parts.push(p.postcode)
-    return parts.length ? parts.join(', ') : (p.name || '')
+  function formatSuggestion(item) {
+    const a = item.address || {}
+    const num   = a.house_number || ''
+    const road  = a.road || a.pedestrian || a.path || ''
+    const city  = a.city || a.town || a.village || ''
+    const state = a.state || ''
+    const zip   = a.postcode || ''
+    const street = [num, road].filter(Boolean).join(' ')
+    return [street, city, state, zip].filter(Boolean).join(', ') || item.display_name
   }
 
   async function fetchSuggestions(val) {
     if (val.trim().length < 4) { setSuggestions([]); setShowSuggestions(false); return }
     try {
-      // Photon is built for address autocomplete; bias toward San Antonio
       const res = await fetch(
-        `https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=6&lang=en&lat=${BUSINESS_LAT}&lon=${BUSINESS_LNG}`,
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(val)}&format=json&addressdetails=1&limit=8&countrycodes=us`,
+        { headers: { 'Accept-Language': 'en' } }
       )
       const data = await res.json()
-      // Keep only results that have at least a street (skip city/county-level hits)
-      const hits = (data.features || []).filter(f => f.properties.street || f.properties.housenumber)
-      setSuggestions(hits)
+      // Keep only house-number or road-level hits — skip city/county/state blobs
+      const hits = data.filter(f =>
+        f.address?.house_number || ['house', 'road', 'residential', 'building'].includes(f.type)
+      )
+      setSuggestions(hits.slice(0, 5))
       setShowSuggestions(hits.length > 0)
     } catch {
       setSuggestions([])
@@ -581,13 +583,12 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
     suggestTimer.current = setTimeout(() => fetchSuggestions(val), 400)
   }
 
-  function selectSuggestion(feature) {
+  function selectSuggestion(item) {
     skipBlurGeocode.current = true
-    setAddress(formatSuggestion(feature))
+    setAddress(formatSuggestion(item))
     setSuggestions([])
     setShowSuggestions(false)
-    const [lng, lat] = feature.geometry.coordinates
-    applyGeoResult(lat, lng)
+    applyGeoResult(parseFloat(item.lat), parseFloat(item.lon))
   }
 
   async function handleAddressBlur() {
