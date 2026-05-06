@@ -39,7 +39,6 @@ const DOUGH_SHIRTS = [
   { id: 9,  name: 'Dough Queen',              img: merchQueen },
   { id: 10, name: 'Dough Life',               img: merchLife },
   { id: 13, name: 'Dough Gang',               img: merchGang },
-  { id: 11, name: 'Got Dough?',               img: merchGot },
   { id: 12, name: 'Mo Money Dough Problems',  img: merchMoney },
 ]
 
