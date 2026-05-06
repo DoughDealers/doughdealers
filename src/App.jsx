@@ -406,14 +406,15 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
         </div>
       )}
 
-      <div className="qty-row">
-        <button className="qty-btn" onClick={() => setQty(q => Math.max(effectiveStep, q - effectiveStep))}>−</button>
-        <span className="qty-display">{qty}</span>
-        <button className="qty-btn" onClick={() => setQty(q => q + effectiveStep)}>+</button>
-      </div>
-
       <div className="cookie-footer">
-        <span className="price">${totalPrice.toFixed(2)}</span>
+        <div className="qty-price-group">
+          <div className="qty-row">
+            <button className="qty-btn" onClick={() => setQty(q => Math.max(effectiveStep, q - effectiveStep))}>−</button>
+            <span className="qty-display">{qty}</span>
+            <button className="qty-btn" onClick={() => setQty(q => q + effectiveStep)}>+</button>
+          </div>
+          <span className="price">${totalPrice.toFixed(2)}</span>
+        </div>
         <button className="add-btn" onClick={handleAdd}>Add to Cart</button>
       </div>
     </div>
