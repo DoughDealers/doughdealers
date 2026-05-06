@@ -259,7 +259,7 @@ function MerchCard({ item, onAdd }) {
           >{s}</button>
         ))}
       </div>
-      <button className="add-btn merch-add" onClick={() => onAdd({ ...item, name: `${item.name} (${size})`, price, emoji: '👕', qty: 1 })}>
+      <button className="shop-btn merch-shop" onClick={() => onAdd({ ...item, name: `${item.name} (${size})`, price, emoji: '👕', qty: 1 })}>
         Add to Cart
       </button>
     </div>
@@ -415,7 +415,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
           </div>
           <span className="price">${totalPrice.toFixed(2)}</span>
         </div>
-        <button className="add-btn" onClick={handleAdd}>Add to Cart</button>
+        <button className="shop-btn" onClick={handleAdd}>Add to Cart</button>
       </div>
     </div>
   )

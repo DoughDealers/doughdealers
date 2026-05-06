@@ -607,7 +607,7 @@
   color: #111111;
 }
 
-.add-btn {
+.shop-btn {
   background: var(--brown);
   color: var(--white);
   border: none;
@@ -620,7 +620,7 @@
   transition: background 0.2s;
 }
 
-.add-btn:hover { background: #444444; }
+.shop-btn:hover { background: #444444; }
 
 .added-toast {
   position: absolute;
@@ -748,7 +748,7 @@
   color: var(--white);
 }
 
-.merch-add {
+.merch-shop {
   margin: 0 16px 16px;
   padding: 10px;
   border-radius: var(--radius);
