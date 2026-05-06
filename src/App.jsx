@@ -421,6 +421,15 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
   )
 }
 
+const REVIEWS = [
+  { id: 1, name: 'Jasmine R.',    stars: 5, text: 'The Chip Drip hits different every single time. Crispy edges, gooey center — I order every week without fail.' },
+  { id: 2, name: 'Marcus T.',     stars: 5, text: 'Got the CinnaBomb with frosting and I literally could not stop eating it. Best cinnamon cookie I\'ve ever had, period.' },
+  { id: 3, name: 'Aaliyah M.',    stars: 5, text: 'Blue Dream is INSANE. The cheesecake filling with the blueberries is something else. My whole family is obsessed.' },
+  { id: 4, name: 'Devon K.',      stars: 5, text: 'Ordered the Original roll for my birthday and it was gone in 10 minutes. That cream cheese frosting is no joke.' },
+  { id: 5, name: 'Priya S.',      stars: 5, text: 'Midnight Crunch had me speechless. Chocolate cookie with a whole Oreo in the center? Dough Dealers don\'t miss.' },
+  { id: 6, name: 'Carlos V.',     stars: 5, text: 'The Melt Down is dangerous — in the best way. Graham cracker, marshmallow, and chocolate in one cookie is unfair.' },
+]
+
 const DOUGH_TABS = ['Cookies', 'Muffins', 'Pop Tarts', 'Rolls', 'Pies', 'Specials']
 
 const SHAPES = [
@@ -743,6 +752,20 @@ export default function App() {
         </div>
       </section>
 
+      <section id="reviews" className="reviews-section">
+        <h2>What People Are Saying</h2>
+        <p className="section-sub">Real orders. Real reactions. Real dough.</p>
+        <div className="reviews-grid">
+          {REVIEWS.map(r => (
+            <div key={r.id} className="review-card">
+              <div className="review-stars">{'★'.repeat(r.stars)}</div>
+              <p className="review-text">"{r.text}"</p>
+              <span className="review-name">— {r.name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="merch" className="merch-section">
         <h2>Shop Merch</h2>
         <p className="section-sub">Rep the brand. Fresh tees for real ones.</p>
@@ -805,6 +828,10 @@ export default function App() {
         <a href="#menu" className="float-nav-item">
           <span className="float-nav-icon">🍪</span>
           <span className="float-nav-label">Cookies</span>
+        </a>
+        <a href="#reviews" className="float-nav-item">
+          <span className="float-nav-icon">⭐</span>
+          <span className="float-nav-label">Reviews</span>
         </a>
         <a href="#merch" className="float-nav-item">
           <span className="float-nav-icon">👕</span>

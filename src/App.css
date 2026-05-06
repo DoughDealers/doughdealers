@@ -642,6 +642,70 @@
   100% { opacity: 0; }
 }
 
+/* ── Reviews ── */
+.reviews-section {
+  padding: 80px 48px;
+  background: #111111;
+  text-align: center;
+}
+
+.reviews-section h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.reviews-section .section-sub {
+  color: #888888;
+  margin-bottom: 48px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.review-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.review-card:hover {
+  border-color: #c8a96e;
+  transform: translateY(-3px);
+}
+
+.review-stars {
+  color: #c8a96e;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.review-text {
+  color: #cccccc;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  flex: 1;
+}
+
+.review-name {
+  color: #888888;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
 /* ── Merch ── */
 .merch-section {
   padding: 80px 48px;
@@ -1310,8 +1374,11 @@
 
   /* Extra bottom padding so the fixed float-nav never covers page content */
   .menu-section,
+  .reviews-section,
   .merch-section,
   .addict-section,
   .contact-section { padding-bottom: 120px; }
+
+  .reviews-section { padding-left: 24px; padding-right: 24px; }
 
 }
