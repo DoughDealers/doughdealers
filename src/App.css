@@ -1299,4 +1299,24 @@
   .hero-art { font-size: 6rem; }
   .menu-section, .contact-section { padding: 60px 24px; }
   .about-section { flex-direction: column; padding: 60px 24px; text-align: center; }
+
+  /* Extra bottom padding so the fixed float-nav never covers page content */
+  .menu-section,
+  .merch-section,
+  .addict-section,
+  .contact-section { padding-bottom: 120px; }
+
+  /* Make Add to Cart button full-width & easier to tap on mobile */
+  .cookie-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .cookie-footer .add-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: var(--radius);
+    text-align: center;
+  }
 }
