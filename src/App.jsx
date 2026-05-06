@@ -758,21 +758,7 @@ export default function App() {
         </div>
       </section>
 
-      <section id="reviews" className="reviews-section">
-        <h2>What People Are Saying</h2>
-        <p className="section-sub">Real orders. Real reactions. Real dough.</p>
-        <div className="reviews-grid">
-          {REVIEWS.map(r => (
-            <div key={r.id} className="review-card">
-              <div className="review-stars">{'★'.repeat(r.stars)}</div>
-              <p className="review-text">"{r.text}"</p>
-              <span className="review-name">— {r.name}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="merch" className="merch-section">
+<section id="merch" className="merch-section">
         <h2>Shop Merch</h2>
         <p className="section-sub">Rep the brand. Fresh tees for real ones.</p>
         <div className="dough-tabs">
@@ -835,11 +821,7 @@ export default function App() {
           <span className="float-nav-icon">🍪</span>
           <span className="float-nav-label">Cookies</span>
         </a>
-        <a href="#reviews" className="float-nav-item">
-          <span className="float-nav-icon">⭐</span>
-          <span className="float-nav-label">Reviews</span>
-        </a>
-        <a href="#merch" className="float-nav-item">
+<a href="#merch" className="float-nav-item">
           <span className="float-nav-icon">👕</span>
           <span className="float-nav-label">Merch</span>
         </a>
