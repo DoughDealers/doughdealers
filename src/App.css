@@ -1530,6 +1530,14 @@
   margin-bottom: 10px;
 }
 
+.pay-modal-tagline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  color: #c8a96e;
+  margin-bottom: 6px;
+}
+
 .pay-modal-sub {
   color: var(--muted);
   font-size: 0.95rem;

@@ -1002,6 +1002,7 @@ export default function App() {
           <div className="pay-modal">
             <div className="pay-modal-icon">🎉</div>
             <h2 className="pay-modal-title">Order Confirmed!</h2>
+            <p className="pay-modal-tagline">Thank You For Being A Dough Addict!</p>
             <p className="pay-modal-sub">
               Payment received — we'll see you {confirmedOrder?.method === 'delivery' ? 'at your door' : 'at the store'}!
             </p>
