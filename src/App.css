@@ -323,11 +323,11 @@
 }
 
 @keyframes float3d {
-  0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg)   translateZ(0px);   opacity: 0.35; }
-  25%  { transform: rotateX(90deg)  rotateY(45deg)  rotateZ(30deg)  translateZ(60px);  opacity: 0.55; }
-  50%  { transform: rotateX(180deg) rotateY(90deg)  rotateZ(60deg)  translateZ(0px);   opacity: 0.35; }
-  75%  { transform: rotateX(270deg) rotateY(135deg) rotateZ(90deg)  translateZ(-60px); opacity: 0.55; }
-  100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(120deg) translateZ(0px);   opacity: 0.35; }
+  0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg)   translateZ(0px);   opacity: 0.7; }
+  25%  { transform: rotateX(90deg)  rotateY(45deg)  rotateZ(30deg)  translateZ(60px);  opacity: 0.9; }
+  50%  { transform: rotateX(180deg) rotateY(90deg)  rotateZ(60deg)  translateZ(0px);   opacity: 0.7; }
+  75%  { transform: rotateX(270deg) rotateY(135deg) rotateZ(90deg)  translateZ(-60px); opacity: 0.9; }
+  100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(120deg) translateZ(0px);   opacity: 0.7; }
 }
 
 .menu-section > *:not(.menu-bg) {

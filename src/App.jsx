@@ -857,8 +857,6 @@ export default function App() {
       <header className="hero">
         <video className="hero-dance" src={danceVideo} autoPlay loop muted playsInline />
         <div className="hero-overlay">
-          <p className="hero-sub">San Antonio's Boldest Cookies, Rolls, Muffins &amp; More</p>
-          <h1 className="hero-headline">The Best Dough Fa Sho!</h1>
           <a href="#menu" className="hero-order-btn">Order Now 🍪</a>
         </div>
       </header>
