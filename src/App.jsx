@@ -877,7 +877,6 @@ export default function App() {
                 className={`dough-tab ${doughTab === tab ? 'active' : ''}`}
                 onClick={() => setDoughTab(tab)}
               >
-                <span className="tab-icon">{{ Cookies: '🍪', Muffins: '🧁', 'Pop Tarts': '🫓', Rolls: '🌀', Pies: '🥧' }[tab]}</span>
                 {tab}
               </button>
             ))}
@@ -887,7 +886,7 @@ export default function App() {
               className={`dough-tab ${doughTab === 'Specials' ? 'active' : ''}`}
               onClick={() => setDoughTab('Specials')}
             >
-              <span className="tab-icon">⚡</span> Specials
+              Specials
             </button>
           </div>
           <div className="cookie-grid">
