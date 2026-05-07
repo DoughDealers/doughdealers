@@ -508,7 +508,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [address, setAddress] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [payLoading, setPayLoading] = useState(false)
   const [feeLoading, setFeeLoading] = useState(false)
   const [distanceMiles, setDistanceMiles] = useState(null)
   const [feeError, setFeeError] = useState('')
@@ -612,31 +612,43 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    setPayLoading(true)
+
     const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0)
     const tax = subtotal * 0.0825
     const total = subtotal + tax + deliveryFee
     const orderLines = cart.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`).join('\n')
-    const body = {
-      _subject: `New Dough Dealers Order — ${method === 'pickup' ? 'Pickup' : 'Delivery'}`,
-      Name: name,
-      Email: email,
-      Phone: phone,
-      Method: method === 'pickup' ? 'Pickup' : 'Delivery',
-      Date: date,
-      Time: time,
-      ...(method === 'delivery' && { Address: address, 'Distance': `${distanceMiles?.toFixed(1)} mi`, 'Delivery Fee': `$${deliveryFee.toFixed(2)}` }),
-      'Order Items': orderLines || '(no items)',
-      Subtotal: `$${subtotal.toFixed(2)}`,
-      'Tax (8.25%)': `$${tax.toFixed(2)}`,
-      Total: `$${total.toFixed(2)}`,
+
+    // Save order details so the success page can send the confirmation email
+    localStorage.setItem('dd_pending_order', JSON.stringify({
+      name, email, phone, method, date, time,
+      address: address || '',
+      distanceMiles: distanceMiles ?? null,
+      deliveryFee, subtotal, tax, total, orderLines,
+    }))
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cart,
+          customer: { name, email, phone, date, time, address },
+          method,
+          deliveryFee,
+        }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert(data.error || 'Payment setup failed. Please try again.')
+        setPayLoading(false)
+      }
+    } catch {
+      alert('Something went wrong. Please try again.')
+      setPayLoading(false)
     }
-    await fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(body),
-    }).catch(() => {})
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 4000)
   }
 
   return (
@@ -724,10 +736,9 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
         </div>
       )}
 
-      {submitted
-        ? <div className="schedule-confirm">✅ Order scheduled! We'll see you {method === 'delivery' ? 'at your door' : 'at the store'}.</div>
-        : <button type="submit" className="schedule-submit">Confirm {method === 'pickup' ? 'Pickup' : 'Delivery'}</button>
-      }
+      <button type="submit" className="schedule-submit" disabled={payLoading}>
+        {payLoading ? '⏳ Redirecting to payment…' : `🔒 Pay for ${method === 'pickup' ? 'Pickup' : 'Delivery'}`}
+      </button>
     </form>
   )
 }
@@ -741,6 +752,54 @@ export default function App() {
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(false)
   const audioRef = useRef(null)
+  const [paymentStatus, setPaymentStatus] = useState(null) // 'success' | 'cancel' | null
+  const [confirmedOrder, setConfirmedOrder] = useState(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const payment = params.get('payment')
+    if (payment === 'success') {
+      window.history.replaceState({}, '', '/')
+      const raw = localStorage.getItem('dd_pending_order')
+      if (raw) {
+        try {
+          const order = JSON.parse(raw)
+          setConfirmedOrder(order)
+          localStorage.removeItem('dd_pending_order')
+          // Send order confirmation email
+          const emailBody = {
+            _subject: `✅ PAID — Dough Dealers Order (${order.method === 'pickup' ? 'Pickup' : 'Delivery'})`,
+            Name: order.name,
+            Email: order.email,
+            Phone: order.phone,
+            Method: order.method === 'pickup' ? 'Pickup' : 'Delivery',
+            Date: order.date,
+            Time: order.time,
+            ...(order.method === 'delivery' && {
+              Address: order.address,
+              ...(order.distanceMiles != null && { Distance: `${Number(order.distanceMiles).toFixed(1)} mi` }),
+              'Delivery Fee': `$${Number(order.deliveryFee).toFixed(2)}`,
+            }),
+            'Order Items': order.orderLines || '(no items)',
+            Subtotal: `$${Number(order.subtotal).toFixed(2)}`,
+            'Tax (8.25%)': `$${Number(order.tax).toFixed(2)}`,
+            Total: `$${Number(order.total).toFixed(2)}`,
+            'Payment Status': '✅ Paid via Stripe',
+          }
+          fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(emailBody),
+          }).catch(() => {})
+        } catch {}
+      }
+      setPaymentStatus('success')
+    } else if (payment === 'cancel') {
+      window.history.replaceState({}, '', '/')
+      setPaymentStatus('cancel')
+      setTimeout(() => setPaymentStatus(null), 5000)
+    }
+  }, [])
 
   function togglePlay() {
     const audio = audioRef.current
@@ -937,6 +996,37 @@ export default function App() {
       <footer className="footer">
         <span>🍪 Dough Dealers — Baked with love</span>
       </footer>
+
+      {paymentStatus === 'success' && (
+        <div className="pay-modal-overlay">
+          <div className="pay-modal">
+            <div className="pay-modal-icon">🎉</div>
+            <h2 className="pay-modal-title">Order Confirmed!</h2>
+            <p className="pay-modal-sub">
+              Payment received — we'll see you {confirmedOrder?.method === 'delivery' ? 'at your door' : 'at the store'}!
+            </p>
+            {confirmedOrder && (
+              <div className="pay-modal-details">
+                <div className="pay-modal-row"><span>Name</span><strong>{confirmedOrder.name}</strong></div>
+                <div className="pay-modal-row"><span>Date</span><strong>{confirmedOrder.date} at {confirmedOrder.time}</strong></div>
+                <div className="pay-modal-row"><span>Method</span><strong>{confirmedOrder.method === 'pickup' ? '🏪 Pickup' : '🚗 Delivery'}</strong></div>
+                <div className="pay-modal-row"><span>Total</span><strong>${Number(confirmedOrder.total).toFixed(2)}</strong></div>
+              </div>
+            )}
+            <p className="pay-modal-note">A confirmation receipt was sent to {confirmedOrder?.email}.</p>
+            <button className="pay-modal-close" onClick={() => { setPaymentStatus(null); setCart([]) }}>
+              Back to Menu
+            </button>
+          </div>
+        </div>
+      )}
+
+      {paymentStatus === 'cancel' && (
+        <div className="pay-cancel-toast">
+          Payment cancelled — your cart is still saved.
+          <button onClick={() => setPaymentStatus(null)}>✕</button>
+        </div>
+      )}
 
       {cartOpen && (
         <CartDrawer
