@@ -877,7 +877,7 @@ export default function App() {
                 className={`dough-tab ${doughTab === tab ? 'active' : ''}`}
                 onClick={() => setDoughTab(tab)}
               >
-                <span className="tab-icon">{{ Cookies: '🍪', Muffins: '🧁', 'Pop Tarts': '🥧', Rolls: '🌀', Pies: '🥧' }[tab]}</span>
+                <span className="tab-icon">{{ Cookies: '🍪', Muffins: '🧁', 'Pop Tarts': '🫓', Rolls: '🌀', Pies: '🥧' }[tab]}</span>
                 {tab}
               </button>
             ))}
