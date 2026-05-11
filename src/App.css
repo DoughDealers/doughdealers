@@ -280,7 +280,7 @@
 
 /* ── Intro ── */
 .intro-section {
-  padding: 60px 48px;
+  padding: 30px 48px;
   background: #1a1a1a;
   text-align: center;
 }
@@ -1635,5 +1635,7 @@
   .cookie-card p { font-size: 0.75rem; }
 
   .intro-text { font-size: 1rem; }
+
+  .intro-section { padding: 30px 24px; }
 
 }
