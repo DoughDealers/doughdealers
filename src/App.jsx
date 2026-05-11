@@ -137,7 +137,7 @@ const DOUGH_ITEMS = {
     { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', images: GOLDENGRIND_IMAGES },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
     { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
-    { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Regular', 'Frosting'], variantVideos: { Regular: cinnaBombVideo, Frosting: cinnaBombFrostingVideo }, noNugs: true },
+    { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, noNugs: true },
     { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
     { id: 22, name: 'Midnight Crunch',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', images: BLACKOUTBITES_IMAGES, noNugs: true },
     { id: 23, name: 'Berry Bliss',      price: 5.00, emoji: '🍓', description: 'Buttery cookie with raspberries and creamy macadamia nuts.' },
