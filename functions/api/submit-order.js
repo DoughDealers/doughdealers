@@ -40,9 +40,12 @@ export async function onRequestPost({ request, env }) {
       <table width="580" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;width:100%;">
 
         <!-- Logo -->
-        <tr><td align="center" style="padding-bottom:32px;">
-          <img src="https://thedoughdealers.com/logowhite.png" alt="Dough Dealers" width="180" style="display:block;max-width:180px;height:auto;" />
-        </td></tr>
+        <tr>
+          <td bgcolor="#111111" align="center" style="background-color:#111111;padding:24px;border-radius:12px;">
+            <img src="https://thedoughdealers.com/logowhite.png" alt="Dough Dealers" width="180" style="display:block;max-width:180px;height:auto;" />
+          </td>
+        </tr>
+        <tr><td height="16"></td></tr>
 
         <!-- Hero message -->
         <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;">
