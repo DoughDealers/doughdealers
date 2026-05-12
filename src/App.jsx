@@ -923,7 +923,7 @@ export default function App() {
       <header className="hero">
         <video className="hero-dance" src={danceVideo} autoPlay loop muted playsInline />
         <div className="hero-overlay">
-          <a href="#menu" className="hero-order-btn">Order Now 🍪</a>
+          <a href="#menu" className="hero-order-btn">Order Now</a>
         </div>
       </header>
 
