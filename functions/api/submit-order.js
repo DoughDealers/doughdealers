@@ -32,17 +32,14 @@ export async function onRequestPost({ request, env }) {
 
     <!-- Header -->
     <div style="text-align:center;margin-bottom:32px;">
-      <div style="font-size:2.8rem;font-weight:900;color:#c8a96e;letter-spacing:3px;line-height:1;">DOUGH DEALERS</div>
-      <div style="color:#666;font-size:0.85rem;margin-top:6px;letter-spacing:1px;">THE BEST DOUGH FA SHO 🍪</div>
+      <img src="https://thedoughdealers.com/logowhite.png" alt="Dough Dealers" style="max-width:200px;height:auto;" />
     </div>
 
     <!-- Hero message -->
     <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:20px;">
-      <div style="font-size:1.6rem;font-weight:800;color:#c8a96e;margin-bottom:12px;">Yooo ${customer.name}! 🔥</div>
+      <div style="font-size:1.4rem;font-weight:800;color:#c8a96e;margin-bottom:12px;">Hey ${customer.name}!</div>
       <p style="color:#d4c5a9;line-height:1.75;margin:0;font-size:1rem;">
-        Your order just landed with the crew and we are already hyped.
-        Sit tight — we'll hit you back to lock everything in.
-        In the meantime, your receipt is right here below. Stay fresh! 💪
+        Your order just landed with the crew. In the meantime, your receipt is right here below. Thanks for choosing Dough Dealers!
       </p>
     </div>
 
