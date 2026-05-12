@@ -190,8 +190,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const TAX_RATE = 0.0825
   const tax = subtotal * TAX_RATE
-  const processingFee = Math.round((subtotal + tax + deliveryFee) * 0.03 * 100) / 100
-  const total = subtotal + tax + deliveryFee + processingFee
+  const total = subtotal + tax + deliveryFee
 
   return (
     <div className="cart-overlay" onClick={onClose}>
@@ -221,7 +220,6 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
               {deliveryFee > 0 && (
                 <div className="cart-tax">Delivery Fee: <strong>${deliveryFee.toFixed(2)}</strong></div>
               )}
-              <div className="cart-tax">Processing Fee (3%): <strong>${processingFee.toFixed(2)}</strong></div>
               <div className="cart-total">Total: <strong>${total.toFixed(2)}</strong></div>
               <button className="clear-btn" onClick={onClear}>Clear Cart</button>
             </div>
@@ -253,7 +251,6 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                   <ScheduleForm
                     cart={cart}
                     deliveryFee={deliveryFee}
-                    processingFee={processingFee}
                     onDeliveryFeeChange={setDeliveryFee}
                     onSuccess={details => onOrderConfirmed(details)}
                   />
@@ -531,7 +528,7 @@ function calcDeliveryFee(miles) {
   return null
 }
 
-function ScheduleForm({ cart = [], deliveryFee = 0, processingFee = 0, onDeliveryFeeChange, onSuccess }) {
+function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSuccess }) {
   const [method, setMethod] = useState('pickup')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -647,16 +644,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, processingFee = 0, onDeliver
     setPayLoading(true)
 
     try {
-      // Save full order so PaymentConfirmPage can send the confirmation email after Stripe redirects back
-      sessionStorage.setItem('dd_order', JSON.stringify({
-        cart,
-        customer: { name, email, phone, date, time, address },
-        method,
-        deliveryFee,
-        processingFee,
-      }))
-
-      const res = await fetch('/api/checkout', {
+      const res = await fetch('/api/submit-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -664,12 +652,13 @@ function ScheduleForm({ cart = [], deliveryFee = 0, processingFee = 0, onDeliver
           customer: { name, email, phone, date, time, address },
           method,
           deliveryFee,
-          processingFee,
         }),
       })
       const data = await res.json()
-      if (data.url) {
-        window.location.href = data.url
+      if (data.success) {
+        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee }))
+        const p = new URLSearchParams({ confirmed: '1', date, time, method })
+        window.location.href = `/?${p.toString()}`
       } else {
         alert(data.error || 'Something went wrong. Please try again.')
         setPayLoading(false)
@@ -766,70 +755,9 @@ function ScheduleForm({ cart = [], deliveryFee = 0, processingFee = 0, onDeliver
       )}
 
       <button type="submit" className="schedule-submit" disabled={payLoading}>
-        {payLoading ? '⏳ Redirecting to payment…' : '🔒 Pay & Submit Order'}
+        {payLoading ? '⏳ Sending your order…' : '🍪 Submit Order'}
       </button>
     </form>
-  )
-}
-
-function PaymentConfirmPage() {
-  const params = new URLSearchParams(window.location.search)
-  const sessionId = params.get('session_id')
-  const [status, setStatus] = useState('loading') // 'loading' | 'error'
-  const [errorMsg, setErrorMsg] = useState('')
-
-  useEffect(() => {
-    if (!sessionId) {
-      setStatus('error')
-      setErrorMsg('No session ID found.')
-      return
-    }
-
-    const saved = JSON.parse(sessionStorage.getItem('dd_order') || '{}')
-    const { cart = [], customer = {}, method = 'pickup', deliveryFee = 0, processingFee = 0 } = saved
-
-    fetch('/api/confirm-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId, cart, deliveryFee, processingFee }),
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          sessionStorage.removeItem('dd_order')
-          const p = new URLSearchParams({
-            confirmed: '1',
-            date: customer.date || '',
-            time: customer.time || '',
-            method,
-          })
-          window.location.href = `/?${p.toString()}`
-        } else {
-          setStatus('error')
-          setErrorMsg(data.error || 'Something went wrong.')
-        }
-      })
-      .catch(() => {
-        setStatus('error')
-        setErrorMsg('Something went wrong. Please contact us.')
-      })
-  }, [])
-
-  if (status === 'error') {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Arial, sans-serif', padding: '40px 24px', textAlign: 'center' }}>
-        <p style={{ color: '#c8a96e', fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>Something went wrong</p>
-        <p style={{ color: '#666', marginBottom: '24px' }}>{errorMsg}</p>
-        <a href="/" style={{ color: '#c8a96e', textDecoration: 'none', fontWeight: 700 }}>← Back to Dough Dealers</a>
-      </div>
-    )
-  }
-
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Arial, sans-serif', padding: '40px 24px', textAlign: 'center' }}>
-      <p style={{ color: '#c8a96e', fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>Processing your order…</p>
-      <p style={{ color: '#666' }}>Please don't close this page.</p>
-    </div>
   )
 }
 
@@ -914,7 +842,6 @@ function OrderConfirmedPage() {
 export default function App() {
   const params = new URLSearchParams(window.location.search)
   if (params.get('confirmed') === '1') return <OrderConfirmedPage />
-  if (params.get('payment') === 'success' && params.get('session_id')) return <PaymentConfirmPage />
 
   const isCartPreview = params.get('preview') === 'cart'
   const [cart, setCart] = useState(isCartPreview ? [{ id: 1, name: 'Chip Drip – Nutella (Chunks)', price: 5, qty: 6 }] : [])
