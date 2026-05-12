@@ -259,8 +259,8 @@ function MerchCard({ item, onAdd }) {
           >{s}</button>
         ))}
       </div>
-      <button className="shop-btn merch-shop" onClick={() => onAdd({ ...item, name: `${item.name} (${size})`, price, emoji: '👕', qty: 1 })}>
-        Add to Cart
+      <button className="item-btn merch-shop" onClick={() => onAdd({ ...item, name: `${item.name} (${size})`, price, emoji: '👕', qty: 1 })}>
+        Add
       </button>
     </div>
   )
@@ -415,7 +415,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
           </div>
           <span className="price">${totalPrice.toFixed(2)}</span>
         </div>
-        <button className="shop-btn" onClick={handleAdd}>Add to Cart</button>
+        <button className="item-btn" onClick={handleAdd}>Add</button>
       </div>
     </div>
   )
@@ -667,7 +667,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
       </div>
       <div className="schedule-field">
         <label>Email Address</label>
-        <input type="email" placeholder="jane@example.com" value={email} onChange={e => setEmail(e.target.value)} required />
+        <input type="email" placeholder="jane@example.com" value={email} onChange={e => setEmail(e.target.value)} onBlur={e => setEmail(e.target.value)} autoComplete="email" required />
       </div>
 
       <p className="schedule-section-label">Order Details</p>

@@ -669,7 +669,7 @@
   color: #111111;
 }
 
-.shop-btn {
+.item-btn {
   background: var(--brown);
   color: var(--white);
   border: none;
@@ -682,7 +682,7 @@
   transition: background 0.2s;
 }
 
-.shop-btn:hover { background: #444444; }
+.item-btn:hover { background: #444444; }
 
 .added-toast {
   position: absolute;
