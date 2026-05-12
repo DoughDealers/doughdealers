@@ -40,7 +40,7 @@ export async function onRequestPost({ request, env }) {
     <!-- Full-width logo banner -->
     <tr>
       <td bgcolor="#111111" align="center" style="background-color:#111111;padding:0;margin:0;">
-        <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:auto;" />
+        <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="290" style="display:block;width:50%;max-width:290px;height:auto;" />
       </td>
     </tr>
 
