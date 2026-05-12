@@ -228,7 +228,13 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
             <div className="cart-schedule">
               {orderConfirmed ? (
                 <>
-                  <h3 className="cart-schedule-title" style={{ textAlign: 'center' }}>Your Scheduled Order</h3>
+                  <ScheduleForm
+                    cart={cart}
+                    deliveryFee={deliveryFee}
+                    onDeliveryFeeChange={setDeliveryFee}
+                    onSuccess={details => setOrderConfirmed(details)}
+                  />
+                  <h3 className="cart-schedule-title" style={{ textAlign: 'center', marginTop: '24px' }}>Your Scheduled Order</h3>
                   <p className="cart-schedule-sub" style={{ textAlign: 'center' }}>
                     📅 {orderConfirmed.date} at {(() => { const [h, m] = orderConfirmed.time.split(':'); const hr = parseInt(h); return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}` })()}
                   </p>
@@ -240,14 +246,14 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
                 <>
                   <h3 className="cart-schedule-title">Schedule Your Order</h3>
                   <p className="cart-schedule-sub">Pick a date and how you want it.</p>
+                  <ScheduleForm
+                    cart={cart}
+                    deliveryFee={deliveryFee}
+                    onDeliveryFeeChange={setDeliveryFee}
+                    onSuccess={details => setOrderConfirmed(details)}
+                  />
                 </>
               )}
-              <ScheduleForm
-                cart={cart}
-                deliveryFee={deliveryFee}
-                onDeliveryFeeChange={setDeliveryFee}
-                onSuccess={details => setOrderConfirmed(details)}
-              />
             </div>
           </>
         )}
