@@ -12,6 +12,13 @@ export async function onRequestPost({ request, env }) {
 
     const methodLabel = method === 'pickup' ? '🏪 Pickup' : '🚗 Delivery'
 
+    const formatTime = t => {
+      const [h, m] = t.split(':')
+      const hr = parseInt(h)
+      return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}`
+    }
+    const displayTime = formatTime(customer.time)
+
     // ── Order rows for customer email ──────────────────────────────────────
     const orderRows = cart.map(i => `
       <tr>
@@ -46,7 +53,7 @@ export async function onRequestPost({ request, env }) {
 
     <!-- Full-width logo banner -->
     <tr>
-      <td class="logo-banner" width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:0;margin:0;">
+      <td class="logo-banner" width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:48px 0;margin:0;">
         <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:auto;filter:none;" />
       </td>
     </tr>
@@ -101,7 +108,7 @@ export async function onRequestPost({ request, env }) {
         <!-- Order details -->
         <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
           <p style="margin:0 0 16px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">Order Details</p>
-          <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${customer.date}</strong> at <strong style="color:#f0e8d5;">${customer.time}</strong></p>
+          <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${customer.date}</strong> at <strong style="color:#f0e8d5;">${displayTime}</strong></p>
           <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📦 <strong style="color:#f0e8d5;">${methodLabel}</strong></p>
           ${method === 'delivery' ? `<p style="margin:0;color:#d4c5a9;font-size:0.95rem;">📍 <strong style="color:#f0e8d5;">${customer.address}</strong></p>` : ''}
         </td></tr>
@@ -134,14 +141,14 @@ export async function onRequestPost({ request, env }) {
 <body style="font-family:Arial,sans-serif;background:#f9f9f9;padding:32px;">
   <div style="max-width:520px;margin:0 auto;background:#fff;border-radius:12px;padding:32px;border:1px solid #e0e0e0;">
     <h2 style="margin:0 0 4px;color:#1a1a1a;">🔔 New Order</h2>
-    <p style="color:#888;margin:0 0 24px;font-size:0.9rem;">${methodLabel} · ${customer.date} at ${customer.time}</p>
+    <p style="color:#888;margin:0 0 24px;font-size:0.9rem;">${methodLabel} · ${customer.date} at ${displayTime}</p>
 
     <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
       <tr><td style="padding:6px 0;color:#555;width:120px;">Name</td><td style="font-weight:600;">${customer.name}</td></tr>
       <tr><td style="padding:6px 0;color:#555;">Email</td><td>${customer.email}</td></tr>
       <tr><td style="padding:6px 0;color:#555;">Phone</td><td>${customer.phone}</td></tr>
       <tr><td style="padding:6px 0;color:#555;">Method</td><td>${methodLabel}</td></tr>
-      <tr><td style="padding:6px 0;color:#555;">Date</td><td>${customer.date} at ${customer.time}</td></tr>
+      <tr><td style="padding:6px 0;color:#555;">Date</td><td>${customer.date} at ${displayTime}</td></tr>
       ${method === 'delivery' ? `<tr><td style="padding:6px 0;color:#555;">Address</td><td>${customer.address}</td></tr>` : ''}
     </table>
 
