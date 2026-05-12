@@ -1,0 +1,179 @@
+export async function onRequestPost({ request, env }) {
+  try {
+    const { cart, customer, method, deliveryFee } = await request.json()
+
+    if (!env.RESEND_API_KEY) {
+      return json({ error: 'Email service not configured.' }, 500)
+    }
+
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
+    const tax      = subtotal * 0.0825
+    const total    = subtotal + tax + deliveryFee
+
+    const methodLabel = method === 'pickup' ? '🏪 Pickup' : '🚗 Delivery'
+
+    // ── Order rows for customer email ──────────────────────────────────────
+    const orderRows = cart.map(i => `
+      <tr>
+        <td style="padding:10px 0;border-bottom:1px solid #2a2a2a;color:#d4c5a9;">
+          ${i.name}${i.variant ? ` <span style="color:#888;font-size:0.85em;">(${i.variant})</span>` : ''}
+        </td>
+        <td style="padding:10px 0;border-bottom:1px solid #2a2a2a;text-align:center;color:#888;">x${i.qty}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #2a2a2a;text-align:right;color:#d4c5a9;">$${(i.price * i.qty).toFixed(2)}</td>
+      </tr>`).join('')
+
+    // ── Customer confirmation email ────────────────────────────────────────
+    const customerHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#111;font-family:Arial,sans-serif;">
+  <div style="max-width:580px;margin:0 auto;padding:40px 20px;">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-size:2.8rem;font-weight:900;color:#c8a96e;letter-spacing:3px;line-height:1;">DOUGH DEALERS</div>
+      <div style="color:#666;font-size:0.85rem;margin-top:6px;letter-spacing:1px;">THE BEST DOUGH FA SHO 🍪</div>
+    </div>
+
+    <!-- Hero message -->
+    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:20px;">
+      <div style="font-size:1.6rem;font-weight:800;color:#c8a96e;margin-bottom:12px;">Yooo ${customer.name}! 🔥</div>
+      <p style="color:#d4c5a9;line-height:1.75;margin:0;font-size:1rem;">
+        Your order just landed with the crew and we are already hyped.
+        Sit tight — we'll hit you back to lock everything in.
+        In the meantime, your receipt is right here below. Stay fresh! 💪
+      </p>
+    </div>
+
+    <!-- Order items -->
+    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:20px;">
+      <div style="font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;">Your Order</div>
+      <table style="width:100%;border-collapse:collapse;">
+        ${orderRows}
+      </table>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #333;">
+        <div style="display:flex;justify-content:space-between;color:#888;margin-bottom:8px;font-size:0.9rem;">
+          <span>Subtotal</span><span>$${subtotal.toFixed(2)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;color:#888;margin-bottom:8px;font-size:0.9rem;">
+          <span>Tax (8.25%)</span><span>$${tax.toFixed(2)}</span>
+        </div>
+        ${deliveryFee > 0 ? `
+        <div style="display:flex;justify-content:space-between;color:#888;margin-bottom:8px;font-size:0.9rem;">
+          <span>Delivery Fee</span><span>$${deliveryFee.toFixed(2)}</span>
+        </div>` : ''}
+        <div style="display:flex;justify-content:space-between;color:#c8a96e;font-size:1.1rem;font-weight:800;margin-top:12px;padding-top:12px;border-top:1px solid #2a2a2a;">
+          <span>Total</span><span>$${total.toFixed(2)}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:32px;">
+      <div style="font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">Order Details</div>
+      <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${customer.date}</strong> at <strong style="color:#f0e8d5;">${customer.time}</strong></p>
+      <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📦 <strong style="color:#f0e8d5;">${methodLabel}</strong></p>
+      ${method === 'delivery' ? `<p style="margin:0;color:#d4c5a9;font-size:0.95rem;">📍 <strong style="color:#f0e8d5;">${customer.address}</strong></p>` : ''}
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;">
+      <p style="color:#444;font-size:0.8rem;margin:0 0 4px;">
+        Questions? Hit us at
+        <a href="mailto:Info@thedoughdealers.com" style="color:#c8a96e;text-decoration:none;">Info@thedoughdealers.com</a>
+      </p>
+      <p style="color:#333;font-size:0.75rem;margin:0;">© 2025 Dough Dealers · All rights reserved.</p>
+    </div>
+
+  </div>
+</body>
+</html>`
+
+    // ── Business notification email ────────────────────────────────────────
+    const orderLinesText = cart
+      .map(i => `${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`)
+      .join('<br>')
+
+    const businessHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<body style="font-family:Arial,sans-serif;background:#f9f9f9;padding:32px;">
+  <div style="max-width:520px;margin:0 auto;background:#fff;border-radius:12px;padding:32px;border:1px solid #e0e0e0;">
+    <h2 style="margin:0 0 4px;color:#1a1a1a;">🔔 New Order</h2>
+    <p style="color:#888;margin:0 0 24px;font-size:0.9rem;">${methodLabel} · ${customer.date} at ${customer.time}</p>
+
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+      <tr><td style="padding:6px 0;color:#555;width:120px;">Name</td><td style="font-weight:600;">${customer.name}</td></tr>
+      <tr><td style="padding:6px 0;color:#555;">Email</td><td>${customer.email}</td></tr>
+      <tr><td style="padding:6px 0;color:#555;">Phone</td><td>${customer.phone}</td></tr>
+      <tr><td style="padding:6px 0;color:#555;">Method</td><td>${methodLabel}</td></tr>
+      <tr><td style="padding:6px 0;color:#555;">Date</td><td>${customer.date} at ${customer.time}</td></tr>
+      ${method === 'delivery' ? `<tr><td style="padding:6px 0;color:#555;">Address</td><td>${customer.address}</td></tr>` : ''}
+    </table>
+
+    <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
+    <h3 style="margin:0 0 12px;">Order Items</h3>
+    <p style="line-height:1.8;color:#333;">${orderLinesText}</p>
+
+    <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
+    <p style="margin:4px 0;color:#555;">Subtotal: <strong>$${subtotal.toFixed(2)}</strong></p>
+    <p style="margin:4px 0;color:#555;">Tax: <strong>$${tax.toFixed(2)}</strong></p>
+    ${deliveryFee > 0 ? `<p style="margin:4px 0;color:#555;">Delivery Fee: <strong>$${deliveryFee.toFixed(2)}</strong></p>` : ''}
+    <p style="margin:12px 0 0;font-size:1.1rem;color:#1a1a1a;">Total: <strong>$${total.toFixed(2)}</strong></p>
+  </div>
+</body>
+</html>`
+
+    // ── Send both emails via Resend ────────────────────────────────────────
+    const [custRes, bizRes] = await Promise.all([
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: 'Dough Dealers <Info@thedoughdealers.com>',
+          to: [customer.email],
+          subject: `🍪 Dough Fasho! We Got Your Order, ${customer.name}!`,
+          html: customerHtml,
+        }),
+      }),
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: 'Dough Dealers Orders <Info@thedoughdealers.com>',
+          to: ['Info@thedoughdealers.com'],
+          subject: `🔔 New Order — ${customer.name} — ${methodLabel} — ${customer.date}`,
+          html: businessHtml,
+        }),
+      }),
+    ])
+
+    if (!custRes.ok) {
+      const err = await custRes.text()
+      console.error('Resend customer email error:', err)
+      return json({ error: 'Failed to send confirmation email.' }, 500)
+    }
+
+    return json({ success: true })
+  } catch (err) {
+    return json({ error: 'Server error: ' + err.message }, 500)
+  }
+}
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  })
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+  })
+}
