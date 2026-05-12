@@ -656,6 +656,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
       })
       const data = await res.json()
       if (data.success) {
+        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee }))
         const p = new URLSearchParams({ confirmed: '1', date, time, method })
         window.location.href = `/?${p.toString()}`
       } else {
@@ -779,6 +780,12 @@ function OrderConfirmedPage() {
   const time   = params.get('time') || ''
   const method = params.get('method') || 'pickup'
 
+  const saved = JSON.parse(sessionStorage.getItem('dd_order') || '{"cart":[],"deliveryFee":0}')
+  const { cart, deliveryFee } = saved
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
+  const tax      = subtotal * 0.0825
+  const total    = subtotal + tax + deliveryFee
+
   const formatTime = t => {
     if (!t) return ''
     const [h, m] = t.split(':')
@@ -791,14 +798,40 @@ function OrderConfirmedPage() {
       <img src="/logowhite.png" alt="Dough Dealers" style={{ width: '140px', marginBottom: '32px', filter: 'invert(1)' }} />
 
       <div style={{ maxWidth: '420px', width: '100%', textAlign: 'center' }}>
-        <div style={{ fontSize: '3.5rem', marginBottom: '16px' }}>🍪</div>
 
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#c8a96e', margin: '0 0 12px' }}>Order Sent, Fasho!</h1>
-        <p style={{ color: '#555', lineHeight: 1.7, fontSize: '1.05rem', margin: '0 0 32px' }}>
-          You just made the sweetest deal, fa sho.<br />
-          We'll reach out to confirm soon!
-        </p>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#c8a96e', margin: '0 0 8px' }}>You just made the sweetest deal, fa sho.</h1>
+        <p style={{ color: '#888', fontSize: '0.95rem', margin: '0 0 28px' }}>We'll reach out to confirm soon!</p>
 
+        {/* Order items */}
+        {cart.length > 0 && (
+          <div style={{ background: '#f7f4f0', borderRadius: '12px', padding: '24px', marginBottom: '16px', textAlign: 'left' }}>
+            <p style={{ margin: '0 0 14px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c8a96e' }}>Your Order</p>
+            {cart.map((item, i) => (
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #e8e0d8' }}>
+                <span style={{ color: '#333', fontSize: '0.95rem' }}>{item.name} <span style={{ color: '#999' }}>x{item.qty}</span></span>
+                <span style={{ color: '#333', fontWeight: 600, fontSize: '0.95rem' }}>${(item.price * item.qty).toFixed(2)}</span>
+              </div>
+            ))}
+            <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #d4c5a9' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', fontSize: '0.88rem', marginBottom: '4px' }}>
+                <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', fontSize: '0.88rem', marginBottom: '4px' }}>
+                <span>Tax (8.25%)</span><span>${tax.toFixed(2)}</span>
+              </div>
+              {deliveryFee > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', fontSize: '0.88rem', marginBottom: '4px' }}>
+                  <span>Delivery Fee</span><span>${deliveryFee.toFixed(2)}</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#c8a96e', fontWeight: 800, fontSize: '1rem', marginTop: '8px' }}>
+                <span>Total</span><span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Scheduled order */}
         <div style={{ background: '#f7f4f0', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
           <p style={{ margin: '0 0 6px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c8a96e' }}>Scheduled Order</p>
           <p style={{ margin: '8px 0 4px', color: '#333', fontWeight: 600, fontSize: '1rem' }}>{date} at {formatTime(time)}</p>
