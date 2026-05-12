@@ -1,6 +1,6 @@
 export async function onRequestPost({ request, env }) {
   try {
-    const { cart, customer, method, deliveryFee } = await request.json()
+    const { cart, customer, method, deliveryFee, processingFee = 0 } = await request.json()
 
     if (!env.STRIPE_SECRET_KEY) {
       return json({ error: 'Payment not configured.' }, 500)
@@ -37,16 +37,26 @@ export async function onRequestPost({ request, env }) {
       body.append(`line_items[${idx}][price_data][product_data][name]`, 'Delivery Fee')
       body.append(`line_items[${idx}][price_data][unit_amount]`, String(Math.round(deliveryFee * 100)))
       body.append(`line_items[${idx}][quantity]`, '1')
+      idx++
+    }
+
+    // Processing fee line item
+    if (processingFee > 0) {
+      body.append(`line_items[${idx}][price_data][currency]`, 'usd')
+      body.append(`line_items[${idx}][price_data][product_data][name]`, 'Processing Fee (3%)')
+      body.append(`line_items[${idx}][price_data][unit_amount]`, String(Math.round(processingFee * 100)))
+      body.append(`line_items[${idx}][quantity]`, '1')
     }
 
     body.append('mode', 'payment')
     body.append('customer_email', customer.email)
-    body.append('success_url', `${origin}/?payment=success`)
+    body.append('success_url', `${origin}/?payment=success&session_id={CHECKOUT_SESSION_ID}`)
     body.append('cancel_url', `${origin}/?payment=cancel`)
     body.append('payment_intent_data[description]', `Dough Dealers — ${method === 'pickup' ? 'Pickup' : 'Delivery'} on ${customer.date} at ${customer.time}`)
 
     // Order metadata (shown in Stripe dashboard)
     body.append('metadata[name]',   customer.name.slice(0, 500))
+    body.append('metadata[email]',  customer.email.slice(0, 500))
     body.append('metadata[phone]',  customer.phone.slice(0, 500))
     body.append('metadata[method]', method)
     body.append('metadata[date]',   customer.date)

@@ -164,7 +164,7 @@ const DOUGH_ITEMS = {
     { id: 30, name: 'Pecan',          price: 25, emoji: '🥧', description: 'Rich, buttery pecan filling with a hint of bourbon.' },
     { id: 31, name: 'Pumpkin',        price: 25, emoji: '🎃', description: 'Warmly spiced pumpkin custard in a flaky pie shell.' },
     { id: 32, name: 'Key Lime',       price: 25, emoji: '🍋', description: 'Tangy key lime custard in a toasted graham cracker crust.' },
-    { id: 40, name: 'Chocolate',      price: 25, emoji: '🍫', description: 'Dark chocolate Oreo crust with a light and dark chocolate mousse, topped with whipped cream and chocolate shavings.' },
+    { id: 40, name: 'Chocolate',      price: 25, emoji: '🍫', description: 'Dark chocolate Oreo crust with a light and dark chocolate mousse, topped with whipped cream\nand chocolate shavings.' },
   ],
   Rolls: [
     { id: 33, name: 'Original',    price: 35, emoji: '🌀', description: 'Classic soft dough rolled in warm cinnamon sugar, finished with a silky cream cheese frosting.' },
@@ -190,7 +190,8 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const TAX_RATE = 0.0825
   const tax = subtotal * TAX_RATE
-  const total = subtotal + tax + deliveryFee
+  const processingFee = Math.round((subtotal + tax + deliveryFee) * 0.03 * 100) / 100
+  const total = subtotal + tax + deliveryFee + processingFee
 
   return (
     <div className="cart-overlay" onClick={onClose}>
@@ -220,6 +221,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
               {deliveryFee > 0 && (
                 <div className="cart-tax">Delivery Fee: <strong>${deliveryFee.toFixed(2)}</strong></div>
               )}
+              <div className="cart-tax">Processing Fee (3%): <strong>${processingFee.toFixed(2)}</strong></div>
               <div className="cart-total">Total: <strong>${total.toFixed(2)}</strong></div>
               <button className="clear-btn" onClick={onClear}>Clear Cart</button>
             </div>
@@ -251,6 +253,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                   <ScheduleForm
                     cart={cart}
                     deliveryFee={deliveryFee}
+                    processingFee={processingFee}
                     onDeliveryFeeChange={setDeliveryFee}
                     onSuccess={details => onOrderConfirmed(details)}
                   />
@@ -401,7 +404,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
       }
       {!cookie.videoFirst && videoEl}
       <h3>{cookie.name}</h3>
-      <p>{(variant && cookie.variantDescriptions?.[variant]) || cookie.description}</p>
+      <p style={{ whiteSpace: 'pre-line' }}>{(variant && cookie.variantDescriptions?.[variant]) || cookie.description}</p>
 
       {cookie.variants && (
         <div className="variant-toggle">
@@ -528,7 +531,7 @@ function calcDeliveryFee(miles) {
   return null
 }
 
-function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSuccess }) {
+function ScheduleForm({ cart = [], deliveryFee = 0, processingFee = 0, onDeliveryFeeChange, onSuccess }) {
   const [method, setMethod] = useState('pickup')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -644,7 +647,16 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
     setPayLoading(true)
 
     try {
-      const res = await fetch('/api/submit-order', {
+      // Save full order so PaymentConfirmPage can send the confirmation email after Stripe redirects back
+      sessionStorage.setItem('dd_order', JSON.stringify({
+        cart,
+        customer: { name, email, phone, date, time, address },
+        method,
+        deliveryFee,
+        processingFee,
+      }))
+
+      const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -652,13 +664,12 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
           customer: { name, email, phone, date, time, address },
           method,
           deliveryFee,
+          processingFee,
         }),
       })
       const data = await res.json()
-      if (data.success) {
-        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee }))
-        const p = new URLSearchParams({ confirmed: '1', date, time, method })
-        window.location.href = `/?${p.toString()}`
+      if (data.url) {
+        window.location.href = data.url
       } else {
         alert(data.error || 'Something went wrong. Please try again.')
         setPayLoading(false)
@@ -667,19 +678,6 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
       alert('Something went wrong. Please try again.')
       setPayLoading(false)
     }
-  }
-
-  if (submitSuccess) {
-    return (
-      <div style={{ textAlign: 'center', padding: '40px 24px' }}>
-        <h2 style={{ color: 'var(--caramel)', marginBottom: '16px' }}>Order Sent, Fasho!</h2>
-        <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🍪</div>
-        <p style={{ color: 'var(--muted)', lineHeight: 1.6, fontSize: '1.1rem' }}>
-          You just made the sweetest deal, fa sho.<br />
-          We'll reach out to confirm soon!
-        </p>
-      </div>
-    )
   }
 
   return (
@@ -768,9 +766,70 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
       )}
 
       <button type="submit" className="schedule-submit" disabled={payLoading}>
-        {payLoading ? '⏳ Sending your order…' : `🍪 Submit Order`}
+        {payLoading ? '⏳ Redirecting to payment…' : '🔒 Pay & Submit Order'}
       </button>
     </form>
+  )
+}
+
+function PaymentConfirmPage() {
+  const params = new URLSearchParams(window.location.search)
+  const sessionId = params.get('session_id')
+  const [status, setStatus] = useState('loading') // 'loading' | 'error'
+  const [errorMsg, setErrorMsg] = useState('')
+
+  useEffect(() => {
+    if (!sessionId) {
+      setStatus('error')
+      setErrorMsg('No session ID found.')
+      return
+    }
+
+    const saved = JSON.parse(sessionStorage.getItem('dd_order') || '{}')
+    const { cart = [], customer = {}, method = 'pickup', deliveryFee = 0, processingFee = 0 } = saved
+
+    fetch('/api/confirm-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, cart, deliveryFee, processingFee }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          sessionStorage.removeItem('dd_order')
+          const p = new URLSearchParams({
+            confirmed: '1',
+            date: customer.date || '',
+            time: customer.time || '',
+            method,
+          })
+          window.location.href = `/?${p.toString()}`
+        } else {
+          setStatus('error')
+          setErrorMsg(data.error || 'Something went wrong.')
+        }
+      })
+      .catch(() => {
+        setStatus('error')
+        setErrorMsg('Something went wrong. Please contact us.')
+      })
+  }, [])
+
+  if (status === 'error') {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Arial, sans-serif', padding: '40px 24px', textAlign: 'center' }}>
+        <p style={{ color: '#c8a96e', fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>Something went wrong</p>
+        <p style={{ color: '#666', marginBottom: '24px' }}>{errorMsg}</p>
+        <a href="/" style={{ color: '#c8a96e', textDecoration: 'none', fontWeight: 700 }}>← Back to Dough Dealers</a>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Arial, sans-serif', padding: '40px 24px', textAlign: 'center' }}>
+      <p style={{ color: '#c8a96e', fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>Processing your order…</p>
+      <p style={{ color: '#666' }}>Please don't close this page.</p>
+    </div>
   )
 }
 
@@ -855,6 +914,7 @@ function OrderConfirmedPage() {
 export default function App() {
   const params = new URLSearchParams(window.location.search)
   if (params.get('confirmed') === '1') return <OrderConfirmedPage />
+  if (params.get('payment') === 'success' && params.get('session_id')) return <PaymentConfirmPage />
 
   const isCartPreview = params.get('preview') === 'cart'
   const [cart, setCart] = useState(isCartPreview ? [{ id: 1, name: 'Chip Drip – Nutella (Chunks)', price: 5, qty: 6 }] : [])
