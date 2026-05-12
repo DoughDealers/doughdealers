@@ -132,7 +132,7 @@ const BERRYCROWN_IMAGES = [bc1, bc4, bc3]
 
 const DOUGH_ITEMS = {
   Cookies: [
-    { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variants: ['Regular', 'Nutella'], video: cdVideo, videoFirst: true, noNugsVariants: ['Nutella'] },
+    { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variantDescriptions: { Nutella: 'Soft-baked cookie dripping with rich chocolate chips, with gooey nutella filling.' }, variants: ['Regular', 'Nutella'], video: cdVideo, videoFirst: true, noNugsVariants: ['Nutella'] },
     { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo } },
     { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', images: GOLDENGRIND_IMAGES },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
@@ -390,7 +390,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
       }
       {!cookie.videoFirst && videoEl}
       <h3>{cookie.name}</h3>
-      <p>{cookie.description}</p>
+      <p>{(variant && cookie.variantDescriptions?.[variant]) || cookie.description}</p>
 
       {cookie.variants && (
         <div className="variant-toggle">
