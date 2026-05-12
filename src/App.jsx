@@ -767,7 +767,14 @@ function OrderConfirmedPage() {
   const time   = params.get('time') || ''
   const method = params.get('method') || 'pickup'
 
-  const saved = JSON.parse(sessionStorage.getItem('dd_order') || '{"cart":[],"deliveryFee":0}')
+  const rawSaved = JSON.parse(sessionStorage.getItem('dd_order') || 'null')
+  const saved = rawSaved || {
+    cart: [
+      { name: 'Chip Drip – Nutella (Chunks)', price: 5, qty: 6 },
+      { name: 'Oatsession – Regular (Chunks)', price: 5, qty: 6 },
+    ],
+    deliveryFee: 0,
+  }
   const { cart, deliveryFee } = saved
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
   const tax      = subtotal * 0.0825
