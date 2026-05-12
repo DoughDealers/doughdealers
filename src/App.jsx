@@ -238,6 +238,11 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                   <p className="cart-schedule-sub" style={{ textAlign: 'center', marginTop: '-8px' }}>
                     {orderConfirmed.method === 'pickup' ? 'Pickup' : 'Delivery'}
                   </p>
+                  <p style={{ marginTop: '20px', fontSize: '0.78rem', color: '#aaa', lineHeight: 1.5, textAlign: 'center' }}>
+                    Using Outlook or Hotmail? Add{' '}
+                    <strong style={{ color: '#c8a96e' }}>orders@thedoughdealers.com</strong>{' '}
+                    to your contacts so your confirmation lands in your inbox.
+                  </p>
                 </div>
               ) : (
                 <>

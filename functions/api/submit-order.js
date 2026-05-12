@@ -117,6 +117,11 @@ export async function onRequestPost({ request, env }) {
 
         <!-- Footer -->
         <tr><td align="center">
+          <p style="color:#555;font-size:0.78rem;margin:0 0 8px;line-height:1.6;">
+            Using Outlook or Hotmail? Add
+            <a href="mailto:orders@thedoughdealers.com" style="color:#c8a96e;text-decoration:none;">orders@thedoughdealers.com</a>
+            to your contacts so our emails always reach you.
+          </p>
           <p style="color:#444;font-size:0.8rem;margin:0 0 4px;">
             Questions? Hit us at
             <a href="mailto:Info@thedoughdealers.com" style="color:#c8a96e;text-decoration:none;">Info@thedoughdealers.com</a>
