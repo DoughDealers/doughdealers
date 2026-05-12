@@ -39,8 +39,8 @@ export async function onRequestPost({ request, env }) {
 
     <!-- Full-width logo banner -->
     <tr>
-      <td width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:24px 0;margin:0;">
-        <img src="https://thedoughdealers.com/logowhite.png" alt="Dough Dealers" width="200" style="display:inline-block;width:200px;max-width:200px;height:auto;" />
+      <td width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:0;margin:0;">
+        <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:auto;" />
       </td>
     </tr>
 
