@@ -656,8 +656,8 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
       })
       const data = await res.json()
       if (data.success) {
-        setSubmitSuccess(true)
-        onSuccess?.({ date, time, method })
+        const p = new URLSearchParams({ confirmed: '1', date, time, method })
+        window.location.href = `/?${p.toString()}`
       } else {
         alert(data.error || 'Something went wrong. Please try again.')
         setPayLoading(false)
@@ -773,8 +773,57 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
   )
 }
 
+function OrderConfirmedPage() {
+  const params = new URLSearchParams(window.location.search)
+  const date   = params.get('date') || ''
+  const time   = params.get('time') || ''
+  const method = params.get('method') || 'pickup'
+
+  const formatTime = t => {
+    if (!t) return ''
+    const [h, m] = t.split(':')
+    const hr = parseInt(h)
+    return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}`
+  }
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', fontFamily: 'Arial, sans-serif' }}>
+      <img src="/logowhite.png" alt="Dough Dealers" style={{ width: '140px', marginBottom: '32px', filter: 'invert(1)' }} />
+
+      <div style={{ maxWidth: '420px', width: '100%', textAlign: 'center' }}>
+        <div style={{ fontSize: '3.5rem', marginBottom: '16px' }}>🍪</div>
+
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#c8a96e', margin: '0 0 12px' }}>Order Sent, Fasho!</h1>
+        <p style={{ color: '#555', lineHeight: 1.7, fontSize: '1.05rem', margin: '0 0 32px' }}>
+          You just made the sweetest deal, fa sho.<br />
+          We'll reach out to confirm soon!
+        </p>
+
+        <div style={{ background: '#f7f4f0', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
+          <p style={{ margin: '0 0 6px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c8a96e' }}>Scheduled Order</p>
+          <p style={{ margin: '8px 0 4px', color: '#333', fontWeight: 600, fontSize: '1rem' }}>{date} at {formatTime(time)}</p>
+          <p style={{ margin: 0, color: '#666', fontSize: '0.95rem' }}>{method === 'pickup' ? 'Pickup' : 'Delivery'}</p>
+        </div>
+
+        <p style={{ fontSize: '0.78rem', color: '#999', lineHeight: 1.6, margin: '0 0 32px' }}>
+          Using Outlook or Hotmail? Add{' '}
+          <strong style={{ color: '#c8a96e' }}>orders@thedoughdealers.com</strong>{' '}
+          to your contacts so your confirmation lands in your inbox.
+        </p>
+
+        <a href="/" style={{ display: 'inline-block', background: '#111', color: '#fff', padding: '12px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem' }}>
+          Back to Dough Dealers
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
-  const isCartPreview = new URLSearchParams(window.location.search).get('preview') === 'cart'
+  const params = new URLSearchParams(window.location.search)
+  if (params.get('confirmed') === '1') return <OrderConfirmedPage />
+
+  const isCartPreview = params.get('preview') === 'cart'
   const [cart, setCart] = useState(isCartPreview ? [{ id: 1, name: 'Chip Drip – Nutella (Chunks)', price: 5, qty: 6 }] : [])
   const [cartOpen, setCartOpen] = useState(isCartPreview)
   const [orderConfirmed, setOrderConfirmed] = useState(isCartPreview ? { date: 'Saturday, May 17', time: '14:30', method: 'pickup' } : null)
