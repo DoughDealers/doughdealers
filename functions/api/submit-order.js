@@ -53,12 +53,12 @@ export async function onRequestPost({ request, env }) {
 
     <!-- Full-width logo banner -->
     <tr>
-      <td class="logo-banner" width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:48px 0;margin:0;">
+      <td class="logo-banner" width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:0;margin:0;">
         <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:175px;object-fit:cover;object-position:center;filter:none;" />
       </td>
     </tr>
 
-    <tr><td align="center" bgcolor="#111111" style="background-color:#111111;padding:24px 20px 40px;">
+    <tr><td align="center" bgcolor="#111111" style="background-color:#111111;padding:12px 20px 40px;">
       <table width="580" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;width:100%;">
 
         <tr><td height="8"></td></tr>
