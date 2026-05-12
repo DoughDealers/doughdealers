@@ -165,27 +165,19 @@ export async function onRequestPost({ request, env }) {
       return json({ error: 'Failed to send confirmation email.' }, 500)
     }
 
-    // ── Send business notification via FormSubmit ──────────────────────────
+    // ── Send business notification via Resend → Gmail ─────────────────────
     const orderLinesPlain = cart
       .map(i => `${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`)
-      .join('\n')
+      .join('<br>')
 
-    await fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
+    await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        _subject: `🔔 New Order — ${customer.name} — ${methodLabel} — ${customer.date}`,
-        Name: customer.name,
-        Email: customer.email,
-        Phone: customer.phone,
-        Method: methodLabel,
-        Date: `${customer.date} at ${customer.time}`,
-        ...(method === 'delivery' && { Address: customer.address }),
-        'Order Items': orderLinesPlain,
-        Subtotal: `$${subtotal.toFixed(2)}`,
-        'Tax (8.25%)': `$${tax.toFixed(2)}`,
-        ...(deliveryFee > 0 && { 'Delivery Fee': `$${deliveryFee.toFixed(2)}` }),
-        Total: `$${total.toFixed(2)}`,
+        from: 'Dough Dealers Orders <orders@thedoughdealers.com>',
+        to: ['doughdealers08@gmail.com'],
+        subject: `🔔 New Order — ${customer.name} — ${methodLabel} — ${customer.date}`,
+        html: businessHtml,
       }),
     }).catch(() => {})
 
