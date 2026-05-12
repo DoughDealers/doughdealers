@@ -122,30 +122,18 @@ export async function onRequestPost({ request, env }) {
 </body>
 </html>`
 
-    // ── Send both emails via Resend ────────────────────────────────────────
-    const [custRes, bizRes] = await Promise.all([
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: 'Dough Dealers <orders@thedoughdealers.com>',
-          to: [customer.email],
-          reply_to: 'Info@thedoughdealers.com',
-          subject: `🍪 Dough Fasho! We Got Your Order, ${customer.name}!`,
-          html: customerHtml,
-        }),
+    // ── Send customer confirmation via Resend ─────────────────────────────
+    const custRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'Dough Dealers <orders@thedoughdealers.com>',
+        to: [customer.email],
+        reply_to: 'Info@thedoughdealers.com',
+        subject: `🍪 Dough Fasho! We Got Your Order, ${customer.name}!`,
+        html: customerHtml,
       }),
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: 'Dough Dealers Orders <orders@thedoughdealers.com>',
-          to: ['Info@thedoughdealers.com'],
-          subject: `🔔 New Order — ${customer.name} — ${methodLabel} — ${customer.date}`,
-          html: businessHtml,
-        }),
-      }),
-    ])
+    })
 
     if (!custRes.ok) {
       const err = await custRes.text()
@@ -153,10 +141,29 @@ export async function onRequestPost({ request, env }) {
       return json({ error: 'Failed to send confirmation email.' }, 500)
     }
 
-    if (!bizRes.ok) {
-      const err = await bizRes.text()
-      console.error('Resend business email error:', err)
-    }
+    // ── Send business notification via FormSubmit ──────────────────────────
+    const orderLinesPlain = cart
+      .map(i => `${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`)
+      .join('\n')
+
+    fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        _subject: `🔔 New Order — ${customer.name} — ${methodLabel} — ${customer.date}`,
+        Name: customer.name,
+        Email: customer.email,
+        Phone: customer.phone,
+        Method: methodLabel,
+        Date: `${customer.date} at ${customer.time}`,
+        ...(method === 'delivery' && { Address: customer.address }),
+        'Order Items': orderLinesPlain,
+        Subtotal: `$${subtotal.toFixed(2)}`,
+        'Tax (8.25%)': `$${tax.toFixed(2)}`,
+        ...(deliveryFee > 0 && { 'Delivery Fee': `$${deliveryFee.toFixed(2)}` }),
+        Total: `$${total.toFixed(2)}`,
+      }),
+    }).catch(() => {})
 
     return json({ success: true })
   } catch (err) {
