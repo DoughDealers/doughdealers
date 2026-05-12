@@ -231,12 +231,12 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                     You just made the sweetest deal, fa sho.<br />
                     We'll reach out to confirm soon!
                   </p>
-                  <h3 className="cart-schedule-title" style={{ textAlign: 'center', marginTop: '24px' }}>Your Scheduled Order</h3>
+                  <h3 className="cart-schedule-title" style={{ textAlign: 'center', marginTop: '24px' }}>Scheduled Order</h3>
                   <p className="cart-schedule-sub" style={{ textAlign: 'center' }}>
-                    📅 {orderConfirmed.date} at {(() => { const [h, m] = orderConfirmed.time.split(':'); const hr = parseInt(h); return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}` })()}
+                    {orderConfirmed.date} at {(() => { const [h, m] = orderConfirmed.time.split(':'); const hr = parseInt(h); return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}` })()}
                   </p>
                   <p className="cart-schedule-sub" style={{ textAlign: 'center', marginTop: '-8px' }}>
-                    {orderConfirmed.method === 'pickup' ? '🏪 Pickup' : '🚗 Delivery'}
+                    {orderConfirmed.method === 'pickup' ? 'Pickup' : 'Delivery'}
                   </p>
                 </div>
               ) : (
