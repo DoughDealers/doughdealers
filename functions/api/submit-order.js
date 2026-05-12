@@ -36,16 +36,18 @@ export async function onRequestPost({ request, env }) {
 </head>
 <body bgcolor="#111111" style="margin:0;padding:0;background-color:#111111;font-family:Arial,sans-serif;">
   <table width="100%" bgcolor="#111111" cellpadding="0" cellspacing="0" border="0">
-    <tr><td align="center" bgcolor="#111111" style="background-color:#111111;padding:40px 20px;">
+
+    <!-- Full-width logo banner -->
+    <tr>
+      <td bgcolor="#111111" align="center" style="background-color:#111111;padding:0;margin:0;">
+        <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:auto;" />
+      </td>
+    </tr>
+
+    <tr><td align="center" bgcolor="#111111" style="background-color:#111111;padding:24px 20px 40px;">
       <table width="580" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;width:100%;">
 
-        <!-- Logo -->
-        <tr>
-          <td bgcolor="#111111" align="center" style="background-color:#111111;padding:0;border-radius:12px;">
-            <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="580" style="display:block;width:100%;max-width:580px;height:auto;border-radius:12px;" />
-          </td>
-        </tr>
-        <tr><td height="16"></td></tr>
+        <tr><td height="8"></td></tr>
 
         <!-- Hero message -->
         <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;">
