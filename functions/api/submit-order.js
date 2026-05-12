@@ -29,9 +29,16 @@ export async function onRequestPost({ request, env }) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
   <style>
+    :root { color-scheme: light only; }
     body, html { margin:0; padding:0; background-color:#111111 !important; }
-    @media (prefers-color-scheme: dark) { body { background-color:#111111 !important; } }
+    @media (prefers-color-scheme: dark) {
+      body { background-color:#111111 !important; }
+      .logo-banner { background-color:#111111 !important; }
+      .logo-banner img { filter:none !important; }
+    }
   </style>
 </head>
 <body bgcolor="#111111" style="margin:0;padding:0;background-color:#111111;font-family:Arial,sans-serif;">
@@ -39,8 +46,8 @@ export async function onRequestPost({ request, env }) {
 
     <!-- Full-width logo banner -->
     <tr>
-      <td width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:0;margin:0;">
-        <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:auto;" />
+      <td class="logo-banner" width="100%" bgcolor="#111111" align="center" style="width:100%;background-color:#111111;padding:0;margin:0;">
+        <img src="https://thedoughdealers.com/logoemail.png" alt="Dough Dealers" width="100%" style="display:block;width:100%;max-width:100%;height:auto;filter:none;" />
       </td>
     </tr>
 
