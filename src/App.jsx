@@ -662,7 +662,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
       <div style={{ textAlign: 'center', padding: '40px 24px' }}>
         <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🍪</div>
         <h2 style={{ color: 'var(--caramel)', marginBottom: '8px' }}>Order Sent, Fasho!</h2>
-        <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--muted)', lineHeight: 1.6, fontSize: '1.1rem' }}>
           You just made the sweetest deal, fa sho.<br />
           We'll reach out to confirm soon!
         </p>
