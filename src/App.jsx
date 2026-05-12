@@ -769,9 +769,10 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
 }
 
 export default function App() {
-  const [cart, setCart] = useState([])
-  const [cartOpen, setCartOpen] = useState(false)
-  const [orderConfirmed, setOrderConfirmed] = useState(null)
+  const isCartPreview = new URLSearchParams(window.location.search).get('preview') === 'cart'
+  const [cart, setCart] = useState(isCartPreview ? [{ id: 1, name: 'Chip Drip – Nutella (Chunks)', price: 5, qty: 6 }] : [])
+  const [cartOpen, setCartOpen] = useState(isCartPreview)
+  const [orderConfirmed, setOrderConfirmed] = useState(isCartPreview ? { date: 'Saturday, May 17', time: '14:30', method: 'pickup' } : null)
   const [added, setAdded] = useState(null)
   const [doughTab, setDoughTab] = useState('Cookies')
   const [merchTab, setMerchTab] = useState('Dough Shirts')
