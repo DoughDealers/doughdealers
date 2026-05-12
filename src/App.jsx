@@ -207,7 +207,6 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
             <ul className="cart-list">
               {cart.map(item => (
                 <li key={item.id} className="cart-item">
-                  <span className="cart-item-emoji">{item.emoji}</span>
                   <div className="cart-item-info">
                     <span className="cart-item-name">{item.name}</span>
                     <span className="cart-item-qty">x{item.qty} — ${(item.price * item.qty).toFixed(2)}</span>
@@ -532,7 +531,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState('12:00')
   const [address, setAddress] = useState('')
   const [payLoading, setPayLoading] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
