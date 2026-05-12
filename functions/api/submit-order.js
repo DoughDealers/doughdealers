@@ -157,7 +157,7 @@ export async function onRequestPost({ request, env }) {
         from: 'Dough Dealers <orders@thedoughdealers.com>',
         to: [customer.email],
         reply_to: 'Info@thedoughdealers.com',
-        subject: `🍪 Dough Fasho! We Got Your Order, ${customer.name}!`,
+        subject: `🍪 We Got Your Order, ${customer.name}!`,
         html: customerHtml,
       }),
     })
