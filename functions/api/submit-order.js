@@ -170,7 +170,7 @@ export async function onRequestPost({ request, env }) {
       .map(i => `${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`)
       .join('\n')
 
-    fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
+    await fetch('https://formsubmit.co/ajax/Info@thedoughdealers.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
