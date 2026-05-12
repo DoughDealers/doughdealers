@@ -26,64 +26,88 @@ export async function onRequestPost({ request, env }) {
     const customerHtml = `
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#111;font-family:Arial,sans-serif;">
-  <div style="max-width:580px;margin:0 auto;padding:40px 20px;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body, html { margin:0; padding:0; background-color:#111111 !important; }
+    @media (prefers-color-scheme: dark) { body { background-color:#111111 !important; } }
+  </style>
+</head>
+<body bgcolor="#111111" style="margin:0;padding:0;background-color:#111111;font-family:Arial,sans-serif;">
+  <table width="100%" bgcolor="#111111" cellpadding="0" cellspacing="0" border="0">
+    <tr><td align="center" bgcolor="#111111" style="background-color:#111111;padding:40px 20px;">
+      <table width="580" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;width:100%;">
 
-    <!-- Header -->
-    <div style="text-align:center;margin-bottom:32px;">
-      <img src="https://thedoughdealers.com/logowhite.png" alt="Dough Dealers" style="max-width:200px;height:auto;" />
-    </div>
+        <!-- Logo -->
+        <tr><td align="center" style="padding-bottom:32px;">
+          <img src="https://thedoughdealers.com/logowhite.png" alt="Dough Dealers" width="180" style="display:block;max-width:180px;height:auto;" />
+        </td></tr>
 
-    <!-- Hero message -->
-    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:20px;">
-      <div style="font-size:1.4rem;font-weight:800;color:#c8a96e;margin-bottom:12px;">Hey ${customer.name}!</div>
-      <p style="color:#d4c5a9;line-height:1.75;margin:0;font-size:1rem;">
-        Your order just landed with the crew. In the meantime, your receipt is right here below. Thanks for choosing Dough Dealers!
-      </p>
-    </div>
+        <!-- Hero message -->
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;">
+          <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Hey ${customer.name}!</p>
+          <p style="margin:0;color:#d4c5a9;line-height:1.75;font-size:1rem;">
+            Your order just landed with the crew. In the meantime, your receipt is right here below. Thanks for choosing Dough Dealers!
+          </p>
+        </td></tr>
 
-    <!-- Order items -->
-    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:20px;">
-      <div style="font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;">Your Order</div>
-      <table style="width:100%;border-collapse:collapse;">
-        ${orderRows}
+        <tr><td height="16"></td></tr>
+
+        <!-- Order items -->
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
+          <p style="margin:0 0 20px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">Your Order</p>
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            ${orderRows}
+            <tr><td colspan="3" height="16"></td></tr>
+            <tr>
+              <td style="color:#888;font-size:0.9rem;padding:4px 0;">Subtotal</td>
+              <td></td>
+              <td align="right" style="color:#888;font-size:0.9rem;padding:4px 0;">$${subtotal.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style="color:#888;font-size:0.9rem;padding:4px 0;">Tax (8.25%)</td>
+              <td></td>
+              <td align="right" style="color:#888;font-size:0.9rem;padding:4px 0;">$${tax.toFixed(2)}</td>
+            </tr>
+            ${deliveryFee > 0 ? `<tr>
+              <td style="color:#888;font-size:0.9rem;padding:4px 0;">Delivery Fee</td>
+              <td></td>
+              <td align="right" style="color:#888;font-size:0.9rem;padding:4px 0;">$${deliveryFee.toFixed(2)}</td>
+            </tr>` : ''}
+            <tr><td colspan="3" style="border-top:1px solid #333;padding-top:12px;"></td></tr>
+            <tr>
+              <td style="color:#c8a96e;font-size:1.1rem;font-weight:800;padding-top:8px;">Total</td>
+              <td></td>
+              <td align="right" style="color:#c8a96e;font-size:1.1rem;font-weight:800;padding-top:8px;">$${total.toFixed(2)}</td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <tr><td height="16"></td></tr>
+
+        <!-- Order details -->
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
+          <p style="margin:0 0 16px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">Order Details</p>
+          <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${customer.date}</strong> at <strong style="color:#f0e8d5;">${customer.time}</strong></p>
+          <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📦 <strong style="color:#f0e8d5;">${methodLabel}</strong></p>
+          ${method === 'delivery' ? `<p style="margin:0;color:#d4c5a9;font-size:0.95rem;">📍 <strong style="color:#f0e8d5;">${customer.address}</strong></p>` : ''}
+        </td></tr>
+
+        <tr><td height="32"></td></tr>
+
+        <!-- Footer -->
+        <tr><td align="center">
+          <p style="color:#444;font-size:0.8rem;margin:0 0 4px;">
+            Questions? Hit us at
+            <a href="mailto:Info@thedoughdealers.com" style="color:#c8a96e;text-decoration:none;">Info@thedoughdealers.com</a>
+          </p>
+          <p style="color:#333;font-size:0.75rem;margin:0;">© 2025 Dough Dealers · All rights reserved.</p>
+        </td></tr>
+
       </table>
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #333;">
-        <div style="display:flex;justify-content:space-between;color:#888;margin-bottom:8px;font-size:0.9rem;">
-          <span>Subtotal</span><span>$${subtotal.toFixed(2)}</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;color:#888;margin-bottom:8px;font-size:0.9rem;">
-          <span>Tax (8.25%)</span><span>$${tax.toFixed(2)}</span>
-        </div>
-        ${deliveryFee > 0 ? `
-        <div style="display:flex;justify-content:space-between;color:#888;margin-bottom:8px;font-size:0.9rem;">
-          <span>Delivery Fee</span><span>$${deliveryFee.toFixed(2)}</span>
-        </div>` : ''}
-        <div style="display:flex;justify-content:space-between;color:#c8a96e;font-size:1.1rem;font-weight:800;margin-top:12px;padding-top:12px;border-top:1px solid #2a2a2a;">
-          <span>Total</span><span>$${total.toFixed(2)}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Details -->
-    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px;margin-bottom:32px;">
-      <div style="font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">Order Details</div>
-      <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${customer.date}</strong> at <strong style="color:#f0e8d5;">${customer.time}</strong></p>
-      <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📦 <strong style="color:#f0e8d5;">${methodLabel}</strong></p>
-      ${method === 'delivery' ? `<p style="margin:0;color:#d4c5a9;font-size:0.95rem;">📍 <strong style="color:#f0e8d5;">${customer.address}</strong></p>` : ''}
-    </div>
-
-    <!-- Footer -->
-    <div style="text-align:center;">
-      <p style="color:#444;font-size:0.8rem;margin:0 0 4px;">
-        Questions? Hit us at
-        <a href="mailto:Info@thedoughdealers.com" style="color:#c8a96e;text-decoration:none;">Info@thedoughdealers.com</a>
-      </p>
-      <p style="color:#333;font-size:0.75rem;margin:0;">© 2025 Dough Dealers · All rights reserved.</p>
-    </div>
-
-  </div>
+    </td></tr>
+  </table>
 </body>
 </html>`
 
