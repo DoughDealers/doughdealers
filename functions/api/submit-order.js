@@ -128,8 +128,9 @@ export async function onRequestPost({ request, env }) {
         method: 'POST',
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          from: 'Dough Dealers <Info@thedoughdealers.com>',
+          from: 'Dough Dealers <orders@thedoughdealers.com>',
           to: [customer.email],
+          reply_to: 'Info@thedoughdealers.com',
           subject: `🍪 Dough Fasho! We Got Your Order, ${customer.name}!`,
           html: customerHtml,
         }),
@@ -138,7 +139,7 @@ export async function onRequestPost({ request, env }) {
         method: 'POST',
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          from: 'Dough Dealers Orders <Info@thedoughdealers.com>',
+          from: 'Dough Dealers Orders <orders@thedoughdealers.com>',
           to: ['Info@thedoughdealers.com'],
           subject: `🔔 New Order — ${customer.name} — ${methodLabel} — ${customer.date}`,
           html: businessHtml,
@@ -150,6 +151,11 @@ export async function onRequestPost({ request, env }) {
       const err = await custRes.text()
       console.error('Resend customer email error:', err)
       return json({ error: 'Failed to send confirmation email.' }, 500)
+    }
+
+    if (!bizRes.ok) {
+      const err = await bizRes.text()
+      console.error('Resend business email error:', err)
     }
 
     return json({ success: true })
