@@ -185,9 +185,8 @@ const BRIKS = [
   { id: 26, name: 'Fruity Wave',  price: 25, images: FRUITYWAVE_IMAGES },
 ]
 
-function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
+function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderConfirmed, onOrderConfirmed }) {
   const [deliveryFee, setDeliveryFee] = useState(0)
-  const [orderConfirmed, setOrderConfirmed] = useState(null)
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const TAX_RATE = 0.0825
   const tax = subtotal * TAX_RATE
@@ -231,7 +230,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
                     cart={cart}
                     deliveryFee={deliveryFee}
                     onDeliveryFeeChange={setDeliveryFee}
-                    onSuccess={details => setOrderConfirmed(details)}
+                    onSuccess={details => onOrderConfirmed(details)}
                   />
                   <h3 className="cart-schedule-title" style={{ textAlign: 'center', marginTop: '24px' }}>Your Scheduled Order</h3>
                   <p className="cart-schedule-sub" style={{ textAlign: 'center' }}>
@@ -249,7 +248,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
                     cart={cart}
                     deliveryFee={deliveryFee}
                     onDeliveryFeeChange={setDeliveryFee}
-                    onSuccess={details => setOrderConfirmed(details)}
+                    onSuccess={details => onOrderConfirmed(details)}
                   />
                 </>
               )}
@@ -773,6 +772,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
 export default function App() {
   const [cart, setCart] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
+  const [orderConfirmed, setOrderConfirmed] = useState(null)
   const [added, setAdded] = useState(null)
   const [doughTab, setDoughTab] = useState('Cookies')
   const [merchTab, setMerchTab] = useState('Dough Shirts')
@@ -978,7 +978,9 @@ export default function App() {
           cart={cart}
           onClose={() => setCartOpen(false)}
           onRemove={removeFromCart}
-          onClear={() => setCart([])}
+          onClear={() => { setCart([]); setOrderConfirmed(null) }}
+          orderConfirmed={orderConfirmed}
+          onOrderConfirmed={setOrderConfirmed}
         />
       )}
     </>
