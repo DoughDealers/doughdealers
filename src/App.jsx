@@ -187,6 +187,7 @@ const BRIKS = [
 
 function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
   const [deliveryFee, setDeliveryFee] = useState(0)
+  const [orderConfirmed, setOrderConfirmed] = useState(null)
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const TAX_RATE = 0.0825
   const tax = subtotal * TAX_RATE
@@ -225,9 +226,25 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose }) {
               <button className="clear-btn" onClick={onClear}>Clear Cart</button>
             </div>
             <div className="cart-schedule">
-              <h3 className="cart-schedule-title">Schedule Your Order</h3>
-              <p className="cart-schedule-sub">Pick a date and how you want it.</p>
-              <ScheduleForm cart={cart} deliveryFee={deliveryFee} onDeliveryFeeChange={setDeliveryFee} />
+              {orderConfirmed ? (
+                <>
+                  <h3 className="cart-schedule-title">Your Scheduled Order</h3>
+                  <p className="cart-schedule-sub">
+                    📅 {orderConfirmed.date} at {orderConfirmed.time} · {orderConfirmed.method === 'pickup' ? '🏪 Pickup' : '🚗 Delivery'}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className="cart-schedule-title">Schedule Your Order</h3>
+                  <p className="cart-schedule-sub">Pick a date and how you want it.</p>
+                </>
+              )}
+              <ScheduleForm
+                cart={cart}
+                deliveryFee={deliveryFee}
+                onDeliveryFeeChange={setDeliveryFee}
+                onSuccess={details => setOrderConfirmed(details)}
+              />
             </div>
           </>
         )}
@@ -500,7 +517,7 @@ function calcDeliveryFee(miles) {
   return null
 }
 
-function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
+function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSuccess }) {
   const [method, setMethod] = useState('pickup')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -629,6 +646,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange }) {
       const data = await res.json()
       if (data.success) {
         setSubmitSuccess(true)
+        onSuccess?.({ date, time, method })
       } else {
         alert(data.error || 'Something went wrong. Please try again.')
         setPayLoading(false)
