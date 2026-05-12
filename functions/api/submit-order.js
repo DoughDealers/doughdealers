@@ -64,9 +64,9 @@ export async function onRequestPost({ request, env }) {
         <tr><td height="8"></td></tr>
 
         <!-- Hero message -->
-        <tr><td bgcolor="#1a1a1a" align="center" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;text-align:center;">
-          <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;text-align:center;">Hey ${customer.name}!</p>
-          <p style="margin:0;color:#d4c5a9;line-height:1.75;font-size:1rem;text-align:center;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;">
+          <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Hey ${customer.name}!</p>
+          <p style="margin:0;color:#d4c5a9;line-height:1.75;font-size:1rem;">
             Your order just landed with the crew. In the meantime, your receipt is right here below. Thanks for choosing Dough Dealers!
           </p>
         </td></tr>
