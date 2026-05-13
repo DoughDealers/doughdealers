@@ -151,7 +151,7 @@ export async function onRequestPost({ request, env }) {
 
     // Build confirm URL — encodes order data so clicking it auto-sends the payment link
     const origin = new URL(request.url).origin
-    const orderData = btoa(JSON.stringify({
+    const orderData = btoa(encodeURIComponent(JSON.stringify({
       name:         customer.name,
       email:        customer.email,
       phone:        customer.phone,
@@ -160,7 +160,7 @@ export async function onRequestPost({ request, env }) {
       method,
       total:        parseFloat(total.toFixed(2)),
       itemsSummary,
-    }))
+    })))
     const confirmUrl = `${origin}/api/send-payment-link?data=${encodeURIComponent(orderData)}`
 
     const businessHtml = `

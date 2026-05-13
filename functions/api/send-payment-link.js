@@ -5,7 +5,7 @@ export async function onRequestGet({ request, env }) {
   if (!encoded) return htmlPage('Missing order data.', true)
 
   let order
-  try { order = JSON.parse(atob(encoded)) }
+  try { order = JSON.parse(decodeURIComponent(atob(encoded))) }
   catch { return htmlPage('Invalid order data.', true) }
 
   const { name, email, phone, date, time, method, total, itemsSummary } = order
