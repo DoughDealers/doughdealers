@@ -145,6 +145,23 @@ export async function onRequestPost({ request, env }) {
       .map(i => `${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} — $${(i.price * i.qty).toFixed(2)}`)
       .join('<br>')
 
+    const itemsSummary = cart
+      .map(i => `${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty}`)
+      .join(', ')
+
+    // Build confirm URL — encodes order data so clicking it auto-sends the payment link
+    const origin = new URL(request.url).origin
+    const orderData = btoa(JSON.stringify({
+      name:         customer.name,
+      email:        customer.email,
+      date:         customer.date,
+      time:         customer.time,
+      method,
+      total:        parseFloat(total.toFixed(2)),
+      itemsSummary,
+    }))
+    const confirmUrl = `${origin}/api/send-payment-link?data=${encodeURIComponent(orderData)}`
+
     const businessHtml = `
 <!DOCTYPE html>
 <html lang="en">
@@ -171,7 +188,14 @@ export async function onRequestPost({ request, env }) {
     <p style="margin:4px 0;color:#555;">Tax: <strong>$${tax.toFixed(2)}</strong></p>
     ${deliveryFee > 0 ? `<p style="margin:4px 0;color:#555;">Delivery Fee: <strong>$${deliveryFee.toFixed(2)}</strong></p>` : ''}
     ${serviceFee > 0 ? `<p style="margin:4px 0;color:#555;">Service Fee (3%): <strong>$${serviceFee.toFixed(2)}</strong></p>` : ''}
-    <p style="margin:12px 0 0;font-size:1.1rem;color:#1a1a1a;">Total: <strong>$${total.toFixed(2)}</strong></p>
+    <p style="margin:12px 0 0;font-size:1.2rem;color:#1a1a1a;">Total: <strong>$${total.toFixed(2)}</strong></p>
+
+    <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+    <p style="margin:0 0 16px;color:#555;font-size:0.9rem;">Review the order above, then click below to confirm it and automatically send the customer their payment link.</p>
+    <a href="${confirmUrl}" style="display:inline-block;background:#2a9d2a;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:1rem;">
+      ✅ Confirm &amp; Send Payment Link
+    </a>
+    <p style="margin:12px 0 0;color:#aaa;font-size:0.8rem;">The customer will receive a secure Stripe payment link for $${total.toFixed(2)}.</p>
   </div>
 </body>
 </html>`
