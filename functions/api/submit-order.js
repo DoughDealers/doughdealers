@@ -154,6 +154,7 @@ export async function onRequestPost({ request, env }) {
     const orderData = btoa(JSON.stringify({
       name:         customer.name,
       email:        customer.email,
+      phone:        customer.phone,
       date:         customer.date,
       time:         customer.time,
       method,

@@ -8,7 +8,7 @@ export async function onRequestGet({ request, env }) {
   try { order = JSON.parse(atob(encoded)) }
   catch { return htmlPage('Invalid order data.', true) }
 
-  const { name, email, date, time, method, total, itemsSummary } = order
+  const { name, email, phone, date, time, method, total, itemsSummary } = order
 
   if (!env.STRIPE_SECRET_KEY) return htmlPage('Stripe not configured.', true)
   if (!env.RESEND_API_KEY)    return htmlPage('Email service not configured.', true)
@@ -168,10 +168,32 @@ export async function onRequestGet({ request, env }) {
   return htmlPage(`
     <div style="font-size:3rem;margin-bottom:16px;">✅</div>
     <h1 style="color:#c8a96e;margin:0 0 12px;font-size:1.6rem;">Order Confirmed!</h1>
-    <p style="color:#aaa;margin:0 0 6px;">Payment link sent to</p>
-    <p style="color:#fff;font-weight:700;font-size:1.1rem;margin:0 0 20px;">${email}</p>
-    <p style="color:#666;font-size:0.9rem;">${name} &nbsp;·&nbsp; ${date} at ${displayTime} &nbsp;·&nbsp; ${methodLabel}</p>
-    <p style="color:#666;font-size:0.9rem;margin-top:8px;">Amount: <strong style="color:#c8a96e;">$${total.toFixed(2)}</strong></p>
+    <p style="color:#aaa;margin:0 0 20px;">Payment link emailed to <strong style="color:#fff;">${email}</strong></p>
+
+    <div style="background:#1a1a1a;border-radius:10px;padding:20px;margin-bottom:20px;text-align:left;">
+      <p style="margin:0 0 4px;font-size:0.7rem;color:#c8a96e;letter-spacing:2px;text-transform:uppercase;">Customer</p>
+      <p style="margin:0 0 2px;color:#fff;font-weight:700;">${name}</p>
+      <p style="margin:0 0 2px;color:#aaa;font-size:0.9rem;">${email}</p>
+      ${phone ? `<p style="margin:0;font-size:1rem;"><a href="sms:${phone.replace(/\D/g,'')}" style="color:#c8a96e;text-decoration:none;font-weight:700;">📱 Text ${phone}</a></p>` : ''}
+    </div>
+
+    <div style="background:#1a1a1a;border-radius:10px;padding:20px;margin-bottom:20px;text-align:left;">
+      <p style="margin:0 0 4px;font-size:0.7rem;color:#c8a96e;letter-spacing:2px;text-transform:uppercase;">Order</p>
+      <p style="margin:0 0 2px;color:#fff;">${date} at ${displayTime} &nbsp;·&nbsp; ${methodLabel}</p>
+      <p style="margin:0;color:#c8a96e;font-weight:800;font-size:1.1rem;">$${total.toFixed(2)}</p>
+    </div>
+
+    <div style="background:#1a1a1a;border-radius:10px;padding:20px;text-align:left;">
+      <p style="margin:0 0 8px;font-size:0.7rem;color:#c8a96e;letter-spacing:2px;text-transform:uppercase;">Payment Link</p>
+      <p style="margin:0 0 10px;color:#aaa;font-size:0.8rem;">If the email didn't reach them, copy this link and text it to ${phone || 'the customer'}:</p>
+      <div style="background:#111;border-radius:6px;padding:10px 14px;word-break:break-all;">
+        <a href="${link.url}" style="color:#c8a96e;font-size:0.85rem;text-decoration:none;">${link.url}</a>
+      </div>
+      <button onclick="navigator.clipboard.writeText('${link.url}').then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)})"
+        style="margin-top:10px;background:#c8a96e;color:#111;border:none;padding:8px 20px;border-radius:6px;font-weight:700;cursor:pointer;font-size:0.9rem;">
+        Copy Link
+      </button>
+    </div>
   `)
 }
 
