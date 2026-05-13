@@ -22,40 +22,31 @@ export async function onRequestGet({ request, env }) {
   const displayTime  = formatTime(time)
   const methodLabel  = method === 'pickup' ? 'Pickup' : 'Delivery'
 
-  // ── Step 1: Create a Stripe Price ─────────────────────────────────────────
-  const priceRes = await fetch('https://api.stripe.com/v1/prices', {
+  // ── Create a Stripe Checkout Session (card only, no Link) ────────────────
+  const origin = 'https://thedoughdealers.com'
+  const sessionRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({
-      'currency': 'usd',
-      'unit_amount': String(Math.round(total * 100)),
-      'product_data[name]': `Dough Dealers Order — ${name} · ${methodLabel} · ${date} at ${displayTime}`,
-    }).toString(),
-  })
-  const price = await priceRes.json()
-  if (price.error) return htmlPage(`Stripe error: ${price.error.message}`, true)
-
-  // ── Step 2: Create the Payment Link ───────────────────────────────────────
-  const linkRes = await fetch('https://api.stripe.com/v1/payment_links', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      'line_items[0][price]':    price.id,
+      'mode': 'payment',
+      'payment_method_types[0]': 'card',
+      'line_items[0][price_data][currency]': 'usd',
+      'line_items[0][price_data][unit_amount]': String(Math.round(total * 100)),
+      'line_items[0][price_data][product_data][name]': `Dough Dealers Order — ${name}`,
+      'line_items[0][price_data][product_data][description]': `${methodLabel} · ${date} at ${displayTime}`,
       'line_items[0][quantity]': '1',
-      'payment_method_types[]':  'card',
-      'after_completion[type]':  'hosted_confirmation',
-      'after_completion[hosted_confirmation][custom_message]':
-        `Your payment is confirmed! Your Dough Dealers order is set for ${date}. We'll see you then!`,
+      'customer_email': email,
+      'success_url': `${origin}/?payment_done=1`,
+      'cancel_url':  `${origin}/`,
     }).toString(),
   })
-  const link = await linkRes.json()
-  if (link.error) return htmlPage(`Stripe error: ${link.error.message}`, true)
+  const session = await sessionRes.json()
+  if (session.error) return htmlPage(`Stripe error: ${session.error.message}`, true)
+
+  const link = { url: session.url }
 
   // ── Step 3: Email customer with payment link ───────────────────────────────
   const paymentHtml = `
