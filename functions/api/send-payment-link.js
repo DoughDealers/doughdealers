@@ -145,7 +145,7 @@ export async function onRequestGet({ request, env }) {
       from: 'Dough Dealers <orders@thedoughdealers.com>',
       to: [email],
       reply_to: 'Info@thedoughdealers.com',
-      subject: `💳 Your Dough Dealers Payment Link — $${total.toFixed(2)} Due`,
+      subject: `Deal approved, ${name}!`,
       html: paymentHtml,
     }),
   })
