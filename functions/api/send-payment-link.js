@@ -83,14 +83,14 @@ export async function onRequestGet({ request, env }) {
         <tr><td height="8"></td></tr>
 
         <!-- Hero -->
-        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;text-align:center;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
           <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Tap below to lock in your dough!</p>
         </td></tr>
 
         <tr><td height="16"></td></tr>
 
         <!-- Order summary -->
-        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;text-align:center;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
           <p style="margin:0 0 16px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">Order Summary</p>
           <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${date}</strong> at <strong style="color:#f0e8d5;">${displayTime}</strong></p>
           <p style="margin:0 0 16px;color:#d4c5a9;font-size:0.95rem;">📦 <strong style="color:#f0e8d5;">${methodLabel}</strong></p>
