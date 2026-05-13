@@ -48,6 +48,7 @@ export async function onRequestGet({ request, env }) {
     body: new URLSearchParams({
       'line_items[0][price]':    price.id,
       'line_items[0][quantity]': '1',
+      'payment_method_types[]':  'card',
       'after_completion[type]':  'hosted_confirmation',
       'after_completion[hosted_confirmation][custom_message]':
         `Your payment is confirmed! Your Dough Dealers order is set for ${date}. We'll see you then!`,
