@@ -92,9 +92,9 @@ export async function onRequestGet({ request, env }) {
 
         <!-- Hero -->
         <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
-          <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Your deal's been approved, ${name}!</p>
+          <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Deal approved, ${name}!</p>
           <p style="margin:0;color:#d4c5a9;line-height:1.75;font-size:1rem;">
-            We ran it by the crew and you're locked in. Tap below to lock in your dough!
+            Tap below to lock in your dough!
           </p>
         </td></tr>
 
