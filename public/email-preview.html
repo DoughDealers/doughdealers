@@ -18,21 +18,25 @@
 <body bgcolor="#111111" style="margin:0;padding:0;background-color:#111111;font-family:Arial,sans-serif;">
 
   <!-- Test button bar -->
-  <div style="background:#000;padding:12px;text-align:center;">
-    <button onclick="sendTest()" id="testBtn" style="background:#c8a96e;color:#000;border:none;padding:10px 28px;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;">
-      📧 Send Test to Gmail
+  <div style="background:#000;padding:16px;text-align:center;">
+    <button onclick="sendTest('order')" id="orderBtn" style="background:#c8a96e;color:#000;border:none;padding:10px 28px;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;margin:4px;">
+      📧 Order Confirmation Email
     </button>
-    <p id="testMsg" style="color:#888;margin:8px 0 0;font-size:0.85rem;display:none;"></p>
+    <button onclick="sendTest('payment')" id="paymentBtn" style="background:#c8a96e;color:#000;border:none;padding:10px 28px;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;margin:4px;">
+      💳 Payment Link Email
+    </button>
+    <p id="testMsg" style="color:#888;margin:10px 0 0;font-size:0.85rem;display:none;"></p>
   </div>
   <script>
-    async function sendTest() {
-      const btn = document.getElementById('testBtn')
+    async function sendTest(type) {
+      const btn = document.getElementById(type === 'order' ? 'orderBtn' : 'paymentBtn')
       const msg = document.getElementById('testMsg')
       btn.disabled = true
       btn.textContent = 'Sending...'
       msg.style.display = 'none'
       try {
-        const res = await fetch('/api/test-email')
+        const endpoint = type === 'order' ? '/api/test-email' : '/api/test-payment-email'
+        const res = await fetch(endpoint)
         const data = await res.json()
         msg.style.display = 'block'
         msg.style.color = data.success ? '#6ec87a' : '#e07070'
@@ -43,7 +47,7 @@
         msg.textContent = '❌ Something went wrong.'
       }
       btn.disabled = false
-      btn.textContent = '📧 Send Test to Gmail'
+      btn.textContent = type === 'order' ? '📧 Order Confirmation Email' : '💳 Payment Link Email'
     }
   </script>
   <table width="100%" bgcolor="#111111" cellpadding="0" cellspacing="0" border="0">
