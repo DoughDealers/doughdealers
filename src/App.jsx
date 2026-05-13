@@ -190,7 +190,8 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const TAX_RATE = 0.0825
   const tax = subtotal * TAX_RATE
-  const total = subtotal + tax + deliveryFee
+  const serviceFee = Math.round((subtotal + tax + deliveryFee) * 0.03 * 100) / 100
+  const total = subtotal + tax + deliveryFee + serviceFee
 
   return (
     <div className="cart-overlay" onClick={onClose}>
@@ -220,6 +221,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
               {deliveryFee > 0 && (
                 <div className="cart-tax">Delivery Fee: <strong>${deliveryFee.toFixed(2)}</strong></div>
               )}
+              <div className="cart-tax">Service Fee (3%): <strong>${serviceFee.toFixed(2)}</strong></div>
               <div className="cart-total">Total: <strong>${total.toFixed(2)}</strong></div>
               <button className="clear-btn" onClick={onClear}>Clear Cart</button>
             </div>
@@ -251,6 +253,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                   <ScheduleForm
                     cart={cart}
                     deliveryFee={deliveryFee}
+                    serviceFee={serviceFee}
                     onDeliveryFeeChange={setDeliveryFee}
                     onSuccess={details => onOrderConfirmed(details)}
                   />
@@ -528,7 +531,7 @@ function calcDeliveryFee(miles) {
   return null
 }
 
-function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSuccess }) {
+function ScheduleForm({ cart = [], deliveryFee = 0, serviceFee = 0, onDeliveryFeeChange, onSuccess }) {
   const [method, setMethod] = useState('pickup')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -652,11 +655,12 @@ function ScheduleForm({ cart = [], deliveryFee = 0, onDeliveryFeeChange, onSucce
           customer: { name, email, phone, date, time, address },
           method,
           deliveryFee,
+          serviceFee,
         }),
       })
       const data = await res.json()
       if (data.success) {
-        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee }))
+        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee, serviceFee }))
         const p = new URLSearchParams({ confirmed: '1', date, time, method })
         window.location.href = `/?${p.toString()}`
       } else {
@@ -774,11 +778,12 @@ function OrderConfirmedPage() {
       { name: 'Oatsession – Regular (Chunks)', price: 5, qty: 6 },
     ],
     deliveryFee: 0,
+    serviceFee: 0,
   }
-  const { cart, deliveryFee } = saved
+  const { cart, deliveryFee, serviceFee = 0 } = saved
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
   const tax      = subtotal * 0.0825
-  const total    = subtotal + tax + deliveryFee
+  const total    = subtotal + tax + deliveryFee + serviceFee
 
   const formatTime = t => {
     if (!t) return ''
@@ -816,6 +821,11 @@ function OrderConfirmedPage() {
               {deliveryFee > 0 && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', fontSize: '0.88rem', marginBottom: '4px' }}>
                   <span>Delivery Fee</span><span>${deliveryFee.toFixed(2)}</span>
+                </div>
+              )}
+              {serviceFee > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#888', fontSize: '0.88rem', marginBottom: '4px' }}>
+                  <span>Service Fee (3%)</span><span>${serviceFee.toFixed(2)}</span>
                 </div>
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#c8a96e', fontWeight: 800, fontSize: '1rem', marginTop: '8px' }}>

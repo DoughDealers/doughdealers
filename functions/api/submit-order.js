@@ -1,6 +1,6 @@
 export async function onRequestPost({ request, env }) {
   try {
-    const { cart, customer, method, deliveryFee } = await request.json()
+    const { cart, customer, method, deliveryFee, serviceFee = 0 } = await request.json()
 
     if (!env.RESEND_API_KEY) {
       return json({ error: 'Email service not configured.' }, 500)
@@ -8,7 +8,7 @@ export async function onRequestPost({ request, env }) {
 
     const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
     const tax      = subtotal * 0.0825
-    const total    = subtotal + tax + deliveryFee
+    const total    = subtotal + tax + deliveryFee + serviceFee
 
     const methodLabel = method === 'pickup' ? '🏪 Pickup' : '🚗 Delivery'
 
@@ -94,6 +94,11 @@ export async function onRequestPost({ request, env }) {
               <td></td>
               <td align="right" style="color:#888;font-size:0.9rem;padding:4px 0;">$${deliveryFee.toFixed(2)}</td>
             </tr>` : ''}
+            ${serviceFee > 0 ? `<tr>
+              <td style="color:#888;font-size:0.9rem;padding:4px 0;">Service Fee (3%)</td>
+              <td></td>
+              <td align="right" style="color:#888;font-size:0.9rem;padding:4px 0;">$${serviceFee.toFixed(2)}</td>
+            </tr>` : ''}
             <tr><td colspan="3" style="border-top:1px solid #333;padding-top:12px;"></td></tr>
             <tr>
               <td style="color:#c8a96e;font-size:1.1rem;font-weight:800;padding-top:8px;">Total</td>
@@ -165,6 +170,7 @@ export async function onRequestPost({ request, env }) {
     <p style="margin:4px 0;color:#555;">Subtotal: <strong>$${subtotal.toFixed(2)}</strong></p>
     <p style="margin:4px 0;color:#555;">Tax: <strong>$${tax.toFixed(2)}</strong></p>
     ${deliveryFee > 0 ? `<p style="margin:4px 0;color:#555;">Delivery Fee: <strong>$${deliveryFee.toFixed(2)}</strong></p>` : ''}
+    ${serviceFee > 0 ? `<p style="margin:4px 0;color:#555;">Service Fee (3%): <strong>$${serviceFee.toFixed(2)}</strong></p>` : ''}
     <p style="margin:12px 0 0;font-size:1.1rem;color:#1a1a1a;">Total: <strong>$${total.toFixed(2)}</strong></p>
   </div>
 </body>
