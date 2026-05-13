@@ -32,8 +32,7 @@ export async function onRequestGet({ request, env }) {
     body: new URLSearchParams({
       'currency': 'usd',
       'unit_amount': String(Math.round(total * 100)),
-      'product_data[name]': `Dough Dealers Order — ${name}`,
-      'product_data[description]': `${methodLabel} · ${date} at ${displayTime}`,
+      'product_data[name]': `Dough Dealers Order — ${name} · ${methodLabel} · ${date} at ${displayTime}`,
     }).toString(),
   })
   const price = await priceRes.json()
