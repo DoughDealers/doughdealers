@@ -83,7 +83,7 @@ export async function onRequestGet({ request, env }) {
         <tr><td height="8"></td></tr>
 
         <!-- Hero -->
-        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;text-align:center;">
           <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Tap below to lock in your dough!</p>
         </td></tr>
 

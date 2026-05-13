@@ -60,14 +60,14 @@ export async function onRequestGet({ env }) {
     <tr><td align="center" bgcolor="#111111" style="background-color:#111111;padding:12px 20px 40px;">
       <table width="580" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;width:100%;">
         <tr><td height="8"></td></tr>
-        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;margin-bottom:20px;text-align:center;">
           <p style="margin:0 0 12px;font-size:1.4rem;font-weight:800;color:#c8a96e;">Hey ${customer.name}!</p>
           <p style="margin:0;color:#d4c5a9;line-height:1.75;font-size:1rem;">
             Your order just landed with the crew. In the meantime, your receipt is right here below. Thanks for choosing Dough Dealers!
           </p>
         </td></tr>
         <tr><td height="16"></td></tr>
-        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;text-align:center;">
           <p style="margin:0 0 20px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">Your Order</p>
           <table width="100%" cellpadding="0" cellspacing="0" border="0">
             ${orderRows}
@@ -91,7 +91,7 @@ export async function onRequestGet({ env }) {
           </table>
         </td></tr>
         <tr><td height="16"></td></tr>
-        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;">
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:32px;text-align:center;">
           <p style="margin:0 0 16px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">Order Details</p>
           <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📅 <strong style="color:#f0e8d5;">${customer.date}</strong> at <strong style="color:#f0e8d5;">${displayTime}</strong></p>
           <p style="margin:0 0 10px;color:#d4c5a9;font-size:0.95rem;">📦 <strong style="color:#f0e8d5;">${methodLabel}</strong></p>
