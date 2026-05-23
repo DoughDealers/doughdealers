@@ -108,13 +108,7 @@ const BLUEDREAM_IMAGES = [bdd1]
 const GOLDENGRIND_IMAGES = [gg1, gg2, gg3]
 import oatRaisin from './assets/oatsession/raisin1.png'
 
-import bb1 from './assets/blackoutbites/o1.png'
-import bb2 from './assets/blackoutbites/o2.png'
-import bb3 from './assets/blackoutbites/o5.png'
-import bb4 from './assets/blackoutbites/o6.png'
-import bb5 from './assets/blackoutbites/o8.png'
-
-const BLACKOUTBITES_IMAGES = [bb4, bb1, bb5]
+import midnightCrunchVideo from './assets/blackoutbites/midnightcrunch.mp4'
 
 import gt1 from './assets/goldentoast/GT1.png'
 import gt2 from './assets/goldentoast/gt4.png'
@@ -139,7 +133,7 @@ const DOUGH_ITEMS = {
     { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
     { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, noNugs: true },
     { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
-    { id: 22, name: 'Midnight Crunch',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', images: BLACKOUTBITES_IMAGES, noNugs: true },
+    { id: 22, name: 'Midnight Crunch',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', video: midnightCrunchVideo, videoFirst: true, noNugs: true },
     { id: 23, name: 'Berry Bliss',      price: 5.00, emoji: '🍓', description: 'Buttery cookie with raspberries and creamy macadamia nuts.' },
     { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', noNugs: true },
     { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
