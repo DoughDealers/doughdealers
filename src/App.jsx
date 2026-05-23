@@ -70,6 +70,7 @@ import cd1 from './assets/chipdip/CD1.1.png'
 import cd2 from './assets/chipdip/CD2.1.png'
 import cd3 from './assets/chipdip/cd3.3.png'
 import cdVideo from './assets/chipdip/CDV1.mp4'
+import cdNugsVideo from './assets/chipdip/nugs.mp4'
 import meltDownVideo from './assets/meltdown/meltdown.mp4'
 
 const CHIPDIP_IMAGES = [cd1, cd3, cd2]
@@ -126,7 +127,7 @@ const BERRYCROWN_IMAGES = [bc1, bc4, bc3]
 
 const DOUGH_ITEMS = {
   Cookies: [
-    { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variantDescriptions: { Nutella: 'Soft-baked cookie dripping with rich chocolate chips, with gooey nutella filling.' }, variants: ['Regular', 'Nutella'], video: cdVideo, videoFirst: true, noNugsVariants: ['Nutella'] },
+    { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variantDescriptions: { Nutella: 'Soft-baked cookie dripping with rich chocolate chips, with gooey nutella filling.' }, variants: ['Regular', 'Nutella'], styleVideos: { Chunks: cdVideo, Nugs: cdNugsVideo }, noNugsVariants: ['Nutella'] },
     { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo } },
     { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', images: GOLDENGRIND_IMAGES },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
