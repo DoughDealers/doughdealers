@@ -101,13 +101,10 @@ import oatRegular from './assets/oatsession/or1.png'
 import bd1 from './assets/bluedream/bd1.png'
 import bdd1 from './assets/bluedream/bdd1.png'
 import bdVideo from './assets/bluedream/BDV.mp4'
-import gg1 from './assets/goldengrind/GG1.png'
-import gg2 from './assets/goldengrind/GG2.png'
-import gg3 from './assets/goldengrind/GG3.png'
 import ggNugsVideo from './assets/goldengrind/nugs.mp4'
+import ggChunksVideo from './assets/goldengrind/ggvideo.mp4'
 
 const BLUEDREAM_IMAGES = [bdd1]
-const GOLDENGRIND_IMAGES = [gg1, gg2, gg3]
 import oatRaisin from './assets/oatsession/raisin1.png'
 
 import midnightCrunchVideo from './assets/blackoutbites/midnightcrunch.mp4'
@@ -130,7 +127,7 @@ const DOUGH_ITEMS = {
   Cookies: [
     { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variantDescriptions: { Nutella: 'Soft-baked cookie dripping with rich chocolate chips, with gooey nutella filling.' }, variants: ['Regular', 'Nutella'], styleVideos: { Chunks: cdVideo, Nugs: cdNugsVideo }, noNugsVariants: ['Nutella'] },
     { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo } },
-    { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', styleVideos: { Nugs: ggNugsVideo }, images: GOLDENGRIND_IMAGES },
+    { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', styleVideos: { Chunks: ggChunksVideo, Nugs: ggNugsVideo } },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
     { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
     { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, noNugs: true },
