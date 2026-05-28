@@ -116,12 +116,7 @@ import gt4 from './assets/goldentoast/gt8.png'
 
 const GOLDENTOAST_IMAGES = [gt2, gt4]
 
-import bc1 from './assets/berrycrown/CB1.png'
-import bc2 from './assets/berrycrown/CB2.png'
-import bc3 from './assets/berrycrown/CB3.png'
-import bc4 from './assets/berrycrown/CB4.png'
-
-const BERRYCROWN_IMAGES = [bc1, bc4, bc3]
+import bcCrownVideo from './assets/berrycrown/BerryCrownV.mp4'
 
 const DOUGH_ITEMS = {
   Cookies: [
@@ -173,7 +168,7 @@ const DOUGH_ITEMS = {
 
 const BRIKS = [
   { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚' },
-  { id: 5,  name: 'Berry Crown',  price: 25, images: BERRYCROWN_IMAGES },
+  { id: 5,  name: 'Berry Crown',  price: 25, video: bcCrownVideo, videoFirst: true },
   { id: 6,  name: 'Golden Toast', price: 25, images: GOLDENTOAST_IMAGES },
   { id: 26, name: 'Fruity Wave',  price: 25, images: FRUITYWAVE_IMAGES },
 ]
