@@ -75,11 +75,7 @@ import meltDownVideo from './assets/meltdown/meltdown.mp4'
 
 const CHIPDIP_IMAGES = [cd1, cd3, cd2]
 
-import fw1 from './assets/fruitywave/FB1.png'
-import fw2 from './assets/fruitywave/FB2.png'
-import fw3 from './assets/fruitywave/FB3.png'
-
-const FRUITYWAVE_IMAGES = [fw1, fw2, fw3]
+import fruitFlashVideo from './assets/fruitywave/FruitFlashV.mp4'
 
 import oatPecan from './assets/oatsession/pecan.png'
 import oatPecanVideo from './assets/oatsession/oatsessionV.mp4'
@@ -170,7 +166,7 @@ const BRIKS = [
   { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚' },
   { id: 5,  name: 'Berry Crown',  price: 25, video: bcCrownVideo, videoFirst: true },
   { id: 6,  name: 'Golden Toast', price: 25, images: GOLDENTOAST_IMAGES },
-  { id: 26, name: 'Fruity Wave',  price: 25, images: FRUITYWAVE_IMAGES },
+  { id: 26, name: 'Fruit Flash',  price: 25, video: fruitFlashVideo, videoFirst: true },
 ]
 
 function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderConfirmed, onOrderConfirmed }) {
