@@ -105,12 +105,7 @@ import oatRaisin from './assets/oatsession/raisin1.png'
 
 import midnightCrunchVideo from './assets/blackoutbites/midnightcrunch.mp4'
 
-import gt1 from './assets/goldentoast/GT1.png'
-import gt2 from './assets/goldentoast/gt4.png'
-import gt3 from './assets/goldentoast/gt7.png'
-import gt4 from './assets/goldentoast/gt8.png'
-
-const GOLDENTOAST_IMAGES = [gt2, gt4]
+import goldenToastVideo from './assets/goldentoast/GoldenToastV.mp4'
 
 import bcCrownVideo from './assets/berrycrown/BerryCrownV.mp4'
 
@@ -165,7 +160,7 @@ const DOUGH_ITEMS = {
 const BRIKS = [
   { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚' },
   { id: 5,  name: 'Berry Crown',  price: 25, video: bcCrownVideo, videoFirst: true },
-  { id: 6,  name: 'Golden Toast', price: 25, images: GOLDENTOAST_IMAGES },
+  { id: 6,  name: 'Golden Toast', price: 25, video: goldenToastVideo, videoFirst: true },
   { id: 26, name: 'Fruit Flash',  price: 25, video: fruitFlashVideo, videoFirst: true },
 ]
 
