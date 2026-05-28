@@ -440,7 +440,7 @@ const REVIEWS = [
   { id: 6, name: 'Carlos V.',     stars: 5, text: 'The Melt Down is dangerous — in the best way. Graham cracker, marshmallow, and chocolate in one cookie is unfair.' },
 ]
 
-const DOUGH_TABS = ['Cookies', 'Muffins', 'Pop Tarts', 'Rolls', 'Pies', 'Specials']
+const DOUGH_TABS = ['Cookies', 'Muffins', 'Pop Tarts', 'Rolls', 'Pies', 'Specials', 'Briks']
 
 const SHAPES = [
   { top: '5%',  left: '5%',  size: 80,  delay: 0,   duration: 12, emoji: '🍪' },
@@ -918,9 +918,9 @@ export default function App() {
 
       <section id="menu" className="menu-section">
         <div className="category">
-          <h3 className="category-title">Dough</h3>
+          <h3 className="category-title">Menu</h3>
           <div className="dough-tabs">
-            {DOUGH_TABS.filter(t => t !== 'Specials').map(tab => (
+            {DOUGH_TABS.filter(t => t !== 'Specials' && t !== 'Briks').map(tab => (
               <button
                 key={tab}
                 className={`dough-tab ${doughTab === tab ? 'active' : ''}`}
@@ -932,6 +932,12 @@ export default function App() {
           </div>
           <div className="dough-tabs dough-tabs-specials">
             <button
+              className={`dough-tab ${doughTab === 'Briks' ? 'active' : ''}`}
+              onClick={() => setDoughTab('Briks')}
+            >
+              Briks
+            </button>
+            <button
               className={`dough-tab ${doughTab === 'Specials' ? 'active' : ''}`}
               onClick={() => setDoughTab('Specials')}
             >
@@ -939,23 +945,10 @@ export default function App() {
             </button>
           </div>
           <div className="cookie-grid">
-            {DOUGH_ITEMS[doughTab].map(item => (
+            {(doughTab === 'Briks' ? BRIKS : DOUGH_ITEMS[doughTab]).map(item => (
               <div key={item.id} className={`card-wrap ${added === item.id ? 'added' : ''}`}>
                 <CookieCard cookie={item} onAdd={addToCart} styleOptions={doughTab === 'Cookies'} noNugs={!!item.noNugs} qtyStep={doughTab === 'Pies' ? 1 : doughTab === 'Pop Tarts' ? 5 : 6} />
                 {added === item.id && <div className="added-toast">Added!</div>}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="category">
-          <h3 className="category-title">Briks</h3>
-          <p className="category-desc">Marshmallow-loaded cereal bars with a perfect balance of gooey and crunch.</p>
-          <div className="cookie-grid">
-            {BRIKS.map(cookie => (
-              <div key={cookie.id} className={`card-wrap ${added === cookie.id ? 'added' : ''}`}>
-                <CookieCard cookie={cookie} onAdd={addToCart} styleOptions={false} />
-                {added === cookie.id && <div className="added-toast">Added!</div>}
               </div>
             ))}
           </div>

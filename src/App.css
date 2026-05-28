@@ -383,6 +383,7 @@
 }
 
 .dough-tabs-specials {
+  justify-content: space-between;
   margin-bottom: 28px;
 }
 
