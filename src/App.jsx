@@ -930,7 +930,7 @@ export default function App() {
               </button>
             ))}
           </div>
-          <div className="dough-tabs dough-tabs-specials">
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '28px' }}>
             <button
               className={`dough-tab ${doughTab === 'Briks' ? 'active' : ''}`}
               onClick={() => setDoughTab('Briks')}
