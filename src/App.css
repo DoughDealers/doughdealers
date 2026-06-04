@@ -615,6 +615,13 @@
   margin-top: 1px;
 }
 
+.style-qty-note {
+  font-size: 0.8rem;
+  color: #888;
+  margin: -4px 0 8px;
+  text-align: center;
+}
+
 .qty-row {
   display: flex;
   align-items: center;

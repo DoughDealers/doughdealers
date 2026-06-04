@@ -385,6 +385,11 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
       {!cookie.videoFirst && videoEl}
       <h3>{cookie.name}</h3>
       <p style={{ whiteSpace: 'pre-line' }}>{(variant && cookie.variantDescriptions?.[variant]) || cookie.description}</p>
+      {styleOptions && (
+        <p className="style-qty-note">
+          {style === 'Chunks' ? '6 large cookies per bag.' : '5 bags · 4 small cookies each.'}
+        </p>
+      )}
 
       {cookie.variants && (
         <div className="variant-toggle">
@@ -404,14 +409,14 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
             className={`style-btn ${style === 'Chunks' ? 'active' : ''}`}
             onClick={() => selectStyle('Chunks')}
           >
-            Chunks <span className="style-price">$25 / 6</span>
+            Chunks <span className="style-price">6/bag · $25</span>
           </button>
           {!effectiveNoNugs && (
             <button
               className={`style-btn ${style === 'Nugs' ? 'active' : ''}`}
               onClick={() => selectStyle('Nugs')}
             >
-              Nugs <span className="style-price">$24 / 20</span>
+              Nugs <span className="style-price">5 bags × 4 · $24</span>
             </button>
           )}
         </div>
