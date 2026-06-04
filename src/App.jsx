@@ -106,6 +106,7 @@ import oatRaisin from './assets/oatsession/raisin1.png'
 import midnightCrunchVideo from './assets/blackoutbites/midnightcrunch.mp4'
 
 import goldenToastVideo from './assets/goldentoast/GoldenToastV.mp4'
+import sweetRiceVideo from './assets/sweetrice/SweetRiceV.mp4'
 
 import bcCrownVideo from './assets/berrycrown/BerryCrownV.mp4'
 
@@ -158,7 +159,7 @@ const DOUGH_ITEMS = {
 }
 
 const BRIKS = [
-  { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚' },
+  { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚', video: sweetRiceVideo, videoFirst: true },
   { id: 5,  name: 'Berry Crown',  price: 25, video: bcCrownVideo, videoFirst: true },
   { id: 6,  name: 'Golden Toast', price: 25, video: goldenToastVideo, videoFirst: true },
   { id: 26, name: 'Fruit Flash',  price: 25, video: fruitFlashVideo, videoFirst: true },
