@@ -645,7 +645,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, serviceFee = 0, onDeliveryFe
       })
       const data = await res.json()
       if (data.success) {
-        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee, serviceFee }))
+        sessionStorage.setItem('dd_order', JSON.stringify({ cart, deliveryFee, serviceFee, name, email }))
         const p = new URLSearchParams({ confirmed: '1', date, time, method })
         window.location.href = `/?${p.toString()}`
       } else {
@@ -764,8 +764,12 @@ function OrderConfirmedPage() {
     ],
     deliveryFee: 0,
     serviceFee: 0,
+    name: '',
+    email: '',
   }
-  const { cart, deliveryFee, serviceFee = 0 } = saved
+  const { cart, deliveryFee, serviceFee = 0, name: customerName = '', email: customerEmail = '' } = saved
+
+  const [cancelState, setCancelState] = React.useState('idle') // idle | confirm | loading | done | error
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
   const tax      = subtotal * 0.0825
   const total    = subtotal + tax + deliveryFee + serviceFee
@@ -836,6 +840,80 @@ function OrderConfirmedPage() {
         <a href="/" style={{ display: 'inline-block', background: '#111', color: '#fff', padding: '12px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem' }}>
           Back to Dough Dealers
         </a>
+
+        {/* Cancellation section */}
+        <div style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '32px' }}>
+          <p style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#aaa', margin: '0 0 12px' }}>Cancellation Policy</p>
+          <div style={{ background: '#f7f4f0', borderRadius: '12px', padding: '20px', marginBottom: '20px', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.88rem', color: '#555' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>72+ hours before</span><span style={{ fontWeight: 600, color: '#2a9d2a' }}>No fee</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>48–72 hours before</span><span style={{ fontWeight: 600, color: '#c8a96e' }}>25% fee</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>24–48 hours before</span><span style={{ fontWeight: 600, color: '#e08c3a' }}>50% fee</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Same day</span><span style={{ fontWeight: 600, color: '#c0392b' }}>Full charge</span></div>
+            </div>
+          </div>
+
+          {cancelState === 'idle' && (
+            <button
+              onClick={() => setCancelState('confirm')}
+              style={{ background: 'none', border: '1px solid #ddd', borderRadius: '8px', padding: '10px 24px', fontSize: '0.88rem', color: '#888', cursor: 'pointer', width: '100%' }}
+            >
+              Request Cancellation
+            </button>
+          )}
+
+          {cancelState === 'confirm' && (
+            <div style={{ background: '#fff3f3', border: '1px solid #f5c6cb', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
+              <p style={{ margin: '0 0 16px', fontSize: '0.95rem', color: '#333', fontWeight: 600 }}>Are you sure you want to cancel?</p>
+              <p style={{ margin: '0 0 20px', fontSize: '0.85rem', color: '#888' }}>A cancellation request will be sent to us. Fees may apply based on the policy above.</p>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                <button
+                  onClick={async () => {
+                    setCancelState('loading')
+                    try {
+                      const res = await fetch('/api/cancel-order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: customerName, email: customerEmail, date, time, method }),
+                      })
+                      const data = await res.json()
+                      setCancelState(data.success ? 'done' : 'error')
+                    } catch {
+                      setCancelState('error')
+                    }
+                  }}
+                  style={{ background: '#c0392b', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 24px', fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer' }}
+                >
+                  Yes, Cancel My Order
+                </button>
+                <button
+                  onClick={() => setCancelState('idle')}
+                  style={{ background: '#f0f0f0', color: '#555', border: 'none', borderRadius: '8px', padding: '10px 24px', fontSize: '0.88rem', cursor: 'pointer' }}
+                >
+                  Never Mind
+                </button>
+              </div>
+            </div>
+          )}
+
+          {cancelState === 'loading' && (
+            <p style={{ color: '#888', fontSize: '0.9rem', textAlign: 'center' }}>⏳ Sending your request…</p>
+          )}
+
+          {cancelState === 'done' && (
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
+              <p style={{ margin: 0, fontSize: '0.95rem', color: '#166534', fontWeight: 600 }}>✅ Cancellation request sent!</p>
+              <p style={{ margin: '8px 0 0', fontSize: '0.85rem', color: '#555' }}>We'll reach out shortly to confirm and let you know if any fees apply.</p>
+            </div>
+          )}
+
+          {cancelState === 'error' && (
+            <div style={{ background: '#fff3f3', border: '1px solid #f5c6cb', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: '#c0392b' }}>Something went wrong. Please email us at <strong>Info@thedoughdealers.com</strong> to cancel.</p>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   )
