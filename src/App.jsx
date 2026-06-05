@@ -769,7 +769,7 @@ function OrderConfirmedPage() {
   }
   const { cart, deliveryFee, serviceFee = 0, name: customerName = '', email: customerEmail = '' } = saved
 
-  const [cancelState, setCancelState] = React.useState('idle') // idle | confirm | loading | done | error
+  const [cancelState, setCancelState] = useState('idle') // idle | confirm | loading | done | error
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
   const tax      = subtotal * 0.0825
   const total    = subtotal + tax + deliveryFee + serviceFee
