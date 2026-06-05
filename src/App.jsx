@@ -877,7 +877,11 @@ function OrderConfirmedPage() {
                         body: JSON.stringify({ name: customerName, email: customerEmail, date, time, method }),
                       })
                       const data = await res.json()
-                      setCancelState(data.success ? 'done' : 'error')
+                      if (data.success) {
+                        window.location.href = '/?cancelled=1'
+                      } else {
+                        setCancelState('error')
+                      }
                     } catch {
                       setCancelState('error')
                     }
@@ -919,9 +923,26 @@ function OrderConfirmedPage() {
   )
 }
 
+function CancellationConfirmedPage() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', fontFamily: 'Arial, sans-serif' }}>
+      <img src="/logowhite.png" alt="Dough Dealers" style={{ width: '140px', marginBottom: '32px', filter: 'invert(1)' }} />
+      <div style={{ maxWidth: '420px', width: '100%', textAlign: 'center' }}>
+        <div style={{ fontSize: '3rem', margin: '0 0 16px' }}>🍪</div>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#c8a96e', margin: '0 0 12px' }}>Chip happens!</h1>
+        <p style={{ color: '#888', fontSize: '0.95rem', lineHeight: 1.6, margin: '0 0 32px' }}>We'll reach out shortly to confirm and let you know if any fees apply.</p>
+        <a href="/" style={{ display: 'inline-block', background: '#111', color: '#fff', padding: '12px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem' }}>
+          Back to Dough Dealers
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const params = new URLSearchParams(window.location.search)
   if (params.get('confirmed') === '1') return <OrderConfirmedPage />
+  if (params.get('cancelled') === '1') return <CancellationConfirmedPage />
 
   const isCartPreview = params.get('preview') === 'cart'
   const [cart, setCart] = useState(isCartPreview ? [{ id: 1, name: 'Chip Drip – Nutella (Chunks)', price: 5, qty: 6 }] : [])
