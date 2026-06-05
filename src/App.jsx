@@ -418,7 +418,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
       )}
       {styleOptions && (
         <p className="style-qty-note">
-          {style === 'Chunks' ? '6 bags · 1 large cookie each' : '5 bags · 4 small cookies each'}
+          {style === 'Chunks' ? '6 bags · 1 chunk each' : '5 bags · 4 nugs each'}
         </p>
       )}
 
