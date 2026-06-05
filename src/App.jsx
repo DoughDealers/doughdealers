@@ -159,10 +159,10 @@ const DOUGH_ITEMS = {
 }
 
 const BRIKS = [
-  { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚', video: sweetRiceVideo, videoFirst: true },
-  { id: 5,  name: 'Berry Crown',  price: 25, video: bcCrownVideo, videoFirst: true },
-  { id: 6,  name: 'Golden Toast', price: 25, video: goldenToastVideo, videoFirst: true },
-  { id: 26, name: 'Fruit Flash',  price: 25, video: fruitFlashVideo, videoFirst: true },
+  { id: 4,  name: 'Sweet Rice',   price: 25, emoji: '🍚', description: 'Classic krispy treat made with Rice Krispies, chewy, gooey, and perfectly crisp.', video: sweetRiceVideo, videoFirst: true },
+  { id: 5,  name: 'Berry Crown',  price: 25, description: 'Krispy treat loaded with Cap\'n Crunch Berries, sweet, fruity, and packed with crunch.', video: bcCrownVideo, videoFirst: true },
+  { id: 6,  name: 'Golden Toast', price: 25, description: 'Krispy treat made with Cinnamon Toast Crunch, sweet cinnamon flavor in every bite.', video: goldenToastVideo, videoFirst: true },
+  { id: 26, name: 'Fruit Flash',  price: 25, description: 'Krispy treat bursting with Fruity Pebbles, colorful, sweet, and full of fruity flavor.', video: fruitFlashVideo, videoFirst: true },
 ]
 
 function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderConfirmed, onOrderConfirmed }) {
