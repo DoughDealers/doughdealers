@@ -26,6 +26,7 @@ import merchImTheChip from './assets/merch/ImTheChip.png'
 import merchChippinMe from './assets/merch/YouGotToBeChippinMe.png'
 import merchStraightChipping from './assets/merch/StraightChippin.png'
 import merchShowMeChips from './assets/merch/ShowMeYourChips.png'
+import merchDoughGetter from './assets/merch/DoughGetter.png'
 
 const DOUGH_SHIRTS = [
   { id: 6,  name: 'The Best Dough Fa Sho!',  img: merchBest },
@@ -40,6 +41,7 @@ const DOUGH_SHIRTS = [
   { id: 10, name: 'Dough Life',               img: merchLife },
   { id: 13, name: 'Dough Gang',               img: merchGang },
   { id: 12, name: 'Mo Money Dough Problems',  img: merchMoney },
+  { id: 14, name: 'Dough Getter',             img: merchDoughGetter },
 ]
 
 const CHIP_SHIRTS = [
