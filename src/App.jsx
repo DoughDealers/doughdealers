@@ -249,8 +249,8 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
   )
 }
 
-const STYLE_PRICES = { Nugs: 24, Chunks: 25 }
-const STYLE_SIZES = { Nugs: 20, Chunks: 6 }
+const STYLE_PRICES = { Nugs: 25, Chunks: 25 }
+const STYLE_SIZES = { Nugs: 24, Chunks: 6 }
 
 function MerchCard({ item, onAdd }) {
   const [size, setSize] = useState('S')
@@ -413,14 +413,14 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
               className={`style-btn ${style === 'Nugs' ? 'active' : ''}`}
               onClick={() => selectStyle('Nugs')}
             >
-              Nugs <span className="style-price">$24</span>
+              Nugs <span className="style-price">$25</span>
             </button>
           )}
         </div>
       )}
       {styleOptions && (
         <p className="style-qty-note">
-          {style === 'Chunks' ? '6 bags · 1 chunk each' : '5 bags · 4 nugs each'}
+          {style === 'Chunks' ? '6 bags · 1 chunk each' : '6 bags · 4 nugs each'}
         </p>
       )}
 
