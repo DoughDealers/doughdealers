@@ -1291,7 +1291,11 @@ export default function App() {
           <span className="float-nav-icon">🍪</span>
           <span className="float-nav-label">Cookies</span>
         </a>
-<a href="#merch" className="float-nav-item">
+        <a href="#gifts" className="float-nav-item">
+          <span className="float-nav-icon">🎁</span>
+          <span className="float-nav-label">Gifts</span>
+        </a>
+        <a href="#merch" className="float-nav-item">
           <span className="float-nav-icon">👕</span>
           <span className="float-nav-label">Merch</span>
         </a>
