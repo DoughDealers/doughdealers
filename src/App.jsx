@@ -1158,7 +1158,7 @@ export default function App() {
         <div className="nav-brand">🍪 Dough Dealers</div>
         <ul className="nav-links">
           <li><a href="#menu">Menu</a></li>
-          <li><a href="#gifts">Gifts</a></li>
+
           <li><a href="#contact">Contact</a></li>
         </ul>
         <div className="nav-right">
@@ -1228,7 +1228,7 @@ export default function App() {
         </div>
       </section>
 
-      <GiftsSection giftMessage={giftMessage} onSetGiftMessage={setGiftMessage} />
+      {/* <GiftsSection giftMessage={giftMessage} onSetGiftMessage={setGiftMessage} /> */}
 
 <section id="merch" className="merch-section">
         <h2>Shop Merch</h2>
@@ -1293,11 +1293,7 @@ export default function App() {
           <span className="float-nav-icon">🍪</span>
           <span className="float-nav-label">Cookies</span>
         </a>
-        <a href="#gifts" className="float-nav-item">
-          <span className="float-nav-icon">🎁</span>
-          <span className="float-nav-label">Gifts</span>
-        </a>
-        <a href="#merch" className="float-nav-item">
+<a href="#merch" className="float-nav-item">
           <span className="float-nav-icon">👕</span>
           <span className="float-nav-label">Merch</span>
         </a>
