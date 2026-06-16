@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
+const API_BASE = import.meta.env.DEV ? '' : 'https://thedoughdealers.com'
+
 import logo from './assets/logo.svg'
 import themeSong from './assets/theme.mp3'
 import danceVideo from './assets/dance.mp4'
@@ -796,7 +798,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, serviceFee = 0, onDeliveryFe
     setPayLoading(true)
 
     try {
-      const res = await fetch('/api/submit-order', {
+      const res = await fetch(`${API_BASE}/api/submit-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1036,7 +1038,7 @@ function OrderConfirmedPage() {
                   onClick={async () => {
                     setCancelState('loading')
                     try {
-                      const res = await fetch('/api/cancel-order', {
+                      const res = await fetch(`${API_BASE}/api/cancel-order`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name: customerName, email: customerEmail, date, time, method }),
