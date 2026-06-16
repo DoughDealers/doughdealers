@@ -168,7 +168,7 @@ const BRIKS = [
   { id: 26, name: 'Fruit Flash',  price: 25, description: 'Fruity Pebbles pressed into a colorful, chewy krispy treat.', video: fruitFlashVideo, videoFirst: true },
 ]
 
-function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderConfirmed, onOrderConfirmed }) {
+function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderConfirmed, onOrderConfirmed, giftMessage, onRemoveGift }) {
   const [deliveryFee, setDeliveryFee] = useState(0)
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const TAX_RATE = 0.0825
@@ -197,6 +197,15 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                   <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
                 </li>
               ))}
+              {giftMessage && (
+                <li className="cart-item cart-gift-item">
+                  <div className="cart-item-info">
+                    <span className="cart-item-name">🎁 Gift Message <span className="cart-gift-occasion">· {giftMessage.occasionLabel}</span></span>
+                    <span className="cart-item-qty cart-gift-msg">"{giftMessage.message}"</span>
+                  </div>
+                  <button className="remove-btn" onClick={onRemoveGift}>✕</button>
+                </li>
+              )}
             </ul>
             <div className="cart-footer">
               <div className="cart-subtotal">Subtotal: <strong>${subtotal.toFixed(2)}</strong></div>
@@ -239,6 +248,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onClearAndClose, orderCo
                     serviceFee={serviceFee}
                     onDeliveryFeeChange={setDeliveryFee}
                     onSuccess={details => onOrderConfirmed(details)}
+                    giftMessage={giftMessage}
                   />
                 </>
               )}
@@ -453,6 +463,155 @@ const REVIEWS = [
 
 const DOUGH_TABS = ['Cookies', 'Muffins', 'Pop Tarts', 'Rolls', 'Pies', 'Specials', 'Briks']
 
+const GIFT_OCCASIONS = [
+  {
+    id: 'birthday',
+    label: 'Birthday',
+    emoji: '🎂',
+    puns: [
+      "Hope your birthday is on a roll!",
+      "Wishing you a dough-lightful day",
+      "Life is batter with you in it",
+      "Another year sweeter — happy birthday!",
+    ],
+  },
+  {
+    id: 'friendship',
+    label: 'Friendship',
+    emoji: '🤝',
+    puns: [
+      "I admire our friendchip",
+      "You're my dough-ride",
+      "Real ones stick together like dough",
+      "Thanks for always being in my corner-chip",
+    ],
+  },
+  {
+    id: 'romance',
+    label: 'Romance',
+    emoji: '💕',
+    puns: [
+      "I love our relationchip",
+      "You're my butter half",
+      "I'm so lucky to have you, dough you know that?",
+      "Sweet on you — always and forever",
+    ],
+  },
+  {
+    id: 'family',
+    label: 'Family',
+    emoji: '🏡',
+    puns: [
+      "Family is the secret ingredient",
+      "You make life sweeter",
+      "Grateful for our dough-mestic life",
+      "Home is wherever there's good dough",
+    ],
+  },
+  {
+    id: 'justbecause',
+    label: 'Just Because',
+    emoji: '🎁',
+    puns: [
+      "Just because you're worth it",
+      "Sending sweetness your way",
+      "You deserve a treat, dough you know it?",
+      "No occasion needed — you're that special",
+    ],
+  },
+]
+
+function GiftsSection({ giftMessage, onSetGiftMessage }) {
+  const [selectedOccasion, setSelectedOccasion] = useState(null)
+  const [selectedPun, setSelectedPun] = useState('')
+  const [customMessage, setCustomMessage] = useState('')
+  const [added, setAdded] = useState(false)
+
+  const activeMessage = customMessage.trim() || selectedPun
+
+  function selectOccasion(occ) {
+    setSelectedOccasion(occ)
+    setSelectedPun('')
+    setCustomMessage('')
+    setAdded(false)
+  }
+
+  function handleAdd() {
+    if (!selectedOccasion || !activeMessage) return
+    onSetGiftMessage({ occasionId: selectedOccasion.id, occasionLabel: selectedOccasion.label, message: activeMessage })
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2500)
+  }
+
+  return (
+    <section id="gifts" className="gifts-section">
+      <h2 className="gifts-title">Send a Gift</h2>
+      <p className="section-sub">Pick an occasion, choose a sweet message, and we'll include a card with your order.</p>
+
+      <div className="gifts-occasions">
+        {GIFT_OCCASIONS.map(occ => (
+          <button
+            key={occ.id}
+            className={`gift-occasion-card ${selectedOccasion?.id === occ.id ? 'active' : ''}`}
+            onClick={() => selectOccasion(occ)}
+          >
+            <span className="gift-occasion-emoji">{occ.emoji}</span>
+            <span className="gift-occasion-label">{occ.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {selectedOccasion && (
+        <div className="gifts-builder">
+          <p className="gifts-section-label">Pick a message</p>
+          <div className="gifts-pun-list">
+            {selectedOccasion.puns.map(pun => (
+              <button
+                key={pun}
+                className={`gift-pun-btn ${selectedPun === pun ? 'active' : ''}`}
+                onClick={() => { setSelectedPun(pun); setCustomMessage('') }}
+              >
+                "{pun}"
+              </button>
+            ))}
+          </div>
+
+          <p className="gifts-section-label" style={{ marginTop: '24px' }}>Or write your own</p>
+          <textarea
+            className="gifts-custom-input"
+            placeholder="Write a personal message..."
+            value={customMessage}
+            maxLength={200}
+            onChange={e => { setCustomMessage(e.target.value); setSelectedPun('') }}
+            rows={3}
+          />
+
+          {activeMessage && (
+            <div className="gifts-preview">
+              <span className="gifts-preview-label">{selectedOccasion.emoji} Preview</span>
+              <span className="gifts-preview-text">"{activeMessage}"</span>
+            </div>
+          )}
+
+          <button
+            className={`gifts-add-btn ${!activeMessage ? 'disabled' : ''} ${added ? 'confirmed' : ''}`}
+            onClick={handleAdd}
+            disabled={!activeMessage}
+          >
+            {added ? '✓ Gift message added to your order!' : '🎁 Add Gift Message to Order'}
+          </button>
+
+          {giftMessage && (
+            <p className="gifts-current-note">
+              Current message: "{giftMessage.message}" — you can update it anytime before checkout.
+            </p>
+          )}
+        </div>
+      )}
+    </section>
+  )
+}
+
 const SHAPES = [
   { top: '5%',  left: '5%',  size: 80,  delay: 0,   duration: 12, emoji: '🍪' },
   { top: '15%', left: '88%', size: 60,  delay: 2,   duration: 10, emoji: '🧁' },
@@ -521,7 +680,7 @@ function calcDeliveryFee(miles) {
   return null
 }
 
-function ScheduleForm({ cart = [], deliveryFee = 0, serviceFee = 0, onDeliveryFeeChange, onSuccess }) {
+function ScheduleForm({ cart = [], deliveryFee = 0, serviceFee = 0, onDeliveryFeeChange, onSuccess, giftMessage }) {
   const [method, setMethod] = useState('pickup')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -646,6 +805,7 @@ function ScheduleForm({ cart = [], deliveryFee = 0, serviceFee = 0, onDeliveryFe
           method,
           deliveryFee,
           serviceFee,
+          giftMessage: giftMessage || null,
         }),
       })
       const data = await res.json()
@@ -955,6 +1115,7 @@ export default function App() {
   const [added, setAdded] = useState(null)
   const [doughTab, setDoughTab] = useState('Cookies')
   const [merchTab, setMerchTab] = useState('Dough Shirts')
+  const [giftMessage, setGiftMessage] = useState(null)
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(false)
   const audioRef = useRef(null)
@@ -995,6 +1156,7 @@ export default function App() {
         <div className="nav-brand">🍪 Dough Dealers</div>
         <ul className="nav-links">
           <li><a href="#menu">Menu</a></li>
+          <li><a href="#gifts">Gifts</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
         <div className="nav-right">
@@ -1063,6 +1225,8 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <GiftsSection giftMessage={giftMessage} onSetGiftMessage={setGiftMessage} />
 
 <section id="merch" className="merch-section">
         <h2>Shop Merch</h2>
@@ -1153,6 +1317,8 @@ export default function App() {
           onClear={() => { setCart([]); setOrderConfirmed(null) }}
           orderConfirmed={orderConfirmed}
           onOrderConfirmed={setOrderConfirmed}
+          giftMessage={giftMessage}
+          onRemoveGift={() => setGiftMessage(null)}
         />
       )}
     </>

@@ -1,6 +1,6 @@
 export async function onRequestPost({ request, env }) {
   try {
-    const { cart, customer, method, deliveryFee, serviceFee = 0 } = await request.json()
+    const { cart, customer, method, deliveryFee, serviceFee = 0, giftMessage } = await request.json()
 
     if (!env.RESEND_API_KEY) {
       return json({ error: 'Email service not configured.' }, 500)
@@ -118,7 +118,19 @@ export async function onRequestPost({ request, env }) {
           ${method === 'delivery' ? `<p style="margin:0;color:#d4c5a9;font-size:0.95rem;">📍 <strong style="color:#f0e8d5;">${customer.address}</strong></p>` : ''}
         </td></tr>
 
-        <tr><td height="32"></td></tr>
+        <tr><td height="16"></td></tr>
+
+        ${giftMessage ? `
+        <!-- Gift message -->
+        <tr><td bgcolor="#1a1a1a" style="background-color:#1a1a1a;border-radius:12px;padding:28px 32px;">
+          <p style="margin:0 0 10px;font-size:0.75rem;font-weight:700;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;">🎁 Gift Message</p>
+          <p style="margin:0 0 6px;color:#888;font-size:0.82rem;">${giftMessage.occasionLabel}</p>
+          <p style="margin:0;color:#f0e8d5;font-size:1rem;font-style:italic;line-height:1.6;">"${giftMessage.message}"</p>
+        </td></tr>
+        <tr><td height="16"></td></tr>
+        ` : ''}
+
+        <tr><td height="16"></td></tr>
 
         <!-- Footer -->
         <tr><td align="center">
@@ -190,6 +202,12 @@ export async function onRequestPost({ request, env }) {
     ${deliveryFee > 0 ? `<p style="margin:4px 0;color:#555;">Delivery Fee: <strong>$${deliveryFee.toFixed(2)}</strong></p>` : ''}
     ${serviceFee > 0 ? `<p style="margin:4px 0;color:#555;">Service Fee (3%): <strong>$${serviceFee.toFixed(2)}</strong></p>` : ''}
     <p style="margin:12px 0 0;font-size:1.2rem;color:#1a1a1a;">Total: <strong>$${total.toFixed(2)}</strong></p>
+
+    ${giftMessage ? `
+    <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
+    <p style="margin:0 0 6px;font-weight:700;color:#1a1a1a;">🎁 Gift Message (${giftMessage.occasionLabel})</p>
+    <p style="margin:0;color:#333;font-style:italic;">"${giftMessage.message}"</p>
+    ` : ''}
 
     <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
     <p style="margin:0 0 16px;color:#555;font-size:0.9rem;">Review the order above, then click below to confirm it and automatically send the customer their payment link.</p>
