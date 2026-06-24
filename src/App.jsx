@@ -86,6 +86,7 @@ import oatPecanVideo from './assets/oatsession/oatsessionV.mp4'
 import oatRegularVideo from './assets/oatsession/OatsessionRegular.mp4'
 import oatRaisinVideo from './assets/oatsession/OatsessionRaisin.mp4'
 import oatRaisinNugsVideo from './assets/oatsession/OatsessionRaisinNugs.mp4'
+import oatRegularNugsVideo from './assets/oatsession/oatsessionRegularNugs.mp4'
 import mm1 from './assets/mm/RC1.png'
 import mm2 from './assets/mm/m3.1.png'
 import mm3 from './assets/mm/m4.1.png'
@@ -119,7 +120,7 @@ import bcCrownVideo from './assets/berrycrown/BerryCrownV.mp4'
 const DOUGH_ITEMS = {
   Cookies: [
     { id: 1,  name: 'Chip Drip',           price: 5.00, emoji: '🍪', description: 'Soft-baked cookie dripping with rich chocolate chips.', variantDescriptions: { Nutella: 'Soft-baked cookie dripping with rich chocolate chips, with gooey nutella filling.' }, variants: ['Regular', 'Nutella'], styleVideos: { Chunks: cdVideo, Nugs: cdNugsVideo }, noNugsVariants: ['Nutella'] },
-    { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variantDescriptions: { Raisin: 'Hearty oatmeal cookie with a touch of cinnamon and plump, juicy raisins.', Pecan: 'Hearty oatmeal cookie with a touch of cinnamon, loaded with toasted pecans.' }, variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo }, variantStyleVideos: { Raisin: { Nugs: oatRaisinNugsVideo } } },
+    { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variantDescriptions: { Raisin: 'Hearty oatmeal cookie with a touch of cinnamon and plump, juicy raisins.', Pecan: 'Hearty oatmeal cookie with a touch of cinnamon, loaded with toasted pecans.' }, variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo }, variantStyleVideos: { Regular: { Nugs: oatRegularNugsVideo }, Raisin: { Nugs: oatRaisinNugsVideo } } },
     { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', styleVideos: { Chunks: ggChunksVideo, Nugs: ggNugsVideo } },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variantDescriptions: { Peanut: 'Soft and chewy cookie packed with colorful peanut M&M candies.' }, variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
     { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
