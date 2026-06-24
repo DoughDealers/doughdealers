@@ -109,6 +109,7 @@ const BLUEDREAM_IMAGES = [bdd1]
 import oatRaisin from './assets/oatsession/raisin1.png'
 
 import midnightCrunchVideo from './assets/blackoutbites/MidnightMountain.mp4'
+import midnightMountainNugsVideo from './assets/blackoutbites/midnightMountainNugs.mp4'
 
 import goldenToastVideo from './assets/goldentoast/GoldenToastV.mp4'
 import sweetRiceVideo from './assets/sweetrice/SweetRiceV.mp4'
@@ -124,7 +125,7 @@ const DOUGH_ITEMS = {
     { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
     { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, noNugs: true },
     { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
-    { id: 22, name: 'Midnight Mountain',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', video: midnightCrunchVideo, videoFirst: true, noNugs: true },
+    { id: 22, name: 'Midnight Mountain',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', styleVideos: { Chunks: midnightCrunchVideo, Nugs: midnightMountainNugsVideo }, videoFirst: true },
     { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
     { id: 23, name: 'Berry Bliss',      price: 5.00, emoji: '🍓', description: 'Buttery cookie with raspberries and creamy macadamia nuts.' },
     { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', noNugs: true },
