@@ -67,6 +67,7 @@ import cbnf3 from './assets/cinnabomb/cbnf3.png'
 import cinnaBombVideo from './assets/cinnabomb/CinnaBombV.mp4'
 import cinnaBombFrostingVideo from './assets/cinnabomb/CinnaBombFV.mp4'
 import cinnaBombNFNugsVideo from './assets/cinnabomb/CinnaBombNFNugs.mp4'
+import cinnaBombFNugsVideo from './assets/cinnabomb/CinnaBombFNugs.mp4'
 
 const CINABOMB_FROSTING = [cb1, cb2, cb3]
 const CINABOMB_REGULAR  = [cbnf1, cbnf2, cbnf3]
@@ -125,7 +126,7 @@ const DOUGH_ITEMS = {
     { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', styleVideos: { Chunks: ggChunksVideo, Nugs: ggNugsVideo } },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variantDescriptions: { Peanut: 'Soft and chewy cookie packed with colorful peanut M&M candies.' }, variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
     { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
-    { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, variantStyleVideos: { 'No Frosting': { Nugs: cinnaBombNFNugsVideo } }, noNugsVariants: ['Original'] },
+    { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, variantStyleVideos: { Original: { Nugs: cinnaBombFNugsVideo }, 'No Frosting': { Nugs: cinnaBombNFNugsVideo } } },
     { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
     { id: 22, name: 'Midnight Mountain',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', styleVideos: { Chunks: midnightCrunchVideo, Nugs: midnightMountainNugsVideo }, videoFirst: true },
     { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
