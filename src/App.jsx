@@ -98,6 +98,7 @@ import nc1 from './assets/nutcase/ncf1.1.png'
 import nc2 from './assets/nutcase/NCF2.png'
 import nc3 from './assets/nutcase/NCF3.png'
 import ncVideo from './assets/nutcase/NC_video.mp4'
+import ncNugsVideo from './assets/nutcase/NutCaseNugs.mp4'
 
 const MM_IMAGES = [mm1, mm2, mm3]
 const NUTCASE_IMAGES = [nc1, nc2, nc3]
@@ -126,7 +127,7 @@ const DOUGH_ITEMS = {
     { id: 2,  name: 'Oatsession',           price: 5.00, emoji: '🌾', description: 'Hearty oatmeal cookie with a touch of cinnamon.', variantDescriptions: { Raisin: 'Hearty oatmeal cookie with a touch of cinnamon and plump, juicy raisins.', Pecan: 'Hearty oatmeal cookie with a touch of cinnamon, loaded with toasted pecans.' }, variants: ['Regular', 'Raisin', 'Pecan'], variantVideos: { Regular: oatRegularVideo, Raisin: oatRaisinVideo, Pecan: oatPecanVideo }, variantStyleVideos: { Regular: { Nugs: oatRegularNugsVideo }, Raisin: { Nugs: oatRaisinNugsVideo } } },
     { id: 3,  name: 'Golden Grind',         price: 5.00, emoji: '✨', description: 'Golden peanut butter cookie with rich, nutty flavor.', styleVideos: { Chunks: ggChunksVideo, Nugs: ggNugsVideo } },
     { id: 19, name: 'Rainbow Rush',        price: 5.00, emoji: '🌈', description: 'Soft and chewy cookie packed with colorful M&M candies.', variantDescriptions: { Peanut: 'Soft and chewy cookie packed with colorful peanut M&M candies.' }, variants: ['Regular', 'Peanut'], styleVideos: { Nugs: rcNugsVideo, Chunks: mmVideo } },
-    { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', video: ncVideo, videoFirst: true },
+    { id: 26, name: 'Nut Case',             price: 5.00, emoji: '🥜', description: 'Peanut butter cookie filled with rich peanut butter chips and crunchy peanut candies.', styleVideos: { Chunks: ncVideo, Nugs: ncNugsVideo }, videoFirst: true },
     { id: 20, name: 'CinnaBomb',            price: 5.00, emoji: '💥', description: 'Warm cinnamon cookie swirled with rich brown sugar.', variants: ['Original', 'No Frosting'], variantVideos: { Original: cinnaBombFrostingVideo, 'No Frosting': cinnaBombVideo }, variantStyleVideos: { Original: { Nugs: cinnaBombFNugsVideo }, 'No Frosting': { Nugs: cinnaBombNFNugsVideo } } },
     { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
     { id: 22, name: 'Midnight Mountain',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', styleVideos: { Chunks: midnightCrunchVideo, Nugs: midnightMountainNugsVideo }, videoFirst: true },
