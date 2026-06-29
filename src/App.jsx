@@ -118,6 +118,7 @@ import goldenToastVideo from './assets/goldentoast/GoldenToastV.mp4'
 import sweetRiceVideo from './assets/sweetrice/SweetRiceV.mp4'
 
 import bcCrownVideo from './assets/berrycrown/BerryCrownV.mp4'
+import redTemptationVideo from './assets/redtemptation/RedTemptationV.mp4'
 
 const DOUGH_ITEMS = {
   Cookies: [
@@ -130,8 +131,8 @@ const DOUGH_ITEMS = {
     { id: 21, name: 'Blue Dream',           price: 5.00, emoji: '🫐', description: 'Blueberry cookie layered with fresh blueberries, a creamy cheesecake filling, and topped with cream cheese chips.', video: bdVideo, videoFirst: true, noNugs: true },
     { id: 22, name: 'Midnight Mountain',       price: 5.00, description: 'Chocolate cookie filled with Oreo pieces and white chocolate chips, with a whole Oreo center.', styleVideos: { Chunks: midnightCrunchVideo, Nugs: midnightMountainNugsVideo }, videoFirst: true },
     { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
+    { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', video: redTemptationVideo, videoFirst: true, noNugs: true },
     { id: 23, name: 'Berry Bliss',      price: 5.00, emoji: '🍓', description: 'Buttery cookie with raspberries and creamy macadamia nuts.' },
-    { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', noNugs: true },
   ],
   Muffins: [
     { id: 7,  name: 'Chocolate',   price: 25, emoji: '🍫', description: 'Rich cocoa muffin loaded with chocolate chips.', variants: ['Double Chocolate', 'Triple Chocolate'] },
