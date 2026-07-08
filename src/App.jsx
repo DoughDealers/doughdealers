@@ -137,7 +137,7 @@ const DOUGH_ITEMS = {
     { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', video: redTemptationVideo, videoFirst: true, noNugs: true },
 
     { id: 27, name: 'Berry Bomb',       price: 5.00, emoji: '🫐', description: 'Soft vanilla cookie stuffed with berry filling and topped with sweet vanilla icing and rainbow sprinkles.', variants: ['Blueberry', 'Strawberry', 'Brown Sugar'], styleVideos: { Nugs: berryBombNugsVideo } },
-    { id: 28, name: 'Bisc Bliss',       price: 5.00, emoji: '🍪', description: 'Coming soon.', video: biscBlissVideo, videoFirst: true },
+    { id: 28, name: 'Bisc Bliss',       price: 5.00, emoji: '🍪', description: 'Brown sugar cookie loaded with Biscoff cookie pieces, filled with creamy cookie butter, topped with white chocolate chips, and finished with a Biscoff drizzle.', video: biscBlissVideo, videoFirst: true },
   ],
   Muffins: [
     { id: 7,  name: 'Chocolate',   price: 25, emoji: '🍫', description: 'Rich cocoa muffin loaded with chocolate chips.', variants: ['Double Chocolate', 'Triple Chocolate'] },
