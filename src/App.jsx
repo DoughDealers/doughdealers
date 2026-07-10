@@ -122,6 +122,7 @@ import bcCrownVideo from './assets/berrycrown/BerryCrownV.mp4'
 import redTemptationVideo from './assets/redtemptation/RedTemptationV.mp4'
 import berryBombNugsVideo from './assets/berrybomb/BerryBombNugs.mp4'
 import berryBombBrownSugarVideo from './assets/berrybomb/BBBrownSugar.mp4'
+import berryBombBlueberryVideo from './assets/berrybomb/BBBlueberry.mp4'
 import biscBlissVideo from './assets/biscbliss/BiscBlissV.mp4'
 
 const DOUGH_ITEMS = {
@@ -137,7 +138,7 @@ const DOUGH_ITEMS = {
     { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
     { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', video: redTemptationVideo, videoFirst: true, noNugs: true },
 
-    { id: 27, name: 'Berry Bomb',       price: 5.00, emoji: '🫐', description: 'Soft vanilla cookie stuffed with berry filling and topped with sweet vanilla icing and rainbow sprinkles.', variants: ['Blueberry', 'Strawberry', 'Brown Sugar'], variantVideos: { 'Brown Sugar': berryBombBrownSugarVideo }, styleVideos: { Nugs: berryBombNugsVideo } },
+    { id: 27, name: 'Berry Bomb',       price: 5.00, emoji: '🫐', description: 'Soft vanilla cookie stuffed with berry filling and topped with sweet vanilla icing and rainbow sprinkles.', variants: ['Blueberry', 'Strawberry', 'Brown Sugar'], variantVideos: { 'Brown Sugar': berryBombBrownSugarVideo, Blueberry: berryBombBlueberryVideo }, styleVideos: { Nugs: berryBombNugsVideo } },
     { id: 28, name: 'Bisc Bliss',       price: 5.00, emoji: '🍪', description: 'Brown sugar cookie loaded with Biscoff cookie pieces, filled with creamy cookie butter, topped with white chocolate chips, and finished with a Biscoff drizzle.', video: biscBlissVideo, videoFirst: true },
   ],
   Muffins: [
