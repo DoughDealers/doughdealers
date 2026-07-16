@@ -1323,7 +1323,6 @@ export default function App() {
       </div>
 
       <footer className="footer">
-        <span>🍪 Dough Dealers — Baked with love</span>
         <a href="/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" className="privacy-link">Privacy Policy</a>
       </footer>
 
