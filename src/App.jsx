@@ -22,12 +22,24 @@ import merchLife from './assets/merch/DoughLife.png'
 import merchMoney from './assets/merch/momoneyDoughProblems.png'
 import merchGang from './assets/merch/DoughGang.png'
 import merchChip from './assets/merch/ChipHappens.png'
-import merchTalkChip from './assets/merch/ILoveItWhenYouTalkChip.png'
+import merchTalkChip from './assets/merch/ILoveItWhenYouTalkChip.webp'
 import merchBCE from './assets/merch/BCE.png'
 import merchImTheChip from './assets/merch/ImTheChip.png'
 import merchChippinMe from './assets/merch/YouGotToBeChippinMe.png'
 import merchStraightChipping from './assets/merch/StraightChippin.png'
 import merchShowMeChips from './assets/merch/ShowMeYourChips.png'
+import merchChipGotReal from './assets/merch/ChipJustGotReal.webp'
+import merchAintThatSomeChip from './assets/merch/AintThatSomeChip.webp'
+import merchChipFaced from './assets/merch/ChipFaced.webp'
+import merchChipHead from './assets/merch/ChipHead.webp'
+import merchChipPlease from './assets/merch/ChipPlease.webp'
+import merchChipsDontLie from './assets/merch/ChipsDontLie.webp'
+import merchDontStartNoChip from './assets/merch/DontStartNoChip.webp'
+import merchEatSleepChip from './assets/merch/EatSleepChipRepeat.webp'
+import merchGetYourChipTogether from './assets/merch/GetYourChipTogether.webp'
+import merchHolyChip from './assets/merch/HolyChip.webp'
+import merchIDontGiveAChip from './assets/merch/IDontGiveAChip.webp'
+import merchWhoGivesAChip from './assets/merch/WhoGivesAChip.webp'
 import merchDoughGetter from './assets/merch/DoughGetter.png'
 
 const DOUGH_SHIRTS = [
@@ -54,6 +66,18 @@ const CHIP_SHIRTS = [
   { id: 18, name: 'You Got To Be Chippin Me!', img: merchChippinMe },
   { id: 19, name: 'Straight Chipping',        img: merchStraightChipping },
   { id: 20, name: 'Show Me Your Chips!',      img: merchShowMeChips },
+  { id: 21, name: 'Chip Just Got Real',       img: merchChipGotReal },
+  { id: 22, name: "Ain't That Some Chip",     img: merchAintThatSomeChip },
+  { id: 23, name: 'Chip Faced!',              img: merchChipFaced },
+  { id: 24, name: 'Chip Head',                img: merchChipHead },
+  { id: 25, name: 'Chip Please!',             img: merchChipPlease },
+  { id: 26, name: "Chips Don't Lie",          img: merchChipsDontLie },
+  { id: 27, name: "Don't Start No Chip Won't Be No Chip", img: merchDontStartNoChip },
+  { id: 28, name: 'Eat Sleep Chip Repeat',    img: merchEatSleepChip },
+  { id: 29, name: 'Get Your Chip Together',   img: merchGetYourChipTogether },
+  { id: 30, name: 'Holy Chip!',               img: merchHolyChip },
+  { id: 31, name: "I Don't Give A Chip!",     img: merchIDontGiveAChip },
+  { id: 32, name: 'Who Gives A Chip!?',       img: merchWhoGivesAChip },
 ]
 
 const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL']
