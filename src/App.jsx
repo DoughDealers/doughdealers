@@ -20,14 +20,19 @@ import merchKing from './assets/merch/DoughKing.png'
 import merchQueen from './assets/merch/Doughqueen.png'
 import merchLife from './assets/merch/DoughLife.png'
 import merchMoney from './assets/merch/momoneyDoughProblems.png'
-import merchGang from './assets/merch/DoughGang.png'
+import merchGang from './assets/merch/DoughGang.webp'
 import merchChip from './assets/merch/ChipHappens.png'
 import merchTalkChip from './assets/merch/ILoveItWhenYouTalkChip.webp'
 import merchBCE from './assets/merch/BCE.png'
 import merchImTheChip from './assets/merch/ImTheChip.png'
 import merchChippinMe from './assets/merch/YouGotToBeChippinMe.png'
-import merchStraightChipping from './assets/merch/StraightChippin.png'
+import merchStraightChipping from './assets/merch/StraightChippin.webp'
 import merchShowMeChips from './assets/merch/ShowMeYourChips.png'
+import merchSameChipDifferentDay from './assets/merch/SameChipDifferentDay.webp'
+import merchNoChipSherlock from './assets/merch/NoChipSherlock.webp'
+import merchItsDoughTime from './assets/merch/ItsDoughTime.webp'
+import merchLetsDough from './assets/merch/LetsDough.webp'
+import merchHowWeDoughIt from './assets/merch/ThisIsHowWeDoughIt.webp'
 import merchChipGotReal from './assets/merch/ChipJustGotReal.webp'
 import merchAintThatSomeChip from './assets/merch/AintThatSomeChip.webp'
 import merchChipFaced from './assets/merch/ChipFaced.webp'
@@ -56,6 +61,9 @@ const DOUGH_SHIRTS = [
   { id: 13, name: 'Dough Gang',               img: merchGang },
   { id: 12, name: 'Mo Money Dough Problems',  img: merchMoney },
   { id: 14, name: 'Dough Getter',             img: merchDoughGetter },
+  { id: 35, name: "It's Dough Time!",         img: merchItsDoughTime },
+  { id: 36, name: "Let's Dough!!!",           img: merchLetsDough },
+  { id: 37, name: 'This Is How We Dough It!', img: merchHowWeDoughIt },
 ]
 
 const CHIP_SHIRTS = [
@@ -78,6 +86,8 @@ const CHIP_SHIRTS = [
   { id: 30, name: 'Holy Chip!',               img: merchHolyChip },
   { id: 31, name: "I Don't Give A Chip!",     img: merchIDontGiveAChip },
   { id: 32, name: 'Who Gives A Chip!?',       img: merchWhoGivesAChip },
+  { id: 33, name: 'Same Chip Different Day',  img: merchSameChipDifferentDay },
+  { id: 34, name: 'No Chip Sherlock',         img: merchNoChipSherlock },
 ]
 
 const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL']
