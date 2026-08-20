@@ -1044,20 +1044,83 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.14);
 }
 
-.merch-img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: var(--radius) var(--radius) 0 0;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: zoom-in;
+.merch-img-wrap {
   position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  cursor: zoom-in;
 }
 
-.merch-img:hover {
-  transform: scale(1.5);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.25);
-  z-index: 999;
+.merch-img {
+  position: absolute;
+  width: 200%;
+  max-width: none;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: left 0.35s ease;
+}
+
+@media (hover: hover) {
+  .merch-img-wrap:hover .merch-img {
+    left: -100%;
+  }
+}
+
+.zoom-hint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 2000;
+  cursor: zoom-out;
+  padding: 24px;
+}
+
+.lightbox img {
+  max-width: min(92vw, 1000px);
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 12px;
+  cursor: default;
+}
+
+.lightbox-name {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .merch-info {

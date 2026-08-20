@@ -316,11 +316,33 @@ const STYLE_SIZES = { Nugs: 24, Chunks: 6 }
 
 function MerchCard({ item, onAdd }) {
   const [size, setSize] = useState('S')
+  const [zoom, setZoom] = useState(false)
   const price = SIZE_PRICES[size]
+
+  useEffect(() => {
+    if (!zoom) return
+    const onKey = e => { if (e.key === 'Escape') setZoom(false) }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [zoom])
 
   return (
     <div className="merch-card">
-      <img src={item.img} alt={item.name} className="merch-img" />
+      <div className="merch-img-wrap" onClick={() => setZoom(true)}>
+        <img src={item.img} alt={item.name} className="merch-img" />
+        <span className="zoom-hint">🔍</span>
+      </div>
+      {zoom && (
+        <div className="lightbox" onClick={() => setZoom(false)}>
+          <button className="lightbox-close" aria-label="Close">×</button>
+          <img src={item.img} alt={item.name} onClick={e => e.stopPropagation()} />
+          <span className="lightbox-name">{item.name}</span>
+        </div>
+      )}
       <div className="merch-info">
         <h3>{item.name}</h3>
         <span className="price">${price}.00</span>
