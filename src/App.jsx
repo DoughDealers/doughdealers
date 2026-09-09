@@ -35,7 +35,7 @@ import merchLetsDough from './assets/merch/LetsDough.webp'
 import merchHowWeDoughIt from './assets/merch/ThisIsHowWeDoughIt.webp'
 import merchChipGotReal from './assets/merch/ChipJustGotReal.webp'
 import merchAintThatSomeChip from './assets/merch/AintThatSomeChip.webp'
-import merchChipFaced from './assets/merch/ChipFaced.webp'
+import merchChipFaced from './assets/merch/ChipFaced!.png'
 import merchChipHead from './assets/merch/ChipHead.webp'
 import merchChipPlease from './assets/merch/ChipPlease.webp'
 import merchChipsDontLie from "./assets/merch/MyChipsDon'tLie.png"
