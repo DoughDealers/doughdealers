@@ -39,7 +39,7 @@ import merchChipFaced from './assets/merch/ChipFaced!.png'
 import merchChipHead from './assets/merch/ChipHead.webp'
 import merchChipPlease from './assets/merch/ChipPlease.webp'
 import merchChipsDontLie from "./assets/merch/MyChipsDon'tLie.png"
-import merchDontStartNoChip from "./assets/merch/Don'tStartNoChipWon'tBeNoChip.png"
+import merchDontStartNoChip from "./assets/merch/Don'tStartChipWon'tBeChip.png"
 import merchEatSleepChip from './assets/merch/EatSleepChipRepeat.webp'
 import merchGetYourChipTogether from './assets/merch/GetYourChipTogether.png'
 import merchHolyChip from './assets/merch/HolyChip!.png'
@@ -82,7 +82,7 @@ const CHIP_SHIRTS = [
   { id: 24, name: 'Chip Head',                img: merchChipHead },
   { id: 25, name: 'Chip Please!',             img: merchChipPlease },
   { id: 26, name: "My Chips Don't Lie",       img: merchChipsDontLie },
-  { id: 27, name: "Don't Start No Chip Won't Be No Chip", img: merchDontStartNoChip },
+  { id: 27, name: "Don't Start Chip Won't Be Chip", img: merchDontStartNoChip },
   { id: 28, name: 'Eat Sleep Chip Repeat',    img: merchEatSleepChip },
   { id: 29, name: 'Get Your Chip Together',   img: merchGetYourChipTogether },
   { id: 30, name: 'Holy Chip!',               img: merchHolyChip },
