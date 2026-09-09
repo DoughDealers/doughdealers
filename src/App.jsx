@@ -44,7 +44,7 @@ import merchEatSleepChip from './assets/merch/EatSleepChipRepeat.webp'
 import merchGetYourChipTogether from './assets/merch/GetYourChipTogether.png'
 import merchHolyChip from './assets/merch/HolyChip.webp'
 import merchIDontGiveAChip from "./assets/merch/IDon'tGiveAChip!.png"
-import merchWhoGivesAChip from './assets/merch/WhoGivesAChip.webp'
+import merchWhoGivesAChip from './assets/merch/WhoGivesAChip.png'
 import merchDoughGetter from './assets/merch/DoughGetter.png'
 
 const DOUGH_SHIRTS = [
