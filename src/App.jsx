@@ -22,7 +22,7 @@ import merchLife from './assets/merch/DoughLife.png'
 import merchMoney from './assets/merch/momoneyDoughProblems.png'
 import merchGang from './assets/merch/DoughGang.webp'
 import merchChip from './assets/merch/ChipHappens.webp'
-import merchTalkChip from './assets/merch/ILoveItWhenYouTalkChip.webp'
+import merchTalkChip from './assets/merch/TalkChipToMe.png'
 import merchBCE from './assets/merch/BCE.webp'
 import merchImTheChip from './assets/merch/ImTheChip.webp'
 import merchChippinMe from './assets/merch/YouGotToBeChippinMe.webp'
@@ -68,7 +68,7 @@ const DOUGH_SHIRTS = [
 
 const CHIP_SHIRTS = [
   { id: 14, name: 'Chip Happens',             img: merchChip },
-  { id: 15, name: 'I Love It When You Talk Chip', img: merchTalkChip },
+  { id: 15, name: 'Talk Chip To Me',          img: merchTalkChip },
   { id: 16, name: 'Big Chip Energy',          img: merchBCE },
   { id: 17, name: "I'm The Chip!",            img: merchImTheChip },
   { id: 18, name: 'You Got To Be Chippin Me!', img: merchChippinMe },
