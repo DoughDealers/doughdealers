@@ -41,7 +41,7 @@ import merchChipPlease from './assets/merch/ChipPlease.webp'
 import merchChipsDontLie from "./assets/merch/MyChipsDon'tLie.png"
 import merchDontStartNoChip from "./assets/merch/Don'tStartNoChipWon'tBeNoChip.png"
 import merchEatSleepChip from './assets/merch/EatSleepChipRepeat.webp'
-import merchGetYourChipTogether from './assets/merch/GetYourChipTogether.webp'
+import merchGetYourChipTogether from './assets/merch/GetYourChipTogether.png'
 import merchHolyChip from './assets/merch/HolyChip.webp'
 import merchIDontGiveAChip from './assets/merch/IDontGiveAChip.webp'
 import merchWhoGivesAChip from './assets/merch/WhoGivesAChip.webp'
