@@ -46,13 +46,15 @@ import merchHolyChip from './assets/merch/HolyChip!.png'
 import merchIDontGiveAChip from "./assets/merch/IDon'tGiveAChip!.png"
 import merchWhoGivesAChip from './assets/merch/WhoGivesAChip.png'
 import merchDoughGetter from './assets/merch/DoughGetter.png'
+import merchDoughItDown from "./assets/merch/DoughItDown!.png"
 
 const DOUGH_SHIRTS = [
   { id: 6,  name: 'The Best Dough Fa Sho!',  img: merchBest },
   { id: 1,  name: 'Dough Addict',             img: merchAddict },
   { id: 2,  name: 'Dough Fien',               img: merchFien },
-  { id: 3,  name: 'Dough It Back!',           img: merchBack },
   { id: 4,  name: 'Dough It Up!',             img: merchUp },
+  { id: 41, name: 'Dough It Down!',           img: merchDoughItDown },
+  { id: 3,  name: 'Dough It Back!',           img: merchBack },
   { id: 5,  name: 'Got Dough?',               img: merchGot },
   { id: 7,  name: 'Where The Doughs At?!',    img: merchWhere },
   { id: 8,  name: 'Dough King',               img: merchKing },
