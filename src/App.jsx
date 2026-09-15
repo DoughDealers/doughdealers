@@ -180,7 +180,7 @@ const DOUGH_ITEMS = {
     { id: 27, name: 'Berry Bomb',       price: 5.00, emoji: '🫐', description: 'Soft vanilla cookie stuffed with berry filling and topped with sweet vanilla icing and rainbow sprinkles.', variants: ['Blueberry', 'Strawberry', 'Brown Sugar'], variantVideos: { 'Brown Sugar': berryBombBrownSugarVideo, Blueberry: berryBombBlueberryVideo, Strawberry: berryBombStrawberryVideo }, styleVideos: { Nugs: berryBombNugsVideo } },
     { id: 28, name: 'Bisc Bliss',       price: 5.00, emoji: '🍪', description: 'Brown sugar cookie loaded with Biscoff cookie pieces, filled with creamy cookie butter, topped with white chocolate chips, and finished with a Biscoff drizzle.', video: biscBlissVideo, videoFirst: true },
     { id: 29, name: 'Green Gold',       price: 5.00, emoji: '💚', description: 'Soft pistachio cookie packed with roasted pistachios, filled with rich pistachio cream, and topped with pistachio chocolate pieces.', video: greenGoldVideo, videoFirst: true },
-    { id: 42, name: "Bunny's Kiss",     price: 5.00, emoji: '🐰', description: 'Carrot Cake cookie\nwith warm cinnamon spice,\nreal carrots, and a cream\ncheese center.', video: bunnysKissVideo, videoFirst: true, noNugs: true },
+    { id: 42, name: "Bunny's Kiss",     price: 5.00, emoji: '🐰', description: 'Carrot Cake cookie\nwith warm cinnamon spice,\nreal carrots, and a cream\ncheese center.', video: bunnysKissVideo, videoFirst: true, noNugs: true, descriptionCenter: true },
   ],
   Muffins: [
     { id: 7,  name: 'Chocolate',   price: 25, emoji: '🍫', description: 'Rich cocoa muffin loaded with chocolate chips.', variants: ['Double Chocolate', 'Triple Chocolate'] },
@@ -476,7 +476,7 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
       }
       {!cookie.videoFirst && videoEl}
       <h3>{cookie.name}</h3>
-      <p style={{ whiteSpace: 'pre-line' }}>{(variant && cookie.variantDescriptions?.[variant]) || cookie.description}</p>
+      <p style={{ whiteSpace: 'pre-line', textAlign: cookie.descriptionCenter ? 'center' : undefined }}>{(variant && cookie.variantDescriptions?.[variant]) || cookie.description}</p>
 
       {cookie.variants && (
         <div className="variant-toggle">
