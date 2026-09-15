@@ -178,7 +178,7 @@ const DOUGH_ITEMS = {
     { id: 25, name: 'Melt Down',            price: 5.00, emoji: '🔥', description: 'Chocolate chip cookie with graham cracker pieces, gooey marshmallow, and a milk chocolate bar.', video: meltDownVideo, videoFirst: true, noNugs: true },
     { id: 24, name: 'Red Temptation',       price: 5.00, emoji: '❤️', description: 'Red velvet cookie with chocolate chips, Oreo bites, and a cream cheese center.', video: redTemptationVideo, videoFirst: true, noNugs: true },
 
-    { id: 27, name: 'Berry Bomb',       price: 5.00, emoji: '🫐', description: 'Soft vanilla cookie stuffed with berry filling and topped with sweet vanilla icing and rainbow sprinkles.', variantDescriptions: { Blueberry: 'Soft vanilla cookie stuffed with blueberry filling and topped with sweet vanilla icing and rainbow sprinkles.', Strawberry: 'Soft vanilla cookie stuffed with strawberry filling and topped with sweet vanilla icing and rainbow sprinkles.', 'Brown Sugar': 'Soft vanilla cookie stuffed with brown sugar filling and topped with sweet vanilla icing and rainbow sprinkles.' }, variants: ['Blueberry', 'Strawberry', 'Brown Sugar'], variantVideos: { 'Brown Sugar': berryBombBrownSugarVideo, Blueberry: berryBombBlueberryVideo, Strawberry: berryBombStrawberryVideo }, styleVideos: { Nugs: berryBombNugsVideo }, noNugs: true },
+    { id: 27, name: 'Berry Bomb',       price: 5.00, emoji: '🫐', description: 'Soft vanilla cookie stuffed with berry filling and topped with sweet vanilla icing and rainbow sprinkles.', variantDescriptions: { Blueberry: 'Soft vanilla cookie stuffed with blueberry filling and topped with sweet vanilla icing and rainbow sprinkles.', Strawberry: 'Soft vanilla cookie stuffed with strawberry filling and topped with sweet vanilla icing and rainbow sprinkles.', 'Brown Sugar': 'Soft vanilla cookie stuffed with brown sugar filling and topped with sweet vanilla icing and rainbow sprinkles.' }, variants: ['Blueberry', 'Strawberry', 'Brown Sugar'], variantVideos: { 'Brown Sugar': berryBombBrownSugarVideo, Blueberry: berryBombBlueberryVideo, Strawberry: berryBombStrawberryVideo }, styleVideos: { Nugs: berryBombNugsVideo }, noNugs: true, noFrostingToggle: true },
     { id: 28, name: 'Bisc Bliss',       price: 5.00, emoji: '🍪', description: 'Brown sugar cookie loaded with Biscoff cookie pieces, filled with creamy cookie butter, topped with white chocolate chips, and finished with a Biscoff drizzle.', video: biscBlissVideo, videoFirst: true, noNugs: true },
     { id: 29, name: 'Green Gold',       price: 5.00, emoji: '💚', description: 'Soft pistachio cookie packed with roasted pistachios, filled with rich pistachio cream, and topped with pistachio chocolate pieces.', video: greenGoldVideo, videoFirst: true, noNugs: true },
     { id: 42, name: "Bunny's Kiss",     price: 5.00, emoji: '🐰', description: 'Carrot Cake cookie with warm cinnamon spice, real carrots, and a cream cheese center.', video: bunnysKissVideo, videoFirst: true, noNugs: true },
@@ -428,6 +428,7 @@ function VideoPlayer({ src }) {
 function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtyStep = 6 }) {
   const [variant, setVariant] = useState(cookie.variants?.[0] ?? null)
   const effectiveNoNugs = noNugs || (cookie.noNugsVariants?.includes(variant) ?? false)
+  const [noFrosting, setNoFrosting] = useState(false)
   const [style, setStyle] = useState('Chunks')
   const effectiveStep = styleOptions ? STYLE_SIZES[style] : qtyStep
   const [qty, setQty] = useState(effectiveStep)
@@ -452,7 +453,8 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
 
   function handleAdd() {
     const variantLabel = variant ? ` – ${variant}` : ''
-    const name = styleOptions ? `${cookie.name}${variantLabel} (${style})` : `${cookie.name}${variantLabel}`
+    const frostingLabel = noFrosting ? ' – No Frosting' : ''
+    const name = styleOptions ? `${cookie.name}${variantLabel}${frostingLabel} (${style})` : `${cookie.name}${variantLabel}${frostingLabel}`
     const price = pricePerUnit / unitSize
     onAdd({ ...cookie, name, price, qty })
   }
@@ -489,6 +491,15 @@ function CookieCard({ cookie, onAdd, styleOptions = true, noNugs = false, qtySte
               onClick={() => selectVariant(v)}
             >{v}</button>
           ))}
+        </div>
+      )}
+
+      {cookie.noFrostingToggle && (
+        <div className="variant-toggle">
+          <button
+            className={`variant-btn ${noFrosting ? 'active' : ''}`}
+            onClick={() => setNoFrosting(f => !f)}
+          >No Frosting</button>
         </div>
       )}
 
