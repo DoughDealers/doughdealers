@@ -1340,8 +1340,8 @@ export default function App() {
       </section>
 
       <section id="addict" className="addict-section">
-        <h2>Become an Addict</h2>
-        <p>Join the Dough Dealers family. Sign up for exclusive drops, early access, and deals you can't resist.</p>
+        <h2>Join the Dough Gang</h2>
+        <p>Sign up for exclusive drops, early access, and deals you can't resist.</p>
         <form
           className="addict-form"
           action="https://formsubmit.co/Info@thedoughdealers.com"
