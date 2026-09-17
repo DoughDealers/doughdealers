@@ -1360,7 +1360,7 @@ export default function App() {
 
       <section id="contact" className="contact-section">
         <h2>Get in Touch</h2>
-        <p>Have a custom order or question? We'd love to hear from you.</p>
+        <p>Looking for a custom fix? Let's talk dough!</p>
         <form
           className="contact-form"
           action="https://formsubmit.co/Info@thedoughdealers.com"
