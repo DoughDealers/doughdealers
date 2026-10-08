@@ -164,7 +164,7 @@ import biscBlissVideo from './assets/biscbliss/BiscBlissV.mp4'
 import greenGoldVideo from './assets/greengold/GreenGoldV.mp4'
 import bunnysKissVideo from './assets/bunnyskiss/BunnysKiss.mp4'
 import autumnBreezeVideo from './assets/autumnbreeze/AutumnBreeze.mp4'
-import pretzelVideo from './assets/pretzel/PretzelCrop.mp4'
+import pretzelVideo from './assets/pretzel/Pretzel.mp4'
 
 const DOUGH_ITEMS = {
   Cookies: [
