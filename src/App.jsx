@@ -164,6 +164,7 @@ import biscBlissVideo from './assets/biscbliss/BiscBlissV.mp4'
 import greenGoldVideo from './assets/greengold/GreenGoldV.mp4'
 import bunnysKissVideo from './assets/bunnyskiss/BunnysKiss.mp4'
 import autumnBreezeVideo from './assets/autumnbreeze/AutumnBreeze.mp4'
+import pretzelVideo from './assets/pretzel/PretzelCrop.mp4'
 
 const DOUGH_ITEMS = {
   Cookies: [
@@ -183,6 +184,7 @@ const DOUGH_ITEMS = {
     { id: 29, name: 'Green Gold',       price: 5.00, emoji: '💚', description: 'Soft pistachio cookie packed with roasted pistachios, filled with rich pistachio cream, and topped with pistachio chocolate pieces.', video: greenGoldVideo, videoFirst: true, noNugs: true },
     { id: 42, name: "Bunny's Kiss",     price: 5.00, emoji: '🐰', description: 'Carrot Cake cookie with warm cinnamon spice, real carrots, and a cream cheese center.', video: bunnysKissVideo, videoFirst: true, noNugs: true },
     { id: 43, name: 'Autumn Breeze',    price: 5.00, emoji: '🍂', description: 'Soft pumpkin spice cookie with a rich, creamy cream  cheese center.', video: autumnBreezeVideo, videoFirst: true, noNugs: true },
+    { id: 44, name: 'Pretzel Toffee Crunch', price: 5.00, emoji: '🥨', description: 'Chocolate chip cookie loaded with crunchy pretzel pieces, buttery toffee bits, and finished with a sprinkle of sea salt.', video: pretzelVideo, videoFirst: true, noNugs: true },
   ],
   Muffins: [
     { id: 7,  name: 'Chocolate',   price: 25, emoji: '🍫', description: 'Rich cocoa muffin loaded with chocolate chips.', variants: ['Double Chocolate', 'Triple Chocolate'] },
